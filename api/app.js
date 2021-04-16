@@ -14,6 +14,6 @@ app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
 app.use(helmet());
 
 app.use("/", router);
-app.get("/", (req, res) => res.send("🏋🏻‍♂️"));
+app.get("/", (req, res) => res.send("API is running 🎲"));
 
 module.exports = app;
