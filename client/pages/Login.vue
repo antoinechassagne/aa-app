@@ -62,7 +62,6 @@ export default {
     ...mapGetters({
       loading: "authentication/loading",
       error: "authentication/error",
-      loggedUser: "authentication/loggedUser",
     }),
   },
   methods: {
