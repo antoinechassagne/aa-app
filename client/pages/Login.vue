@@ -36,6 +36,9 @@
         <template v-if="loading">Connexion...</template>
         <template v-else>Se connecter</template>
       </button>
+      <div class="flex flex-col my-2">
+        <RouteLink path="/register">Vous n'êtes pas encore inscrit ? Inscrivez-vous dès maintenant</RouteLink>
+      </div>
     </form>
   </fragment>
 </template>
@@ -44,13 +47,15 @@
 import { mapGetters, mapActions } from "vuex";
 import Heading from "@/components/texts/Heading";
 import InformationBanner from "@/components/InformationBanner";
+import RouteLink from "@/components/texts/RouteLink";
 
 export default {
   name: "PageLogin",
-  middleware: ["guest"],
+  middleware: ["guestOnly"],
   components: {
     Heading,
     InformationBanner,
+    RouteLink,
   },
   data() {
     return {
@@ -67,12 +72,16 @@ export default {
   methods: {
     ...mapActions({
       login: "authentication/login",
+      cleanError: "authentication/cleanError",
     }),
     submit() {
       this.login({ email: this.email, password: this.password }).then(() => {
         this.$router.push("/");
       });
     },
+  },
+  destroyed() {
+    this.cleanError();
   },
 };
 </script>

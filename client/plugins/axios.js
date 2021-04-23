@@ -4,15 +4,19 @@ const statusCodes = {
 
 export default function ({ $axios, redirect }) {
   $axios.onError((error) => {
+    const defaultErrorMessage = "Une erreur s'est produite";
     const { response } = error;
+    if (!response) {
+      return Promise.reject(defaultErrorMessage);
+    }
     const { status } = response;
+    const errorMessage = response.data && response.data.error ? response.data.error : defaultErrorMessage;
 
     if (status === statusCodes.UNAUTHORIZED) {
       redirect("/login");
-      return;
+      return Promise.reject(errorMessage);
     }
 
-    const errorMessage = response.data && response.data.error ? response.data.error : "Une erreur est survenue.";
-    return errorMessage;
+    return Promise.reject(errorMessage);
   });
 }

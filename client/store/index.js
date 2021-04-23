@@ -6,6 +6,8 @@ export const mutations = {};
 
 export const actions = {
   async nuxtServerInit(context) {
-    await context.dispatch("authentication/getLoggedUser");
+    try {
+      await context.dispatch("authentication/fetchLoggedUser");
+    } catch (error) {}
   },
 };

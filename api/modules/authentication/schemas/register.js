@@ -4,8 +4,7 @@ const Joi = require("joi");
 const passwordRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\\$%\\^&\\*])(?=.{8,})");
 
 const schema = Joi.object({
-  firstName: Joi.string().required(),
-  lastName: Joi.string().required(),
+  pseudo: Joi.string().required(),
   email: Joi.string().email({ minDomainSegments: 2 }).required(),
   password: Joi.string().pattern(passwordRegex).required(),
 });

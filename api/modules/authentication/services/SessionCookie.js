@@ -3,7 +3,7 @@ const COOKIE_MAX_AGE = 3024000000; /* 5 weeks */
 
 function setCookie(res, sessionId) {
   res.cookie(COOKIE_NAME, sessionId, {
-    secure: process.env.NODE_ENV === "production",
+    secure: true,
     path: "/",
     expires: new Date(Date.now() + COOKIE_MAX_AGE),
     signed: true,

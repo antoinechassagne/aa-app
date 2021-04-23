@@ -9,8 +9,7 @@ exports.up = function (knex) {
     table.string("confirmationToken");
     table.string("resetToken");
     table.boolean("active").notNullable();
-    table.string("firstName").notNullable();
-    table.string("lastName").notNullable();
+    table.string("pseudo").notNullable();
   });
 };
 

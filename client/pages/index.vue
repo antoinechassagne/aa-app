@@ -10,7 +10,7 @@ import Heading from "@/components/texts/Heading";
 
 export default {
   name: "PageHome",
-  middleware: ["authenticated"],
+  middleware: ["authenticatedOnly"],
   components: {
     Heading,
   },
@@ -19,7 +19,7 @@ export default {
       loggedUser: "authentication/loggedUser",
     }),
     welcomeMessage() {
-      return `Bonjour ${this.loggedUser.firstName} ${this.loggedUser.lastName}`;
+      return `Bonjour ${this.loggedUser.pseudo}`;
     },
   },
 };

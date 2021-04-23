@@ -1,5 +1,5 @@
 <template>
-  <div :class="levelClasses">
+  <div :class="typeClasses">
     <slot />
   </div>
 </template>
@@ -8,13 +8,13 @@
 export default {
   name: "InformationBanner",
   props: {
-    level: {
+    type: {
       type: String,
       required: true,
       validator(value) {
-        const levels = ["info", "warning", "error"];
-        if (!levels.includes(value)) {
-          console.log(`Props validation]: Type must be ${levels.join(" or ")}`);
+        const types = ["info", "success", "warning", "error"];
+        if (!types.includes(value)) {
+          console.log(`Props validation]: Type must be ${types.join(" or ")}`);
           return false;
         }
         return true;
@@ -22,14 +22,16 @@ export default {
     },
   },
   computed: {
-    levelClasses() {
+    typeClasses() {
       switch (this.type) {
         case "info":
-          return "green";
+          return "text-blue-600";
+        case "success":
+          return "text-green-600";
         case "warning":
-          return "orange";
+          return "text-orange-600";
         case "error":
-          return "red";
+          return "text-red-600";
         default:
           return null;
       }
