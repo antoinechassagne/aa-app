@@ -23,15 +23,7 @@ export const mutations = {
 };
 
 export const actions = {
-  getLoggedUser(context) {
-    return new Promise((resolve) => {
-      this.$axios.$get("/logged-user").then((user) => {
-        context.commit("SET_LOGGED_USER", user);
-        resolve();
-      });
-    });
-  },
-  loginUser(context, credentials) {
+  login(context, credentials) {
     return new Promise((resolve) => {
       context.commit("SET_ERROR", null);
       context.commit("SET_LOADING", true);
@@ -51,10 +43,18 @@ export const actions = {
         });
     });
   },
-  logoutUser(context) {
+  logout(context) {
     return new Promise((resolve) => {
       this.$axios.$get("/logout").then(() => {
         context.commit("SET_LOGGED_USER", null);
+        resolve();
+      });
+    });
+  },
+  getLoggedUser(context) {
+    return new Promise((resolve) => {
+      this.$axios.$get("/logged-user").then((user) => {
+        context.commit("SET_LOGGED_USER", user);
         resolve();
       });
     });

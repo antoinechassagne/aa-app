@@ -1,7 +1,7 @@
 <template>
   <fragment>
     <Heading level="1">Se connecter</Heading>
-    <form @submit="login">
+    <form @submit="submit">
       <div class="flex flex-col">
         <label for="email">Email :</label>
         <input
@@ -62,10 +62,10 @@ export default {
   },
   methods: {
     ...mapActions({
-      loginUser: "authentication/loginUser",
+      login: "authentication/login",
     }),
-    login() {
-      this.loginUser({ email: this.email, password: this.password }).then(() => {
+    submit() {
+      this.login({ email: this.email, password: this.password }).then(() => {
         this.$router.push("/");
       });
     },
