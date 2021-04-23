@@ -24,9 +24,12 @@
           class="border-2 border-indigo-400 rounded p-1"
         />
       </div>
+      <InformationBanner v-if="error" type="error">
+        {{ error }}
+      </InformationBanner>
       <button
         type="submit"
-        @click.prevent="login"
+        @click.prevent="submit"
         class="border-2 border-indigo-400 rounded p-1 my-2"
         :disabled="loading"
       >
@@ -40,12 +43,14 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 import Heading from "@/components/texts/Heading";
+import InformationBanner from "@/components/InformationBanner";
 
 export default {
   name: "PageLogin",
   middleware: ["guest"],
   components: {
     Heading,
+    InformationBanner,
   },
   data() {
     return {
