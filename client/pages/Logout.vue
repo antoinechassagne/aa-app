@@ -5,11 +5,11 @@ export default {
   name: "PageLogout",
   methods: {
     ...mapActions({
-      logoutUser: "authentication/logoutUser",
+      logout: "authentication/logout",
     }),
   },
   created() {
-    this.logoutUser().then(() => {
+    this.logout().then(() => {
       this.$router.push("/login");
     });
   },

@@ -1,7 +1,7 @@
 <template>
   <fragment>
     <Heading level="1">Se connecter</Heading>
-    <form @submit="login">
+    <form @submit="submit">
       <div class="flex flex-col">
         <label for="email">Email :</label>
         <input
@@ -24,15 +24,21 @@
           class="border-2 border-indigo-400 rounded p-1"
         />
       </div>
+      <InformationBanner v-if="error" type="error">
+        {{ error }}
+      </InformationBanner>
       <button
         type="submit"
-        @click.prevent="login"
+        @click.prevent="submit"
         class="border-2 border-indigo-400 rounded p-1 my-2"
         :disabled="loading"
       >
         <template v-if="loading">Connexion...</template>
         <template v-else>Se connecter</template>
       </button>
+      <div class="flex flex-col my-2">
+        <RouteLink path="/register">Vous n'êtes pas encore inscrit ? Inscrivez-vous dès maintenant</RouteLink>
+      </div>
     </form>
   </fragment>
 </template>
@@ -40,12 +46,16 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 import Heading from "@/components/texts/Heading";
+import InformationBanner from "@/components/InformationBanner";
+import RouteLink from "@/components/texts/RouteLink";
 
 export default {
   name: "PageLogin",
-  middleware: ["guest"],
+  middleware: ["guestOnly"],
   components: {
     Heading,
+    InformationBanner,
+    RouteLink,
   },
   data() {
     return {
@@ -57,18 +67,21 @@ export default {
     ...mapGetters({
       loading: "authentication/loading",
       error: "authentication/error",
-      loggedUser: "authentication/loggedUser",
     }),
   },
   methods: {
     ...mapActions({
-      loginUser: "authentication/loginUser",
+      login: "authentication/login",
+      cleanError: "authentication/cleanError",
     }),
-    login() {
-      this.loginUser({ email: this.email, password: this.password }).then(() => {
+    submit() {
+      this.login({ email: this.email, password: this.password }).then(() => {
         this.$router.push("/");
       });
     },
+  },
+  destroyed() {
+    this.cleanError();
   },
 };
 </script>

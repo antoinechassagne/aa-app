@@ -5,12 +5,12 @@ async function checkSession(req, res, next) {
   try {
     const sessionId = getSessionIdFromCookie(req);
     if (!sessionId) {
-      return res.status(403).send();
+      return res.status(401).send({ error: "Une erreur s'est produite lors de l'authentification." });
     }
     const session = await retrieveSession(sessionId);
     const valid = isSessionValid(session);
     if (!valid) {
-      return res.status(403).send();
+      return res.status(401).send({ error: "Une erreur s'est produite lors de l'authentification." });
     }
     await refreshSession(session);
     refreshCookie(res, sessionId);

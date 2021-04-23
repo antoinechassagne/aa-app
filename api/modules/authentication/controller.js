@@ -43,7 +43,7 @@ exports.getLoggedUser = async function (req, res) {
   const sessionId = SessionCookie.getCookie(req);
   const user = await Authenticator.authenticateBySessionId(sessionId);
   if (!user) {
-    return res.status(403).send({ error: "Vous avez été déconnecté." });
+    return res.status(401).send({ error: "Vous avez été déconnecté." });
   }
   const result = UsersRepository.getPublicFields(user);
   res.status(200).send(result);

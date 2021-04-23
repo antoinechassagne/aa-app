@@ -23,16 +23,24 @@ export const mutations = {
 };
 
 export const actions = {
-  getLoggedUser(context) {
-    return new Promise((resolve) => {
-      this.$axios.$get("/logged-user").then((user) => {
-        context.commit("SET_LOGGED_USER", user);
-        resolve();
-      });
+  register(context, form) {
+    return new Promise((resolve, reject) => {
+      context.commit("SET_ERROR", null);
+      context.commit("SET_LOADING", true);
+      this.$axios
+        .$post("/register", form)
+        .then(() => resolve())
+        .catch((error) => {
+          context.commit("SET_ERROR", error);
+          return reject();
+        })
+        .finally(() => {
+          context.commit("SET_LOADING", false);
+        });
     });
   },
-  loginUser(context, credentials) {
-    return new Promise((resolve) => {
+  login(context, credentials) {
+    return new Promise((resolve, reject) => {
       context.commit("SET_ERROR", null);
       context.commit("SET_LOADING", true);
       this.$axios
@@ -40,40 +48,59 @@ export const actions = {
           email: credentials.email,
           password: credentials.password,
         })
-        .then((res) => {
-          context.dispatch("fetchLoggedUser", res.userId).then(() => resolve());
+        .then(() => {
+          return context
+            .dispatch("fetchLoggedUser")
+            .then(() => resolve())
+            .catch((error) => {
+              context.commit("SET_ERROR", error);
+            });
         })
         .catch((error) => {
           context.commit("SET_ERROR", error);
+          return reject();
         })
         .finally(() => {
           context.commit("SET_LOADING", false);
         });
     });
   },
-  logoutUser(context) {
-    return new Promise((resolve) => {
-      this.$axios.$get("/logout").then(() => {
-        context.commit("SET_LOGGED_USER", null);
-        resolve();
-      });
-    });
-  },
-  fetchLoggedUser(context, userId) {
+  logout(context) {
     return new Promise((resolve, reject) => {
       context.commit("SET_ERROR", null);
-      if (!userId) {
-        return reject();
-      }
+      context.commit("SET_LOADING", true);
       this.$axios
-        .$get(`/users/${userId}`)
-        .then((user) => {
-          context.commit("SET_LOGGED_USER", user);
-          resolve();
+        .$get("/logout")
+        .then(() => {
+          context.commit("SET_LOGGED_USER", null);
+          return resolve();
         })
         .catch((error) => {
           context.commit("SET_ERROR", error);
+          return reject();
+        })
+        .finally(() => {
+          context.commit("SET_LOADING", false);
         });
     });
+  },
+  fetchLoggedUser(context) {
+    context.commit("SET_ERROR", null);
+    context.commit("SET_LOADING", true);
+    return new Promise((resolve, reject) => {
+      this.$axios
+        .$get("/logged-user")
+        .then((user) => {
+          context.commit("SET_LOGGED_USER", user);
+          return resolve();
+        })
+        .catch((error) => reject(error))
+        .finally(() => {
+          context.commit("SET_LOADING", false);
+        });
+    });
+  },
+  cleanError(context) {
+    context.commit("SET_ERROR", null);
   },
 };
