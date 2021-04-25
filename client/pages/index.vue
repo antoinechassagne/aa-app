@@ -1,6 +1,7 @@
 <template>
   <fragment>
-    <Heading level="1">{{ welcomeMessage }}</Heading>
+    <Heading level="1" class="mb-10">{{ welcomeMessage }}</Heading>
+    <RouteLink to="/games/add">Créer une partie</RouteLink>
   </fragment>
 </template>
 
