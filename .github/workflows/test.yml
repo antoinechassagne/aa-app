@@ -13,19 +13,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      
+
       - name: Install global packages
         uses: bahmutov/npm-install@v1.7.4
-      
+
       - name: Install api packages
         uses: bahmutov/npm-install@v1.7.4
-          with:
-            working-directory: api
-     
+        with:
+          working-directory: api
+
       - name: Install client packages
         uses: bahmutov/npm-install@v1.7.4
-          with:
-            working-directory: client
-      
+        with:
+          working-directory: client
+
       - name: Run tests
         run: npm run unit-tests
