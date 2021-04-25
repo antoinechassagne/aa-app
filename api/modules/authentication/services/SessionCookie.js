@@ -2,14 +2,18 @@ const COOKIE_NAME = "session";
 const COOKIE_MAX_AGE = 3024000000; /* 5 weeks */
 
 function setCookie(res, sessionId) {
-  res.cookie(COOKIE_NAME, sessionId, {
+  const options = {
     secure: true,
     path: "/",
     expires: new Date(Date.now() + COOKIE_MAX_AGE),
     signed: true,
     httpOnly: true,
     sameSite: "None",
-  });
+  };
+  if (process.env.NODE_ENV !== "development") {
+    options.domain = process.env.CLIENT_URL;
+  }
+  res.cookie(COOKIE_NAME, sessionId, options);
 }
 
 function getCookie(req) {
