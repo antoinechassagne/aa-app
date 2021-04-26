@@ -1,5 +1,5 @@
 <template>
-  <component :is="`h${level}`" class="font-bold" :class="levelClasses">
+  <component :is="`h${level}`" class="font-bold leading-none" :class="levelClasses">
     <slot />
   </component>
 </template>

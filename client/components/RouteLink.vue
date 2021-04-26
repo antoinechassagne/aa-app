@@ -1,5 +1,5 @@
 <template>
-  <NuxtLink :to="path" class="text-indigo-500 hover:underline">
+  <NuxtLink :to="to" class="text-indigo-500 hover:underline">
     <slot />
   </NuxtLink>
 </template>
@@ -8,7 +8,7 @@
 export default {
   name: "RouteLink",
   props: {
-    path: {
+    to: {
       type: String,
       required: true,
     },

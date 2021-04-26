@@ -37,7 +37,7 @@
         <template v-else>Se connecter</template>
       </button>
       <div class="flex flex-col my-2">
-        <RouteLink path="/register">Vous n'êtes pas encore inscrit ? Inscrivez-vous dès maintenant</RouteLink>
+        <RouteLink to="/register">Vous n'êtes pas encore inscrit ? Inscrivez-vous dès maintenant</RouteLink>
       </div>
     </form>
   </fragment>
@@ -47,7 +47,6 @@
 import { mapGetters, mapActions } from "vuex";
 import Heading from "@/components/texts/Heading";
 import InformationBanner from "@/components/InformationBanner";
-import RouteLink from "@/components/texts/RouteLink";
 
 export default {
   name: "PageLogin",
@@ -55,7 +54,6 @@ export default {
   components: {
     Heading,
     InformationBanner,
-    RouteLink,
   },
   data() {
     return {

@@ -1,4 +1,4 @@
 import Vue from "vue";
-import RouteLink from "@/components/texts/RouteLink";
+import RouteLink from "@/components/RouteLink";
 
 Vue.component("route-link", RouteLink);

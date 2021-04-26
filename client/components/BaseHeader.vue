@@ -3,7 +3,7 @@
     <nav class="p-4">
       <ul class="flex flex-row">
         <li v-for="(entry, index) in menu" :key="index" class="px-2">
-          <RouteLink :path="entry.path">{{ entry.label }}</RouteLink>
+          <RouteLink :to="entry.path">{{ entry.label }}</RouteLink>
         </li>
       </ul>
     </nav>
