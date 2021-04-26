@@ -108,7 +108,8 @@ export default {
     }),
     submit() {
       this.createGame({
-        geolocation: this.geolocation,
+        latitude: this.geolocation.latitude,
+        longitude: this.geolocation.longitude,
         boardGameName: this.boardGameName,
         description: this.description,
         missingPlayers: this.missingPlayers,
