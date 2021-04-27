@@ -1,34 +1,35 @@
 <template>
-  <Loader v-if="loading" />
-  <fragment v-else>
-    <FeedbackMessage v-if="error" type="error">
+  <fragment>
+    <Heading level="1" class="mb-10">Parties autour de vous</Heading>
+    <FeedbackMessage v-if="error" type="error" class="mb-4">
       {{ error }}
     </FeedbackMessage>
-    <Heading level="1" class="mb-10">{{ game.boardGameName }}</Heading>
-    <p>{{ game.description }}</p>
-    <p>Joueurs manquants : {{ game.missingPlayers }}</p>
+    <Loader v-if="loading" />
+    <GamesMap v-else :games="games" />
   </fragment>
 </template>
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-import Loader from "@/components/Loader";
 import Heading from "@/components/texts/Heading";
 import FeedbackMessage from "@/components/FeedbackMessage";
+import Loader from "@/components/Loader";
+import GamesMap from "@/components/map/GamesMap";
 
 export default {
-  name: "PageGame",
+  name: "PageGames",
   components: {
+    FeedbackMessage,
     Loader,
     Heading,
-    FeedbackMessage,
+    GamesMap,
   },
-  async asyncData({ params, store }) {
-    await store.dispatch("games/fetchGame", params.slug);
+  async asyncData({ store }) {
+    await store.dispatch("games/fetchGames", {});
   },
   computed: {
     ...mapGetters({
-      game: "games/game",
+      games: "games/games",
       loading: "games/loading",
       error: "games/error",
     }),

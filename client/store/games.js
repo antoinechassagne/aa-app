@@ -2,12 +2,14 @@ export const state = () => ({
   loading: false,
   error: null,
   game: null,
+  games: [],
 });
 
 export const getters = {
   loading: (state) => state.loading,
   error: (state) => state.error,
   game: (state) => state.game,
+  games: (state) => state.games,
 };
 
 export const mutations = {
@@ -20,6 +22,9 @@ export const mutations = {
   SET_GAME(state, game) {
     state.game = game;
   },
+  SET_GAMES(state, games) {
+    state.games = games;
+  },
 };
 
 export const actions = {
@@ -31,6 +36,25 @@ export const actions = {
         .$get(`/games/${gameId}`)
         .then((game) => {
           context.commit("SET_GAME", game);
+          return resolve();
+        })
+        .catch((error) => {
+          context.commit("SET_ERROR", error);
+          return reject();
+        })
+        .finally(() => {
+          context.commit("SET_LOADING", false);
+        });
+    });
+  },
+  fetchGames(context, query = {}) {
+    return new Promise((resolve, reject) => {
+      context.commit("SET_ERROR", null);
+      context.commit("SET_LOADING", true);
+      this.$axios
+        .$get("/games", { params: { ...query } })
+        .then((games) => {
+          context.commit("SET_GAMES", games);
           return resolve();
         })
         .catch((error) => {
