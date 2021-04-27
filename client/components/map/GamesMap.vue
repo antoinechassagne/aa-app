@@ -72,7 +72,11 @@ export default {
     },
     renderMarkers() {
       this.markers = this.games.forEach((game) => {
-        new mapboxgl.Marker().setLngLat([game.longitude, game.latitude]).addTo(this.map);
+        const marker = new mapboxgl.Marker({ color: "#667EEA" }).setLngLat([game.longitude, game.latitude]);
+        const popup = new mapboxgl.Popup().setText(
+          `[${game.missingPlayers}] ${game.boardGameName} - ${game.description}`
+        );
+        marker.setPopup(popup).addTo(this.map);
       });
     },
     attachMapEventListeners() {
