@@ -1,7 +1,14 @@
 <template>
   <fragment>
     <Heading level="1" class="mb-10">{{ welcomeMessage }}</Heading>
-    <RouteLink to="/games/add">Créer une partie</RouteLink>
+    <ul>
+      <li>
+        <RouteLink to="/games/add">Créer une partie</RouteLink>
+      </li>
+      <li>
+        <RouteLink to="/games">Voir les parties autour de soi</RouteLink>
+      </li>
+    </ul>
   </fragment>
 </template>
 
