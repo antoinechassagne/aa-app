@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: "InformationBanner",
+  name: "FeedbackMessage",
   props: {
     type: {
       type: String,

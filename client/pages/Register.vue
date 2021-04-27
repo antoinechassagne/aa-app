@@ -46,9 +46,9 @@
           class="border-2 border-indigo-400 rounded p-1"
         />
       </div>
-      <InformationBanner v-if="error" type="error">
+      <FeedbackMessage v-if="error" type="error">
         {{ error }}
-      </InformationBanner>
+      </FeedbackMessage>
       <button
         type="submit"
         @click.prevent="submit"
@@ -68,14 +68,14 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 import Heading from "@/components/texts/Heading";
-import InformationBanner from "@/components/InformationBanner";
+import FeedbackMessage from "@/components/FeedbackMessage";
 
 export default {
   name: "PageRegister",
   middleware: ["guestOnly"],
   components: {
     Heading,
-    InformationBanner,
+    FeedbackMessage,
   },
   data() {
     return {

@@ -1,17 +1,17 @@
 <template>
   <fragment>
     <Heading level="1" class="mb-10">Créer une nouvelle partie</Heading>
-    <InformationBanner v-if="!isGeolocationSupported" type="warning" class="mb-4">
+    <FeedbackMessage v-if="!isGeolocationSupported" type="warning" class="mb-4">
       Votre navigateur internet ne dispose pas de la fonctionnalité de géolocalisation. Veuillez utiliser un navigateur
       internet plus récent.
-    </InformationBanner>
-    <InformationBanner v-if="!isGeolocationEnabled" type="warning" class="mb-4">
+    </FeedbackMessage>
+    <FeedbackMessage v-if="!isGeolocationEnabled" type="warning" class="mb-4">
       Votre navigateur a bloqué la fonctionnalité de géolocalisation. Veuillez l'activer afin de poursuivre la création
       de la partie.
-    </InformationBanner>
-    <InformationBanner v-if="isThereGeoLocationError" type="warning" class="mb-4">
+    </FeedbackMessage>
+    <FeedbackMessage v-if="isThereGeoLocationError" type="error" class="mb-4">
       Une erreur est survenue lors de votre géolocalisation. Veuillez réessayer dans quelques minutes.
-    </InformationBanner>
+    </FeedbackMessage>
     <form @submit="submit">
       <div class="flex flex-col">
         <label for="boardGameName">Nom du jeu :</label>
@@ -47,9 +47,9 @@
           class="border-2 border-indigo-400 rounded p-1"
         />
       </div>
-      <InformationBanner v-if="error" type="error">
+      <FeedbackMessage v-if="error" type="error">
         {{ error }}
-      </InformationBanner>
+      </FeedbackMessage>
       <button
         type="submit"
         @click.prevent="submit"
@@ -66,21 +66,21 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 import Heading from "@/components/texts/Heading";
-import InformationBanner from "@/components/InformationBanner";
-import { isGeolocationSupported, getLocation } from "@/services/Geolocation";
+import FeedbackMessage from "@/components/FeedbackMessage";
+import { isGeolocationSupported, getCurrentGeolocation } from "@/services/Geolocation";
 
 export default {
   name: "PageGamesAdd",
   components: {
     Heading,
-    InformationBanner,
+    FeedbackMessage,
   },
   data() {
     return {
       isGeolocationSupported: true,
       isGeolocationEnabled: true,
       isThereGeoLocationError: false,
-      geolocation: null,
+      currentUserGeolocation: null,
       boardGameName: null,
       description: null,
       missingPlayers: 0,
@@ -97,7 +97,7 @@ export default {
         this.isGeolocationSupported &&
         this.isGeolocationEnabled &&
         !this.isThereGeoLocationError &&
-        this.geolocation
+        this.currentUserGeolocation
       );
     },
   },
@@ -108,8 +108,8 @@ export default {
     }),
     submit() {
       this.createGame({
-        latitude: this.geolocation.latitude,
-        longitude: this.geolocation.longitude,
+        latitude: this.currentUserGeolocation.latitude,
+        longitude: this.currentUserGeolocation.longitude,
         boardGameName: this.boardGameName,
         description: this.description,
         missingPlayers: this.missingPlayers,
@@ -120,9 +120,9 @@ export default {
   },
   mounted() {
     this.isGeolocationSupported = isGeolocationSupported();
-    getLocation()
-      .then((position) => {
-        this.geolocation = { latitude: position.coords.latitude, longitude: position.coords.longitude };
+    getCurrentGeolocation()
+      .then(({ latitude, longitude }) => {
+        this.currentUserGeolocation = { latitude, longitude };
       })
       .catch((error) => {
         if (error.code === 1) {

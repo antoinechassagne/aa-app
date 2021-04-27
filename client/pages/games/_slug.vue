@@ -1,9 +1,9 @@
 <template>
   <Loader v-if="loading" />
   <fragment v-else>
-    <InformationBanner v-if="error" type="error">
+    <FeedbackMessage v-if="error" type="error">
       {{ error }}
-    </InformationBanner>
+    </FeedbackMessage>
     <Heading level="1" class="mb-10">{{ game.boardGameName }}</Heading>
     <p>{{ game.description }}</p>
     <p>Joueurs manquants : {{ game.missingPlayers }}</p>
@@ -14,14 +14,14 @@
 import { mapGetters, mapActions } from "vuex";
 import Loader from "@/components/Loader";
 import Heading from "@/components/texts/Heading";
-import InformationBanner from "@/components/InformationBanner";
+import FeedbackMessage from "@/components/FeedbackMessage";
 
 export default {
   name: "PageGame",
   components: {
     Loader,
     Heading,
-    InformationBanner,
+    FeedbackMessage,
   },
   async asyncData({ params, store }) {
     await store.dispatch("games/fetchGame", params.slug);
