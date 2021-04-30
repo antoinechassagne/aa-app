@@ -5,6 +5,7 @@
       {{ error }}
     </FeedbackMessage>
     <Heading level="1" class="mb-10">{{ game.boardGameName }}</Heading>
+    <p>Créée par {{ game.creator.pseudo }}</p>
     <p>{{ game.description }}</p>
     <p>Joueurs manquants : {{ game.missingPlayers }}</p>
   </div>

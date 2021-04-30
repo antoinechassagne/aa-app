@@ -1,4 +1,5 @@
 const GamesRepository = require("./repository");
+const UsersRepository = require("../users/repository");
 
 exports.getGame = async function (req, res) {
   try {
@@ -6,6 +7,9 @@ exports.getGame = async function (req, res) {
     if (!game) {
       return res.status(204).send();
     }
+    const user = await UsersRepository.getUser({ id: game.creatorId });
+    const creator = UsersRepository.getPublicFields(user);
+    game.creator = creator;
     res.status(200).send(game);
   } catch (err) {
     console.log(err);
@@ -18,6 +22,11 @@ exports.getGames = async function (req, res) {
     const games = await GamesRepository.getGames(req.query);
     if (!games.length) {
       return res.status(204).send();
+    }
+    for await (game of games) {
+      const user = await UsersRepository.getUser({ id: game.creatorId });
+      const creator = UsersRepository.getPublicFields(user);
+      game.creator = creator;
     }
     res.status(200).send(games);
   } catch (err) {
