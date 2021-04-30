@@ -1,5 +1,5 @@
 <template>
-  <fragment>
+  <div>
     <Heading level="1" class="mb-10">Créer une nouvelle partie</Heading>
     <FeedbackMessage v-if="!isGeolocationSupported" type="warning" class="mb-4">
       Votre navigateur internet ne dispose pas de la fonctionnalité de géolocalisation. Veuillez utiliser un navigateur
@@ -60,7 +60,7 @@
         <template v-else>Créer</template>
       </button>
     </form>
-  </fragment>
+  </div>
 </template>
 
 <script>

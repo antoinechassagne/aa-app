@@ -1,12 +1,12 @@
 <template>
-  <fragment>
+  <div>
     <Heading level="1" class="mb-10">Parties autour de vous</Heading>
     <FeedbackMessage v-if="error" type="error" class="mb-4">
       {{ error }}
     </FeedbackMessage>
     <Loader v-if="loading" />
     <GamesMap v-else :games="games" />
-  </fragment>
+  </div>
 </template>
 
 <script>

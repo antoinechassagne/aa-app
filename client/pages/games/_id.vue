@@ -1,13 +1,13 @@
 <template>
   <Loader v-if="loading" />
-  <fragment v-else>
+  <div v-else>
     <FeedbackMessage v-if="error" type="error">
       {{ error }}
     </FeedbackMessage>
     <Heading level="1" class="mb-10">{{ game.boardGameName }}</Heading>
     <p>{{ game.description }}</p>
     <p>Joueurs manquants : {{ game.missingPlayers }}</p>
-  </fragment>
+  </div>
 </template>
 
 <script>
@@ -24,7 +24,7 @@ export default {
     FeedbackMessage,
   },
   async asyncData({ params, store }) {
-    await store.dispatch("games/fetchGame", params.slug);
+    await store.dispatch("games/fetchGame", params.id);
   },
   computed: {
     ...mapGetters({

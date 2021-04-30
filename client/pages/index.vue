@@ -1,5 +1,5 @@
 <template>
-  <fragment>
+  <div>
     <Heading level="1" class="mb-10">{{ welcomeMessage }}</Heading>
     <ul>
       <li>
@@ -9,7 +9,7 @@
         <RouteLink to="/games">Voir les parties autour de soi</RouteLink>
       </li>
     </ul>
-  </fragment>
+  </div>
 </template>
 
 <script>
