@@ -1,5 +1,5 @@
 <template>
-  <fragment>
+  <div>
     <FeedbackMessage v-if="!isGeolocationSupported" type="warning" class="mb-4">
       Votre navigateur internet ne dispose pas de la fonctionnalité de géolocalisation. Veuillez utiliser un navigateur
       internet plus récent.
@@ -14,18 +14,21 @@
     <FeedbackMessage v-if="isThereMapError" type="error" class="mb-4">
       Une erreur est survenue lors de l'affichage de la carte. Veuillez réessayer dans quelques minutes.
     </FeedbackMessage>
-    <div class="relative w-full h-half-screen flex flex-col items-center justify-center">
+    <div class="relative w-full h-half-screen flex flex-col items-center justify-center overflow-hidden rounded-3xl">
       <Loader v-if="loading" class="absolute top-2/4 right-2/4 translate-x-2/4 translate-y-2/4" />
       <div ref="map" class="w-full h-full" :class="mapClass"></div>
     </div>
-  </fragment>
+  </div>
 </template>
 
 <script>
+import Vue from "vue";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import FeedbackMessage from "@/components/FeedbackMessage";
 import Loader from "@/components/Loader";
+import GameMarker from "./GameMarker";
+import GamePopup from "./GamePopup";
 import { isGeolocationSupported, getCurrentGeolocation } from "@/services/Geolocation";
 
 export default {
@@ -70,18 +73,26 @@ export default {
       });
       this.attachMapEventListeners();
     },
-    renderMarkers() {
-      this.markers = this.games.forEach((game) => {
-        const marker = new mapboxgl.Marker({ color: "#667EEA" }).setLngLat([game.longitude, game.latitude]);
-        const popup = new mapboxgl.Popup().setText(
-          `[${game.missingPlayers}] ${game.boardGameName} - ${game.description}`
-        );
+    initMarkersAndPopups() {
+      this.games.forEach((game) => {
+        const markerComponent = new Vue({
+          router: this.$router,
+          ...GameMarker,
+          propsData: { game },
+        }).$mount();
+        const popupComponent = new Vue({
+          router: this.$router,
+          ...GamePopup,
+          propsData: { game },
+        }).$mount();
+        const marker = new mapboxgl.Marker({ element: markerComponent.$el }).setLngLat([game.longitude, game.latitude]);
+        const popup = new mapboxgl.Popup().setDOMContent(popupComponent.$el);
         marker.setPopup(popup).addTo(this.map);
       });
     },
     attachMapEventListeners() {
       this.map.on("load", () => {
-        this.renderMarkers();
+        this.initMarkersAndPopups();
         this.loading = false;
       });
       this.map.on("error", () => {

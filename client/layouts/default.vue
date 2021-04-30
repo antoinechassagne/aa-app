@@ -1,10 +1,10 @@
 <template>
-  <fragment>
+  <div>
     <BaseHeader :loggedUser="loggedUser" />
     <main class="container mx-auto pl-4 pr-4">
       <Nuxt />
     </main>
-  </fragment>
+  </div>
 </template>
 
 <script>

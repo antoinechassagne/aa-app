@@ -1,5 +1,5 @@
 <template>
-  <NuxtLink :to="to" class="text-indigo-500 hover:underline">
+  <NuxtLink :to="to" :prefetch="prefetch" class="text-indigo-500 hover:underline">
     <slot />
   </NuxtLink>
 </template>
@@ -11,6 +11,10 @@ export default {
     to: {
       type: String,
       required: true,
+    },
+    prefetch: {
+      type: Boolean,
+      default: true,
     },
   },
 };

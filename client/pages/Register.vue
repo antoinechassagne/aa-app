@@ -1,5 +1,5 @@
 <template>
-  <fragment>
+  <div>
     <Heading level="1">S'inscrire</Heading>
     <form @submit="submit">
       <div class="flex flex-col">
@@ -62,7 +62,7 @@
         <RouteLink to="/login">Vous êtes déjà inscrit ? Connectez-vous dès maintenant</RouteLink>
       </div>
     </form>
-  </fragment>
+  </div>
 </template>
 
 <script>
