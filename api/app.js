@@ -1,3 +1,5 @@
+const http = require("http");
+const socketio = require("socket.io");
 const express = require("express");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
@@ -6,6 +8,8 @@ const helmet = require("helmet");
 const { router } = require("./router");
 
 const app = express();
+const server = http.Server(app);
+const io = socketio(server);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -16,4 +20,4 @@ app.use(helmet());
 app.use("/", router);
 app.get("/", (req, res) => res.send("API is running 🎲"));
 
-module.exports = app;
+module.exports = { server, app, io };
