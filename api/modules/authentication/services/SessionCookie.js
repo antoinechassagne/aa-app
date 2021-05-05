@@ -11,7 +11,7 @@ function setCookie(res, sessionId) {
     sameSite: "None",
   };
   if (process.env.NODE_ENV !== "development") {
-    options.domain = process.env.CLIENT_URL;
+    options.domain = process.env.CLIENT_DOMAIN;
   }
   res.cookie(COOKIE_NAME, sessionId, options);
 }
