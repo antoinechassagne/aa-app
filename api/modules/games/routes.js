@@ -17,16 +17,19 @@ module.exports = [
     path: "/games",
     handler: controller.createGame,
     schema: gameSchema,
+    authenticated: true,
   },
   {
     method: "PUT",
     path: "/games/:id",
     handler: controller.updateGame,
     schema: gameSchema,
+    authenticated: true,
   },
   {
     method: "DELETE",
     path: "/games/:id",
     handler: controller.deleteGame,
+    authenticated: true,
   },
 ];

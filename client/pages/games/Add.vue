@@ -71,6 +71,7 @@ import { isGeolocationSupported, getCurrentGeolocation } from "@/services/Geoloc
 
 export default {
   name: "PageGamesAdd",
+  middleware: ["authenticatedOnly"],
   components: {
     Heading,
     FeedbackMessage,
