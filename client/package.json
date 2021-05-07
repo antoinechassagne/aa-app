@@ -12,6 +12,7 @@
     "core-js": "^3.6.5",
     "mapbox-gl": "^2.2.0",
     "nuxt": "^2.14.6",
+    "socket.io-client": "^4.0.1",
     "vue-fragment": "^1.5.1"
   },
   "devDependencies": {

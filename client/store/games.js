@@ -115,6 +115,10 @@ export const actions = {
         });
     });
   },
+  emitRequestToJoin({ rootState }, game) {
+    const { loggedUser } = rootState.authentication;
+    this.$socket.emit("games:request-to-join", { emitterUserId: loggedUser.id, payload: { gameId: game.id } });
+  },
   cleanError(context) {
     context.commit("SET_ERROR", null);
   },
