@@ -119,6 +119,9 @@ export const actions = {
     const { loggedUser } = rootState.authentication;
     this.$socket.emit("games:request-to-join", { emitterUserId: loggedUser.id, payload: { gameId: game.id } });
   },
+  onRequestToJoin(context, data) {
+    console.log("[STORE] onRequestToJoin", data);
+  },
   cleanError(context) {
     context.commit("SET_ERROR", null);
   },
