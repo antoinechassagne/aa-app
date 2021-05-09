@@ -1,5 +1,5 @@
 const { v4: uuidv4 } = require("uuid");
-const database = require("../../database/index");
+const database = require("../../../database/index");
 
 exports.createGame = function (game) {
   return database("games")

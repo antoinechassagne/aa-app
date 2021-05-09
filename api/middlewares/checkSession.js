@@ -1,4 +1,4 @@
-const SessionsRepository = require("../modules/authentication/repository");
+const SessionsRepository = require("../modules/authentication/repositories/sessions");
 const SessionCookie = require("../modules/authentication/services/SessionCookie");
 
 async function checkSession(req, res, next) {

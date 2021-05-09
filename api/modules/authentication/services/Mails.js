@@ -1,5 +1,5 @@
 const Mailer = require("../../../services/Mailer");
-const UsersRepository = require("../../users/repository");
+const UsersRepository = require("../../users/repositories/users");
 
 async function sendConfirmationMail(userId) {
   const user = await UsersRepository.getUser({ id: userId });

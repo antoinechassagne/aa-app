@@ -1,5 +1,5 @@
-const UsersRepository = require("../../users/repository");
-const SessionsRepository = require("../repository");
+const UsersRepository = require("../../users/repositories/users");
+const SessionsRepository = require("../repositories/sessions");
 const Crypto = require("./Crypto");
 
 const SESSION_MAX_AGE = 3024000000; /* 5 weeks */
