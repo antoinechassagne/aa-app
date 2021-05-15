@@ -1,23 +1,17 @@
 const database = require("../../../database/index");
 
-exports.getPublicFields = function (user) {
-  if (!user) {
-    return null;
-  }
-  const { password, salt, confirmationToken, resetToken, ...publicFields } = user;
-  return publicFields;
-};
-
 exports.createUser = function (user) {
   return database("users").insert(user).returning("id");
 };
 
-exports.getUser = function (query) {
-  return database("users").where(query).first();
+exports.getUser = async function (query, includePrivateFields = false) {
+  const user = await database("users").where(query).first();
+  return includePrivateFields ? user : removePrivateFields(user);
 };
 
-exports.getUsers = function (query) {
-  return database("users").where(query);
+exports.getUsers = async function (query, includePrivateFields = false) {
+  const users = await database("users").where(query);
+  return includePrivateFields ? users : users.map((user) => removePrivateFields(user));
 };
 
 exports.updateUser = function (query, update) {
@@ -27,3 +21,11 @@ exports.updateUser = function (query, update) {
 exports.deleteUsers = function (query) {
   return database("users").where(query).del();
 };
+
+function removePrivateFields(user) {
+  if (!user) {
+    return null;
+  }
+  const { password, salt, confirmationToken, resetToken, ...publicFields } = user;
+  return publicFields;
+}

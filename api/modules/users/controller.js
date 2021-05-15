@@ -6,8 +6,7 @@ exports.getUser = async function (req, res) {
     if (!user) {
       return res.status(204).send();
     }
-    const result = UsersRepository.getPublicFields(user);
-    res.status(200).send(result);
+    res.status(200).send(user);
   } catch (err) {
     res.status(500).send({ error: "Une erreur s'est produite." });
   }
@@ -19,8 +18,7 @@ exports.getUsers = async function (req, res) {
     if (!users.length) {
       return res.status(204).send();
     }
-    const result = users.map((user) => UsersRepository.getPublicFields(user));
-    res.status(200).send(result);
+    res.status(200).send(users);
   } catch (err) {
     res.status(500).send({ error: "Une erreur s'est produite." });
   }

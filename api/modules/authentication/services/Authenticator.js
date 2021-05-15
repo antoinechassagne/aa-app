@@ -132,7 +132,7 @@ function removePreviousUserSessions(userId) {
 }
 
 function retrieveUser(query) {
-  return UsersRepository.getUser(query);
+  return UsersRepository.getUser(query, true);
 }
 
 function retrieveSession(query) {

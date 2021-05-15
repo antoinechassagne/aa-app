@@ -1,4 +1,5 @@
 const GamesRepository = require("./repositories/games");
+const JoinRequestsRepository = require("./repositories/joinRequests");
 const UsersRepository = require("../users/repositories/users");
 
 exports.getGame = async function (req, res) {
@@ -7,9 +8,7 @@ exports.getGame = async function (req, res) {
     if (!game) {
       return res.status(204).send();
     }
-    const user = await UsersRepository.getUser({ id: game.creatorId });
-    const creator = UsersRepository.getPublicFields(user);
-    game.creator = creator;
+    game.creator = await UsersRepository.getUser({ id: game.creatorId });
     res.status(200).send(game);
   } catch (err) {
     res.status(500).send({ error: "Une erreur s'est produite." });
@@ -23,9 +22,7 @@ exports.getGames = async function (req, res) {
       return res.status(204).send();
     }
     for await (game of games) {
-      const user = await UsersRepository.getUser({ id: game.creatorId });
-      const creator = UsersRepository.getPublicFields(user);
-      game.creator = creator;
+      game.creator = await UsersRepository.getUser({ id: game.creatorId });
     }
     res.status(200).send(games);
   } catch (err) {

@@ -1,7 +1,6 @@
 const Authenticator = require("./services/Authenticator");
 const SessionCookie = require("./services/SessionCookie");
 const Mails = require("./services/Mails");
-const UsersRepository = require("../users/repositories/users");
 
 exports.register = async function (req, res) {
   try {
@@ -45,8 +44,7 @@ exports.getLoggedUser = async function (req, res) {
   if (!user) {
     return res.status(401).send({ error: "Vous avez été déconnecté." });
   }
-  const result = UsersRepository.getPublicFields(user);
-  res.status(200).send(result);
+  res.status(200).send(user);
 };
 
 exports.verifyEmail = async function (req, res) {
