@@ -20,6 +20,6 @@ export default {
   modules: ["@nuxtjs/axios", "@nuxtjs/pwa"],
   axios: {
     baseURL: process.env.API_URL,
-    credentials: "include",
+    credentials: true,
   },
 };
