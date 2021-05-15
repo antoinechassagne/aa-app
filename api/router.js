@@ -1,22 +1,34 @@
+const fs = require("fs");
+const path = require("path");
 const router = require("express").Router();
-const authentication = require("./modules/authentication/routes");
-const users = require("./modules/users/routes");
-const games = require("./modules/games/routes");
 const checkSession = require("./middlewares/checkSession");
 const validateSchema = require("./middlewares/validateSchema");
 
-const routes = [...authentication, ...users, ...games];
+module.exports = function () {
+  const modulesPath = `${__dirname}/modules`;
+  const modules = fs.readdirSync(path.resolve(`${__dirname}/modules`));
+  modules.map((moduleName) => {
+    const modulePath = `${modulesPath}/${moduleName}`;
+    const moduleFileNames = fs.readdirSync(path.resolve(modulePath));
+    if (moduleFileNames.includes("routes.js")) {
+      const routesPath = `${modulePath}/routes.js`;
+      const routes = require(path.resolve(routesPath));
+      registerRoutes(routes);
+    }
+  });
+  return router;
+};
 
-routes.forEach((route) => {
-  const { path, method, handler } = route;
-  const middlewares = [];
-  if (route.authenticated) {
-    middlewares.push(checkSession);
-  }
-  if (route.schema) {
-    middlewares.push(validateSchema(route.schema));
-  }
-  router[method.toLowerCase()](path, ...middlewares, handler);
-});
-
-module.exports = { routes, router };
+function registerRoutes(routes) {
+  routes.forEach((route) => {
+    const { path, method, handler } = route;
+    const middlewares = [];
+    if (route.authenticated) {
+      middlewares.push(checkSession);
+    }
+    if (route.schema) {
+      middlewares.push(validateSchema(route.schema));
+    }
+    router[method.toLowerCase()](path, ...middlewares, handler);
+  });
+}

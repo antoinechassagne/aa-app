@@ -1,10 +1,10 @@
 const Mailer = require("../../../services/Mailer");
-const UsersRepository = require("../../users/repository");
+const UsersRepository = require("../../users/repositories/users");
 
 async function sendConfirmationMail(userId) {
   const user = await UsersRepository.getUser({ id: userId });
   const url = `${process.env.CLIENT_URL}/email-verification?token=${user.confirmationToken}`;
-  const text = `${user.firstName}, pour finaliser votre inscription, merci de cliquez sur : ${url}`;
+  const text = `${user.pseudo}, pour finaliser votre inscription, merci de cliquez sur : ${url}`;
   Mailer.sendMail({
     to: user.email,
     subject: "AA App - Finalisez votre inscription",
@@ -15,7 +15,7 @@ async function sendConfirmationMail(userId) {
 async function sendResetPasswordEmail(token) {
   const user = await UsersRepository.getUser({ resetToken: token });
   const url = `${process.env.CLIENT_URL}/reset-password?token=${token}`;
-  const text = `${user.firstName}, pour réinitialiser votre mot de passe, merci de cliquez sur : ${url}`;
+  const text = `${user.pseudo}, pour réinitialiser votre mot de passe, merci de cliquez sur : ${url}`;
   Mailer.sendMail({
     to: user.email,
     subject: "AA App - Réinitialisez votre mot de passe",

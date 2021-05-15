@@ -1,7 +1,7 @@
 const Authenticator = require("./services/Authenticator");
 const SessionCookie = require("./services/SessionCookie");
 const Mails = require("./services/Mails");
-const UsersRepository = require("../users/repository");
+const UsersRepository = require("../users/repositories/users");
 
 exports.register = async function (req, res) {
   try {

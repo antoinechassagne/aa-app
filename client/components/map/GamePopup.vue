@@ -2,6 +2,7 @@
   <div>
     <Heading level="4" class="mb-2">{{ game.boardGameName }}</Heading>
     <p class="mb-2">{{ game.description }}</p>
+    <p class="mb-2">Créée par {{ game.creator.pseudo }}</p>
     <p class="mb-2">
       Joueurs manquants : <span class="font-bold">{{ game.missingPlayers }}</span>
     </p>

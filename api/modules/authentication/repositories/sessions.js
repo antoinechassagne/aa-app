@@ -1,5 +1,5 @@
 const { v4: uuidv4 } = require("uuid");
-const database = require("../../database/index");
+const database = require("../../../database/index");
 
 exports.createSession = function (session) {
   return database("sessions")

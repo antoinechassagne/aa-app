@@ -34,6 +34,9 @@
           required
           class="border-2 border-indigo-400 rounded p-1"
         />
+        <p class="text-sm text-gray-600">
+          8 caractères minimum dont au moins une majuscule, un chiffre et un caractère spécial.
+        </p>
       </div>
       <div class="flex flex-col my-2">
         <label for="password">Confirmez votre mot de passe :</label>

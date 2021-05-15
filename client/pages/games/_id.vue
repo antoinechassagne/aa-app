@@ -5,8 +5,10 @@
       {{ error }}
     </FeedbackMessage>
     <Heading level="1" class="mb-10">{{ game.boardGameName }}</Heading>
+    <p>Créée par {{ game.creator.pseudo }}</p>
     <p>{{ game.description }}</p>
     <p>Joueurs manquants : {{ game.missingPlayers }}</p>
+    <button @click="requestToJoin" class="mt-5">Demander à rejoindre</button>
   </div>
 </template>
 
@@ -35,8 +37,12 @@ export default {
   },
   methods: {
     ...mapActions({
+      emitRequestToJoin: "games/emitRequestToJoin",
       cleanError: "games/cleanError",
     }),
+    requestToJoin() {
+      this.emitRequestToJoin(this.game);
+    },
   },
   destroyed() {
     this.cleanError();

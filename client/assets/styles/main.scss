@@ -1,3 +1,14 @@
 :disabled {
   cursor: not-allowed;
 }
+
+button {
+  padding: 0.5rem;
+  background: rgb(102, 126, 234);
+  border-radius: 1rem;
+  color: white;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
