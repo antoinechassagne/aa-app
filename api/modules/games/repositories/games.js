@@ -3,7 +3,7 @@ const database = require("../../../database/index");
 
 exports.createGame = function (game) {
   return database("games")
-    .insert({ id: uuidv4(), ...game, creationDate: new Date().toISOString() })
+    .insert({ ...game, id: uuidv4(), creationDate: new Date().toISOString() })
     .returning("id");
 };
 

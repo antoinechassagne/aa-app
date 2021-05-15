@@ -3,7 +3,7 @@ const database = require("../../../database/index");
 
 exports.createSession = function (session) {
   return database("sessions")
-    .insert({ id: uuidv4(), ...session })
+    .insert({ ...session, id: uuidv4(), creationDate: new Date().toISOString() })
     .returning("id");
 };
 
@@ -16,7 +16,9 @@ exports.getSessions = function (query) {
 };
 
 exports.updateSession = function (query, update) {
-  return database("sessions").where(query).update(update);
+  return database("sessions")
+    .where(query)
+    .update({ ...update, updateDate: new Date().toISOString() });
 };
 
 exports.deleteSessions = function (query) {

@@ -1,7 +1,9 @@
 const database = require("../../../database/index");
 
 exports.createUser = function (user) {
-  return database("users").insert(user).returning("id");
+  return database("users")
+    .insert({ ...user, creationDate: new Date().toISOString() })
+    .returning("id");
 };
 
 exports.getUser = async function (query, includePrivateFields = false) {
@@ -15,7 +17,9 @@ exports.getUsers = async function (query, includePrivateFields = false) {
 };
 
 exports.updateUser = function (query, update) {
-  return database("users").where(query).update(update);
+  return database("users")
+    .where({ ...query, updateDate: new Date().toISOString() })
+    .update(update);
 };
 
 exports.deleteUsers = function (query) {
