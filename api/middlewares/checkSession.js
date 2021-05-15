@@ -1,9 +1,9 @@
 const SessionsRepository = require("../modules/authentication/repositories/sessions");
 const SessionCookie = require("../modules/authentication/services/SessionCookie");
 
-async function checkSession(req, res, next) {
+async function checkRouteSession(req, res, next) {
   try {
-    const sessionId = getSessionIdFromCookie(req);
+    const sessionId = getSessionIdFromRequestCookie(req);
     if (!sessionId) {
       return res.status(401).send({ error: "Une erreur s'est produite lors de l'authentification." });
     }
@@ -14,14 +14,39 @@ async function checkSession(req, res, next) {
     }
     await refreshSession(session);
     refreshCookie(res, sessionId);
+    req.session = session;
     next();
   } catch (err) {
     res.status(500).send({ error: "Une erreur s'est produite." });
   }
 }
 
-function getSessionIdFromCookie(req) {
+async function checkSocketSession(socket, next) {
+  try {
+    const sessionId = getSessionIdFromSocketCookie(socket);
+    if (!sessionId) {
+      return;
+    }
+    const session = await retrieveSession(sessionId);
+    const valid = isSessionValid(session);
+    if (!valid) {
+      return;
+    }
+    socket.session = session;
+    next();
+  } catch (err) {
+    return;
+  }
+}
+
+function getSessionIdFromRequestCookie(req) {
   return req.signedCookies[SessionCookie.COOKIE_NAME];
+}
+
+function getSessionIdFromSocketCookie(socket) {
+  const cookies = SessionCookie.parseCookieHeader(socket.request.headers.cookie);
+  const sessionId = SessionCookie.decodeSignedCookie(cookies[SessionCookie.COOKIE_NAME]);
+  return sessionId;
 }
 
 function retrieveSession(sessionId) {
@@ -51,4 +76,4 @@ function refreshCookie(res, sessionId) {
   SessionCookie.setCookie(res, sessionId);
 }
 
-module.exports = checkSession;
+module.exports = { checkRouteSession, checkSocketSession };

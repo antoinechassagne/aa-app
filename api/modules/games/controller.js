@@ -12,7 +12,6 @@ exports.getGame = async function (req, res) {
     game.creator = creator;
     res.status(200).send(game);
   } catch (err) {
-    console.log(err);
     res.status(500).send({ error: "Une erreur s'est produite." });
   }
 };
