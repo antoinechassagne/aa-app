@@ -6,6 +6,7 @@ const cors = require("cors");
 const helmet = require("helmet");
 const socketio = require("socket.io");
 const createApiRouter = require("./router");
+const checkSessionSocket = require("./middlewares/checkSessionSocket");
 const attachListenersToSocket = require("./events");
 
 /* Express API */
@@ -27,6 +28,7 @@ const io = socketio(server, {
   transports: ["websocket", "polling"],
 });
 
+io.use(checkSessionSocket);
 io.on("connection", (socket) => {
   attachListenersToSocket(io, socket);
 });

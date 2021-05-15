@@ -2,7 +2,7 @@ import { io } from "socket.io-client";
 import * as gamesListeners from "../listeners/games";
 
 export default ({ app, store }, inject) => {
-  const socket = io(process.env.API_URL);
+  const socket = io(process.env.API_URL, { withCredentials: true });
   registerListeners(socket, store, gamesListeners);
   inject("socket", socket);
 };
