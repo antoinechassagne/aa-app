@@ -120,7 +120,7 @@ export const actions = {
     this.$socket.emit("games:request-to-join", { emitterUserId: loggedUser.id, payload: { gameId: game.id } });
   },
   onRequestToJoin(context, data) {
-    console.log("[STORE] onRequestToJoin", data);
+    console.log("[WS EVENT] onRequestToJoin", data);
   },
   cleanError(context) {
     context.commit("SET_ERROR", null);
