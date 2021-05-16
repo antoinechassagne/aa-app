@@ -115,12 +115,12 @@ export const actions = {
         });
     });
   },
-  emitRequestToJoin({ rootState }, game) {
+  emitParticipationRequest({ rootState }, game) {
     const { loggedUser } = rootState.authentication;
-    this.$socket.emit("games:request-to-join", { emitterUserId: loggedUser.id, payload: { gameId: game.id } });
+    this.$socket.emit("participations:request", { emitterUserId: loggedUser.id, payload: { gameId: game.id } });
   },
-  onRequestToJoin(context, data) {
-    console.log("[WS EVENT] onRequestToJoin", data);
+  onParticipationRequest(context, data) {
+    console.log("[WS EVENT] onParticipationRequest", data);
   },
   cleanError(context) {
     context.commit("SET_ERROR", null);

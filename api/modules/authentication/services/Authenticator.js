@@ -79,7 +79,6 @@ async function createUser(user) {
   const { password, email, ...userInformations } = user;
   const { salt, hash } = hashPassword(password);
   const [id] = await UsersRepository.createUser({
-    registrationDate: new Date().toISOString(),
     email: email,
     salt,
     password: hash,
