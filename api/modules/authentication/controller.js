@@ -12,6 +12,7 @@ exports.register = async function (req, res) {
     await Mails.sendConfirmationMail(userId);
     res.status(201).send({ id: userId });
   } catch (err) {
+    console.log(err);
     res.status(500).send({ error: "Une erreur s'est produite." });
   }
 };
@@ -27,6 +28,7 @@ exports.login = async function (req, res) {
     SessionCookie.setCookie(res, sessionId);
     res.status(200).send({ userId: user.id });
   } catch (err) {
+    console.log(err);
     res.status(500).send({ error: "Une erreur s'est produite." });
   }
 };
