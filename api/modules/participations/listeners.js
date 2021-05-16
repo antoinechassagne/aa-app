@@ -10,7 +10,7 @@ exports.createParticipation = function (io, socket) {
     await ParticipationsRepository.createParticipation({
       userId: emitterUserId,
       gameId,
-      statusId: participationStatuses.pending,
+      statusId: participationStatuses.PENDING,
     });
     const { creatorId } = await GamesRepository.getGame({ id: gameId });
     const creatorSocket = SocketUtils.findConnectedUserSocket(io, creatorId);

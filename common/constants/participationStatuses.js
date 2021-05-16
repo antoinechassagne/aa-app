@@ -1,6 +1,6 @@
 module.exports = {
-  pending: 1,
-  accepted: 2,
-  refused: 3,
-  canceled: 4,
+  PENDING: 1,
+  ACCEPTED: 2,
+  REFUSED: 3,
+  CANCELED: 4,
 };
