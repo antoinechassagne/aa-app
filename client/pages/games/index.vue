@@ -24,7 +24,7 @@ export default {
     Heading,
     GamesMap,
   },
-  async asyncData({ store }) {
+  async fetch({ store }) {
     await store.dispatch("games/fetchGames", {});
   },
   computed: {

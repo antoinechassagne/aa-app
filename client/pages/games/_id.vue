@@ -25,7 +25,7 @@ export default {
     Heading,
     FeedbackMessage,
   },
-  async asyncData({ params, store }) {
+  async fetch({ params, store }) {
     await store.dispatch("games/fetchGame", params.id);
   },
   computed: {
