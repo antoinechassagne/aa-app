@@ -36,7 +36,15 @@
         />
       </div>
       <div class="flex flex-col">
-        <label for="missingPlayers">Joueurs manquants:</label>
+        <label for="date">Date :</label>
+        <input v-model="date" id="date" type="date" required class="border-2 border-indigo-400 rounded p-1" />
+      </div>
+      <div class="flex flex-col">
+        <label for="time">Heure :</label>
+        <input v-model="time" id="time" type="time" required class="border-2 border-indigo-400 rounded p-1" />
+      </div>
+      <div class="flex flex-col">
+        <label for="missingPlayers">Nombre de joueurs manquants:</label>
         <input
           v-model.number="missingPlayers"
           id="missingPlayers"
@@ -64,6 +72,7 @@
 </template>
 
 <script>
+import dayjs from "dayjs";
 import { mapGetters, mapActions } from "vuex";
 import Heading from "@/components/texts/Heading";
 import FeedbackMessage from "@/components/FeedbackMessage";
@@ -84,6 +93,8 @@ export default {
       currentUserGeolocation: null,
       boardGameName: null,
       description: null,
+      date: dayjs().format("YYYY-MM-DD"),
+      time: dayjs().format("hh:mm"),
       missingPlayers: 0,
     };
   },
@@ -92,6 +103,17 @@ export default {
       loading: "games/loading",
       error: "games/error",
     }),
+    plannedDate() {
+      if (!this.date || !this.time) {
+        return null;
+      }
+      const date = dayjs(this.date);
+      const hour = this.time.substring(0, 1);
+      const minute = this.time.substring(3, 4);
+      date.hour(hour);
+      date.minute(minute);
+      return date.toISOString();
+    },
     canSubmitForm() {
       return (
         !this.loading &&
@@ -109,6 +131,7 @@ export default {
     }),
     submit() {
       this.createGame({
+        plannedDate: this.plannedDate,
         latitude: this.currentUserGeolocation.latitude,
         longitude: this.currentUserGeolocation.longitude,
         boardGameName: this.boardGameName,

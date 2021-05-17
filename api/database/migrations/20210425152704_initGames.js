@@ -3,6 +3,7 @@ exports.up = function (knex) {
     table.uuid("id").primary();
     table.date("creationDate").notNullable();
     table.date("updateDate");
+    table.date("plannedDate").notNullable();
     table.integer("creatorId").references("id").inTable("users").notNull();
     table.decimal("latitude").notNull();
     table.decimal("longitude").notNull();

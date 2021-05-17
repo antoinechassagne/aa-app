@@ -1,6 +1,7 @@
 const Joi = require("joi");
 
 const schema = Joi.object({
+  plannedDate: Joi.date().required(),
   creatorId: Joi.number().required(),
   latitude: Joi.number().required(),
   longitude: Joi.number().required(),
