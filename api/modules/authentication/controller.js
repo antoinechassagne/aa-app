@@ -41,9 +41,12 @@ exports.logout = async function (req, res) {
 
 exports.getLoggedUser = async function (req, res) {
   const sessionId = SessionCookie.getCookie(req);
+  if (!sessionId) {
+    return res.status(204).send({ error: "Vous n'êtes pas connecté." });
+  }
   const userId = await Authenticator.authenticateBySessionId(sessionId);
   if (!userId) {
-    return res.status(401).send({ error: "Vous avez été déconnecté." });
+    return res.status(204).send({ error: "Vous n'êtes pas connecté." });
   }
   const user = await UsersRepository.getUser({ id: userId });
   res.status(200).send(user);
