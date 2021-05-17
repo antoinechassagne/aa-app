@@ -51,7 +51,7 @@ exports.createGame = async function (req, res) {
 
 exports.updateGame = async function (req, res) {
   try {
-    await GamesRepository.updateGame({ id: req.params.id }, req.body);
+    await GamesRepository.updateGame(req.params.id, req.body);
     res.status(204).send();
   } catch (err) {
     res.status(500).send({ error: "Une erreur s'est produite." });

@@ -15,9 +15,9 @@ exports.getParticipations = function (query) {
   return database("participations").where(query);
 };
 
-exports.updateParticipation = function (update) {
+exports.updateParticipation = function (id, update) {
   return database("participations")
-    .where(query)
+    .where({ id })
     .update({ ...update, updateDate: new Date().toISOString() });
 };
 

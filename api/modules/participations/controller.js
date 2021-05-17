@@ -9,7 +9,7 @@ exports.getParticipation = async function (req, res) {
       return res.status(204).send();
     }
     participation.game = await GamesRepository.getGame({ id: participation.gameId });
-    participation.userId = await UsersRepository.getUser({ id: participation.userId });
+    participation.user = await UsersRepository.getUser({ id: participation.userId });
     res.status(200).send(participation);
   } catch (err) {
     res.status(500).send({ error: "Une erreur s'est produite." });
@@ -24,7 +24,7 @@ exports.getParticipations = async function (req, res) {
     }
     for await (participation of participations) {
       participation.game = await GamesRepository.getGame({ id: participation.gameId });
-      participation.userId = await UsersRepository.getUser({ id: participation.userId });
+      participation.user = await UsersRepository.getUser({ id: participation.userId });
     }
     res.status(200).send(participations);
   } catch (err) {
@@ -43,7 +43,7 @@ exports.createParticipation = async function (req, res) {
 
 exports.updateParticipation = async function (req, res) {
   try {
-    await ParticipationsRepository.updateParticipation({ id: req.params.id }, req.body);
+    await ParticipationsRepository.updateParticipation(req.params.id, req.body);
     res.status(204).send();
   } catch (err) {
     res.status(500).send({ error: "Une erreur s'est produite." });

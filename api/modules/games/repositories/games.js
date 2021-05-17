@@ -15,9 +15,9 @@ exports.getGames = function (query) {
   return database("games").where(query);
 };
 
-exports.updateGame = function (query, update) {
+exports.updateGame = function (id, update) {
   return database("games")
-    .where(query)
+    .where({ id })
     .update({ ...update, updateDate: new Date().toISOString() });
 };
 
