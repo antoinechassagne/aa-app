@@ -11,4 +11,8 @@ button {
   &:hover {
     text-decoration: underline;
   }
+
+  &:disabled {
+    text-decoration: none;
+  }
 }
