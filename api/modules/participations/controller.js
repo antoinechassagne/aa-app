@@ -43,6 +43,10 @@ exports.createParticipation = async function (req, res) {
 
 exports.updateParticipation = async function (req, res) {
   try {
+    /**
+     * @TODO
+     * If body contains statusId => pass it in a booking service to update missing players count
+     */
     await ParticipationsRepository.updateParticipation(req.params.id, req.body);
     res.status(204).send();
   } catch (err) {

@@ -11,13 +11,36 @@
     <p>Joueurs manquants : {{ game.missingPlayers }}</p>
     <section v-if="!loggedUserIsCreator" class="mt-10">
       <div v-if="loggedUser">
+        <p v-if="hasParticipate">Vous avez participé à cette partie</p>
+        <p v-if="willParticipate">Vous êtes inscris à cette partie</p>
         <button v-if="canCreateParticipation" @click="requestToParticipate">Demander à rejoindre</button>
         <button v-if="canCancelParticipation" @click="cancelParticipation">Annuler la demande</button>
-        <p v-if="hasParticipate">Vous avez participé à cette partie</p>
       </div>
       <route-link v-if="!loggedUser && !gameIsPast" to="/login">
         Vous devez être connecté pour rejoindre cette partie
       </route-link>
+    </section>
+    <section v-if="loggedUserIsCreator">
+      <Heading level="4" class="mt-10 mb-5">Demande de participations</Heading>
+      <template v-if="participationsToDisplay.length">
+        <ul v-for="participation in participationsToDisplay" :key="participation.id">
+          <li>
+            <p>{{ participation.user.pseudo }} - {{ getParticipationStatusLabel(participation.statusId) }}</p>
+            <template v-if="!gameIsPast">
+              <button v-if="canRefuseUserParticipation(participation)" @click="refuseUserParticipation(participation)">
+                Refuser la demande
+              </button>
+              <button v-if="canAcceptUserParticipation(participation)" @click="acceptUserParticipation(participation)">
+                Accepter la demande
+              </button>
+              <button v-if="canCancelUserParticipation(participation)" @click="cancelUserParticipation(participation)">
+                Annuler la participation
+              </button>
+            </template>
+          </li>
+        </ul>
+      </template>
+      <p v-else>Aucune participations pour le moment.</p>
     </section>
   </div>
 </template>
@@ -38,15 +61,30 @@ export default {
     FeedbackMessage,
   },
   async fetch({ params, store }) {
-    await store.dispatch("games/fetchGame", params.id);
+    await Promise.all([
+      store.dispatch("games/fetchGame", params.id),
+      store.dispatch("participations/fetchParticipations", { gameId: params.id }),
+    ]);
   },
   computed: {
     ...mapGetters({
+      loggedUser: "authentication/loggedUser",
       game: "games/game",
       loading: "games/loading",
       error: "games/error",
-      loggedUser: "authentication/loggedUser",
+      participations: "participations/participations",
     }),
+    participationsToDisplay() {
+      if (!this.participations || !this.participations.length) {
+        return [];
+      }
+      if (this.gameIsPast) {
+        return this.participations.filter((participation) => participation.statusId === participationStatuses.ACCEPTED);
+      }
+      return this.participations.filter((participation) =>
+        [participationStatuses.PENDING, participationStatuses.ACCEPTED].includes(participation.statusId)
+      );
+    },
     gamePlannedDate() {
       const date = dayjs(this.game.plannedDate).format("DD/MM/YYYY");
       const hour = dayjs(this.game.plannedDate).format("hh:mm");
@@ -76,7 +114,18 @@ export default {
       return isCancelable && !this.gameIsPast;
     },
     hasParticipate() {
-      return this.loggedUserParticipation && this.loggedUserParticipation.statusId === participationStatuses.ACCEPTED;
+      return (
+        this.gameIsPast &&
+        this.loggedUserParticipation &&
+        this.loggedUserParticipation.statusId === participationStatuses.ACCEPTED
+      );
+    },
+    willParticipate() {
+      return (
+        !this.gameIsPast &&
+        this.loggedUserParticipation &&
+        this.loggedUserParticipation.statusId === participationStatuses.ACCEPTED
+      );
     },
   },
   methods: {
@@ -84,6 +133,8 @@ export default {
       fetchGame: "games/fetchGame",
       cleanError: "games/cleanError",
       createParticipation: "participations/createParticipation",
+      acceptParticipation: "participations/acceptParticipation",
+      refuseParticipation: "participations/refuseParticipation",
       deleteParticipation: "participations/deleteParticipation",
     }),
     requestToParticipate() {
@@ -94,6 +145,49 @@ export default {
     cancelParticipation() {
       this.deleteParticipation(this.loggedUserParticipation.id).then(() => {
         this.fetchGame(this.$route.params.id);
+      });
+    },
+    getParticipationStatusLabel(statusId) {
+      switch (statusId) {
+        case 1:
+          return "En attente de confirmation";
+        case 2:
+          return "Accepté";
+        default:
+          break;
+      }
+    },
+    canRefuseUserParticipation(participation) {
+      return participation.statusId === participationStatuses.PENDING;
+    },
+    canAcceptUserParticipation(participation) {
+      return participation.statusId === participationStatuses.PENDING;
+    },
+    canCancelUserParticipation(participation) {
+      return participation.statusId === participationStatuses.ACCEPTED;
+    },
+    refuseUserParticipation(participation) {
+      this.refuseParticipation(participation.id).then(() => {
+        Promise.all([
+          this.fetchGame(this.$route.params.id),
+          this.fetchParticipations({ gameId: this.$route.params.id }),
+        ]);
+      });
+    },
+    acceptUserParticipation(participation) {
+      this.acceptParticipation(participation.id).then(() => {
+        Promise.all([
+          this.fetchGame(this.$route.params.id),
+          this.fetchParticipations({ gameId: this.$route.params.id }),
+        ]);
+      });
+    },
+    cancelUserParticipation(participation) {
+      this.deleteParticipation(participation.id).then(() => {
+        Promise.all([
+          this.fetchGame(this.$route.params.id),
+          this.fetchParticipations({ gameId: this.$route.params.id }),
+        ]);
       });
     },
   },
