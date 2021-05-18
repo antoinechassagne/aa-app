@@ -8,12 +8,7 @@ exports.getGame = async function (req, res) {
     if (!game) {
       return res.status(204).send();
     }
-    const [creator, participations] = await Promise.all([
-      UsersRepository.getUser({ id: game.creatorId }),
-      ParticipationsRepository.getParticipations({ gameId: game.id }),
-    ]);
-    game.creator = creator;
-    game.participations = participations;
+    game.creator = await UsersRepository.getUser({ id: game.creatorId });
     res.status(200).send(game);
   } catch (err) {
     res.status(500).send({ error: "Une erreur s'est produite." });
@@ -27,12 +22,7 @@ exports.getGames = async function (req, res) {
       return res.status(204).send();
     }
     for await (game of games) {
-      const [creator, participations] = await Promise.all([
-        UsersRepository.getUser({ id: game.creatorId }),
-        ParticipationsRepository.getParticipations({ gameId: game.id }),
-      ]);
-      game.creator = creator;
-      game.participations = participations;
+      game.creator = await UsersRepository.getUser({ id: game.creatorId });
     }
     res.status(200).send(games);
   } catch (err) {

@@ -94,8 +94,8 @@ export default {
       return this.loggedUser && this.game.creatorId === this.loggedUser.id;
     },
     loggedUserParticipation() {
-      return !this.loggedUserIsCreator && this.game.participations
-        ? this.game.participations.find((participation) => participation.userId === this.loggedUser.id)
+      return !this.loggedUserIsCreator && this.participations
+        ? this.participations.find((participation) => participation.userId === this.loggedUser.id)
         : null;
     },
     gameIsPast() {
@@ -132,21 +132,12 @@ export default {
     ...mapActions({
       fetchGame: "games/fetchGame",
       cleanError: "games/cleanError",
+      fetchParticipations: "participations/fetchParticipations",
       createParticipation: "participations/createParticipation",
       acceptParticipation: "participations/acceptParticipation",
       refuseParticipation: "participations/refuseParticipation",
       deleteParticipation: "participations/deleteParticipation",
     }),
-    requestToParticipate() {
-      this.createParticipation(this.game.id).then(() => {
-        this.fetchGame(this.$route.params.id);
-      });
-    },
-    cancelParticipation() {
-      this.deleteParticipation(this.loggedUserParticipation.id).then(() => {
-        this.fetchGame(this.$route.params.id);
-      });
-    },
     getParticipationStatusLabel(statusId) {
       switch (statusId) {
         case 1:
@@ -166,29 +157,33 @@ export default {
     canCancelUserParticipation(participation) {
       return participation.statusId === participationStatuses.ACCEPTED;
     },
+    requestToParticipate() {
+      this.createParticipation(this.game.id).then(() => {
+        this.refreshData();
+      });
+    },
+    cancelParticipation() {
+      this.deleteParticipation(this.loggedUserParticipation.id).then(() => {
+        this.refreshData();
+      });
+    },
     refuseUserParticipation(participation) {
       this.refuseParticipation(participation.id).then(() => {
-        Promise.all([
-          this.fetchGame(this.$route.params.id),
-          this.fetchParticipations({ gameId: this.$route.params.id }),
-        ]);
+        this.refreshData();
       });
     },
     acceptUserParticipation(participation) {
       this.acceptParticipation(participation.id).then(() => {
-        Promise.all([
-          this.fetchGame(this.$route.params.id),
-          this.fetchParticipations({ gameId: this.$route.params.id }),
-        ]);
+        this.refreshData();
       });
     },
     cancelUserParticipation(participation) {
       this.deleteParticipation(participation.id).then(() => {
-        Promise.all([
-          this.fetchGame(this.$route.params.id),
-          this.fetchParticipations({ gameId: this.$route.params.id }),
-        ]);
+        this.refreshData();
       });
+    },
+    refreshData() {
+      Promise.all([this.fetchGame(this.$route.params.id), this.fetchParticipations({ gameId: this.$route.params.id })]);
     },
   },
   destroyed() {
