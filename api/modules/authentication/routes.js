@@ -26,7 +26,6 @@ module.exports = [
     method: "GET",
     path: "/logged-user",
     handler: controller.getLoggedUser,
-    authenticated: true,
   },
   {
     method: "GET",

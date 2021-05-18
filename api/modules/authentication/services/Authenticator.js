@@ -22,7 +22,7 @@ async function authenticateByCredentials(email, password) {
   if (!isPasswordValid) {
     return;
   }
-  return user;
+  return user.id;
 }
 
 async function authenticateBySessionId(sessionId) {
@@ -34,7 +34,7 @@ async function authenticateBySessionId(sessionId) {
   if (!user) {
     return;
   }
-  return user;
+  return user.id;
 }
 
 async function initializeSession(userId) {

@@ -1,6 +1,7 @@
 const Authenticator = require("./services/Authenticator");
 const SessionCookie = require("./services/SessionCookie");
 const Mails = require("./services/Mails");
+const UsersRepository = require("../users/repositories/users");
 
 exports.register = async function (req, res) {
   try {
@@ -12,7 +13,6 @@ exports.register = async function (req, res) {
     await Mails.sendConfirmationMail(userId);
     res.status(201).send({ id: userId });
   } catch (err) {
-    console.log(err);
     res.status(500).send({ error: "Une erreur s'est produite." });
   }
 };
@@ -20,15 +20,14 @@ exports.register = async function (req, res) {
 exports.login = async function (req, res) {
   try {
     const { email, password } = req.body;
-    const user = await Authenticator.authenticateByCredentials(email, password);
-    if (!user) {
+    const userId = await Authenticator.authenticateByCredentials(email, password);
+    if (!userId) {
       return res.status(400).send({ error: "L'adresse email et/ou le mot de passe est incorrecte." });
     }
-    const sessionId = await Authenticator.initializeSession(user.id);
+    const sessionId = await Authenticator.initializeSession(userId);
     SessionCookie.setCookie(res, sessionId);
-    res.status(200).send({ userId: user.id });
+    res.status(200).send({ userId });
   } catch (err) {
-    console.log(err);
     res.status(500).send({ error: "Une erreur s'est produite." });
   }
 };
@@ -42,10 +41,14 @@ exports.logout = async function (req, res) {
 
 exports.getLoggedUser = async function (req, res) {
   const sessionId = SessionCookie.getCookie(req);
-  const user = await Authenticator.authenticateBySessionId(sessionId);
-  if (!user) {
-    return res.status(401).send({ error: "Vous avez été déconnecté." });
+  if (!sessionId) {
+    return res.status(204).send({ error: "Vous n'êtes pas connecté." });
   }
+  const userId = await Authenticator.authenticateBySessionId(sessionId);
+  if (!userId) {
+    return res.status(204).send({ error: "Vous n'êtes pas connecté." });
+  }
+  const user = await UsersRepository.getUser({ id: userId });
   res.status(200).send(user);
 };
 

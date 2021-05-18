@@ -1,5 +1,7 @@
 const ParticipationsRepository = require("./repositories/participations");
 const GamesRepository = require("../games/repositories/games");
+const UsersRepository = require("../users/repositories/users");
+const ParticipationsManager = require("./services/ParticipationsManager");
 
 exports.getParticipation = async function (req, res) {
   try {
@@ -8,6 +10,7 @@ exports.getParticipation = async function (req, res) {
       return res.status(204).send();
     }
     participation.game = await GamesRepository.getGame({ id: participation.gameId });
+    participation.user = await UsersRepository.getUser({ id: participation.userId });
     res.status(200).send(participation);
   } catch (err) {
     res.status(500).send({ error: "Une erreur s'est produite." });
@@ -22,6 +25,7 @@ exports.getParticipations = async function (req, res) {
     }
     for await (participation of participations) {
       participation.game = await GamesRepository.getGame({ id: participation.gameId });
+      participation.user = await UsersRepository.getUser({ id: participation.userId });
     }
     res.status(200).send(participations);
   } catch (err) {
@@ -31,7 +35,7 @@ exports.getParticipations = async function (req, res) {
 
 exports.createParticipation = async function (req, res) {
   try {
-    const [id] = await ParticipationsRepository.createParticipation(req.body.userId, req.body.gameId);
+    const [id] = await ParticipationsRepository.createParticipation(req.body);
     res.status(200).send(id);
   } catch (err) {
     res.status(500).send({ error: "Une erreur s'est produite." });
@@ -40,7 +44,8 @@ exports.createParticipation = async function (req, res) {
 
 exports.updateParticipation = async function (req, res) {
   try {
-    await ParticipationsRepository.updateParticipation({ id: req.params.id }, req.body.statusId);
+    await ParticipationsManager.onParticipationUpdate(req.params.id, req.body);
+    await ParticipationsRepository.updateParticipation(req.params.id, req.body);
     res.status(204).send();
   } catch (err) {
     res.status(500).send({ error: "Une erreur s'est produite." });
@@ -49,9 +54,11 @@ exports.updateParticipation = async function (req, res) {
 
 exports.deleteParticipation = async function (req, res) {
   try {
+    await ParticipationsManager.onParticipationDeletion(req.params.id);
     await ParticipationsRepository.deleteParticipation(req.params.id);
     res.status(204).send();
   } catch (err) {
+    console.log(err);
     res.status(500).send({ error: "Une erreur s'est produite." });
   }
 };

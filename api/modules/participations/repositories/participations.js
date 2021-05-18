@@ -15,10 +15,12 @@ exports.getParticipations = function (query) {
   return database("participations").where(query);
 };
 
-exports.updateParticipation = function (query, statusId) {
-  return database("participations").where(query).update({ statusId, updateDate: new Date().toISOString() });
+exports.updateParticipation = function (id, update) {
+  return database("participations")
+    .where({ id })
+    .update({ ...update, updateDate: new Date().toISOString() });
 };
 
-exports.deleteParticipation = function (query) {
-  return database("participations").where(query).del();
+exports.deleteParticipation = function (id) {
+  return database("participations").where({ id }).del();
 };

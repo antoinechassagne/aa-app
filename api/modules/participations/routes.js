@@ -1,5 +1,6 @@
 const controller = require("./controller");
 const participationSchema = require("./schemas/participation");
+const participationEditionSchema = require("./schemas/participationEdition");
 
 module.exports = [
   {
@@ -25,7 +26,7 @@ module.exports = [
     method: "PUT",
     path: "/participations/:id",
     handler: controller.updateParticipation,
-    schema: participationSchema,
+    schema: participationEditionSchema,
     authenticated: true,
   },
   {
