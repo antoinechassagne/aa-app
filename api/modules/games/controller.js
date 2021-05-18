@@ -60,7 +60,7 @@ exports.updateGame = async function (req, res) {
 
 exports.deleteGame = async function (req, res) {
   try {
-    await GamesRepository.deleteGame({ id: req.params.id });
+    await GamesRepository.deleteGame(req.params.id);
     res.status(204).send();
   } catch (err) {
     res.status(500).send({ error: "Une erreur s'est produite." });

@@ -21,6 +21,6 @@ exports.updateParticipation = function (id, update) {
     .update({ ...update, updateDate: new Date().toISOString() });
 };
 
-exports.deleteParticipation = function (query) {
-  return database("participations").where(query).del();
+exports.deleteParticipation = function (id) {
+  return database("participations").where({ id }).del();
 };

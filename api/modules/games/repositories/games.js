@@ -21,6 +21,6 @@ exports.updateGame = function (id, update) {
     .update({ ...update, updateDate: new Date().toISOString() });
 };
 
-exports.deleteGame = function (query) {
-  return database("games").where(query).del();
+exports.deleteGame = function (id) {
+  return database("games").where({ id }).del();
 };
