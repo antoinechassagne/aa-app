@@ -42,7 +42,6 @@ async function incrementGameMissingPlayers(gameId) {
 
 async function decrementGameMissingPlayers(gameId) {
   const { missingPlayers: previousMissingPlayers } = await GamesRepository.getGame({ id: gameId });
-  console.log(typeof previousMissingPlayers);
   return GamesRepository.updateGame(gameId, { missingPlayers: previousMissingPlayers - 1 });
 }
 

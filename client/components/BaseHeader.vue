@@ -13,11 +13,6 @@
 <script>
 export default {
   name: "BaseHeader",
-  props: {
-    loggedUser: {
-      type: Object,
-    },
-  },
   data() {
     return {
       commonEntries: [],
@@ -33,7 +28,7 @@ export default {
   },
   computed: {
     menu() {
-      return this.loggedUser
+      return this.$user
         ? [...this.commonEntries, ...this.privateEntries]
         : [...this.commonEntries, ...this.publicEntries];
     },

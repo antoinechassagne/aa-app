@@ -9,18 +9,18 @@
     <p>{{ game.description }}</p>
     <p>Date : {{ gamePlannedDate }}</p>
     <p>Joueurs manquants : {{ game.missingPlayers }}</p>
-    <section v-if="!loggedUserIsCreator" class="mt-10">
-      <div v-if="loggedUser">
+    <section v-if="!userIsCreator" class="mt-10">
+      <div v-if="user">
         <p v-if="hasParticipate">Vous avez participé à cette partie</p>
         <p v-if="willParticipate">Vous êtes inscris à cette partie</p>
         <button v-if="canCreateParticipation" @click="requestToParticipate">Demander à rejoindre</button>
         <button v-if="canCancelParticipation" @click="cancelParticipation">Annuler la demande</button>
       </div>
-      <route-link v-if="!loggedUser && !gameIsPast" to="/login">
+      <route-link v-if="!user && !gameIsPast" to="/login">
         Vous devez être connecté pour rejoindre cette partie
       </route-link>
     </section>
-    <section v-if="loggedUserIsCreator">
+    <section v-if="userIsCreator">
       <Heading level="4" class="mt-10 mb-5">Demande de participations</Heading>
       <template v-if="participationsToDisplay.length">
         <ul v-for="participation in participationsToDisplay" :key="participation.id">
@@ -68,12 +68,14 @@ export default {
   },
   computed: {
     ...mapGetters({
-      loggedUser: "authentication/loggedUser",
       game: "games/game",
       loading: "games/loading",
       error: "games/error",
       participations: "participations/participations",
     }),
+    user() {
+      return this.$user;
+    },
     participationsToDisplay() {
       if (!this.participations || !this.participations.length) {
         return [];
@@ -90,41 +92,37 @@ export default {
       const hour = dayjs(this.game.plannedDate).format("hh:mm");
       return `${date} à ${hour}`;
     },
-    loggedUserIsCreator() {
-      return this.loggedUser && this.game.creatorId === this.loggedUser.id;
+    userIsCreator() {
+      return this.user && this.game.creatorId === this.user.id;
     },
-    loggedUserParticipation() {
-      return !this.loggedUserIsCreator && this.participations
-        ? this.participations.find((participation) => participation.userId === this.loggedUser.id)
+    userParticipation() {
+      return !this.userIsCreator && this.participations
+        ? this.participations.find((participation) => participation.userId === this.user.id)
         : null;
     },
     gameIsPast() {
       return dayjs(this.game.plannedDate).isBefore(dayjs());
     },
     canCreateParticipation() {
-      return !this.loggedUserIsCreator && !this.gameIsPast && !this.loggedUserParticipation;
+      return !this.userIsCreator && !this.gameIsPast && !this.userParticipation;
     },
     canCancelParticipation() {
-      if (!this.loggedUserParticipation) {
+      if (!this.userParticipation) {
         return false;
       }
       const isCancelable = [participationStatuses.PENDING, participationStatuses.ACCEPTED].includes(
-        this.loggedUserParticipation.statusId
+        this.userParticipation.statusId
       );
       return isCancelable && !this.gameIsPast;
     },
     hasParticipate() {
       return (
-        this.gameIsPast &&
-        this.loggedUserParticipation &&
-        this.loggedUserParticipation.statusId === participationStatuses.ACCEPTED
+        this.gameIsPast && this.userParticipation && this.userParticipation.statusId === participationStatuses.ACCEPTED
       );
     },
     willParticipate() {
       return (
-        !this.gameIsPast &&
-        this.loggedUserParticipation &&
-        this.loggedUserParticipation.statusId === participationStatuses.ACCEPTED
+        !this.gameIsPast && this.userParticipation && this.userParticipation.statusId === participationStatuses.ACCEPTED
       );
     },
   },
@@ -163,7 +161,7 @@ export default {
       });
     },
     cancelParticipation() {
-      this.deleteParticipation(this.loggedUserParticipation.id).then(() => {
+      this.deleteParticipation(this.userParticipation.id).then(() => {
         this.refreshData();
       });
     },

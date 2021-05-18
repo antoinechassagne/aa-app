@@ -48,9 +48,9 @@ export const actions = {
     return new Promise((resolve, reject) => {
       context.commit("SET_ERROR", null);
       context.commit("SET_LOADING", true);
-      const { loggedUser } = context.rootState.authentication;
+      const { user } = context.rootState.authentication;
       this.$axios
-        .$post("/participations", { userId: loggedUser.id, gameId, statusId: participationStatuses.PENDING })
+        .$post("/participations", { userId: user.id, gameId, statusId: participationStatuses.PENDING })
         .then((participationId) => resolve(participationId))
         .catch((error) => {
           context.commit("SET_ERROR", error);
