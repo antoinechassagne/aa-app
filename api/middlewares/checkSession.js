@@ -1,7 +1,7 @@
 const SessionsRepository = require("../modules/authentication/repositories/sessions");
 const SessionCookie = require("../modules/authentication/services/SessionCookie");
 
-async function checkRouteSession(req, res, next) {
+async function checkSession(req, res, next) {
   try {
     const sessionId = getSessionIdFromRequestCookie(req);
     if (!sessionId) {
@@ -21,32 +21,8 @@ async function checkRouteSession(req, res, next) {
   }
 }
 
-async function checkSocketSession(socket, next) {
-  try {
-    const sessionId = getSessionIdFromSocketCookie(socket);
-    if (!sessionId) {
-      return;
-    }
-    const session = await retrieveSession(sessionId);
-    const valid = isSessionValid(session);
-    if (!valid) {
-      return;
-    }
-    socket.session = session;
-    next();
-  } catch (err) {
-    return;
-  }
-}
-
 function getSessionIdFromRequestCookie(req) {
   return req.signedCookies[SessionCookie.COOKIE_NAME];
-}
-
-function getSessionIdFromSocketCookie(socket) {
-  const cookies = SessionCookie.parseCookieHeader(socket.request.headers.cookie);
-  const sessionId = SessionCookie.decodeSignedCookie(cookies[SessionCookie.COOKIE_NAME]);
-  return sessionId;
 }
 
 function retrieveSession(sessionId) {
@@ -76,4 +52,4 @@ function refreshCookie(res, sessionId) {
   SessionCookie.setCookie(res, sessionId);
 }
 
-module.exports = { checkRouteSession, checkSocketSession };
+module.exports = checkSession;

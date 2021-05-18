@@ -70,9 +70,9 @@ export const actions = {
     return new Promise((resolve, reject) => {
       context.commit("SET_ERROR", null);
       context.commit("SET_LOADING", true);
-      const { loggedUser } = context.rootState.authentication;
+      const { user } = context.rootState.authentication;
       this.$axios
-        .$post("/games", { ...form, creatorId: loggedUser.id })
+        .$post("/games", { ...form, creatorId: user.id })
         .then((gameId) => resolve(gameId))
         .catch((error) => {
           context.commit("SET_ERROR", error);
@@ -114,13 +114,6 @@ export const actions = {
           context.commit("SET_LOADING", false);
         });
     });
-  },
-  emitParticipationRequest({ rootState }, game) {
-    const { loggedUser } = rootState.authentication;
-    this.$socket.emit("participations:request", { emitterUserId: loggedUser.id, payload: { gameId: game.id } });
-  },
-  onParticipationRequest(context, data) {
-    console.log("[WS EVENT] onParticipationRequest", data);
   },
   cleanError(context) {
     context.commit("SET_ERROR", null);

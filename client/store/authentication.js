@@ -1,13 +1,13 @@
 export const state = () => ({
   loading: false,
   error: null,
-  loggedUser: null,
+  user: null,
 });
 
 export const getters = {
   loading: (state) => state.loading,
   error: (state) => state.error,
-  loggedUser: (state) => state.loggedUser,
+  user: (state) => state.user,
 };
 
 export const mutations = {
@@ -17,8 +17,8 @@ export const mutations = {
   SET_ERROR(state, error) {
     state.error = error;
   },
-  SET_LOGGED_USER(state, loggedUser) {
-    state.loggedUser = loggedUser;
+  SET_USER(state, user) {
+    state.user = user;
   },
 };
 
@@ -50,7 +50,7 @@ export const actions = {
         })
         .then(() => {
           return context
-            .dispatch("fetchLoggedUser")
+            .dispatch("fetchUser")
             .then(() => resolve())
             .catch((error) => {
               context.commit("SET_ERROR", error);
@@ -72,7 +72,7 @@ export const actions = {
       this.$axios
         .$get("/logout")
         .then(() => {
-          context.commit("SET_LOGGED_USER", null);
+          context.commit("SET_USER", null);
           return resolve();
         })
         .catch((error) => {
@@ -84,14 +84,14 @@ export const actions = {
         });
     });
   },
-  fetchLoggedUser(context) {
+  fetchUser(context) {
     context.commit("SET_ERROR", null);
     context.commit("SET_LOADING", true);
     return new Promise((resolve, reject) => {
       this.$axios
         .$get("/logged-user")
         .then((user) => {
-          context.commit("SET_LOGGED_USER", user);
+          context.commit("SET_USER", user);
           return resolve();
         })
         .catch((error) => reject(error))

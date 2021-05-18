@@ -13,7 +13,6 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
 import Heading from "@/components/texts/Heading";
 
 export default {
@@ -23,11 +22,8 @@ export default {
     Heading,
   },
   computed: {
-    ...mapGetters({
-      loggedUser: "authentication/loggedUser",
-    }),
     welcomeMessage() {
-      return `Bonjour ${this.loggedUser.pseudo}`;
+      return `Bonjour ${this.$user.pseudo}`;
     },
   },
 };
