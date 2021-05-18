@@ -11,7 +11,10 @@ export function getCurrentGeolocation() {
           reject();
         }
       },
-      (error) => reject(error)
+      (error) => reject(error),
+      {
+        enableHighAccuracy: true,
+      }
     );
   });
 }
