@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const router = require("express").Router();
-const { checkRouteSession } = require("./middlewares/checkSession");
+const checkSession = require("./middlewares/checkSession");
 const validateSchema = require("./middlewares/validateSchema");
 
 module.exports = function () {
@@ -24,7 +24,7 @@ function registerRoutes(routes) {
     const { path, method, handler } = route;
     const middlewares = [];
     if (route.authenticated) {
-      middlewares.push(checkRouteSession);
+      middlewares.push(checkSession);
     }
     if (route.schema) {
       middlewares.push(validateSchema(route.schema));
