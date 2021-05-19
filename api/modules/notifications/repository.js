@@ -12,7 +12,7 @@ exports.getNotification = function (query) {
 };
 
 exports.getNotifications = function (query) {
-  return database("notifications").where(query).orderBy("read", "asc");
+  return database("notifications").where(query).orderBy("read", "asc").orderBy("creationDate", "desc");
 };
 
 exports.updateNotification = function (id, update) {
