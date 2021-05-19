@@ -24,15 +24,15 @@
 export default {
   name: "BaseHeader",
   props: {
+    user: {
+      type: Object,
+    },
     unreadNotificationsCount: {
       type: Number,
       required: true,
     },
   },
   computed: {
-    user() {
-      return this.$user;
-    },
     unreadNotificationsCountLabel() {
       return this.unreadNotificationsCount ? `(${this.unreadNotificationsCount})` : null;
     },

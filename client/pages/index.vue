@@ -22,12 +22,13 @@ export default {
   },
   computed: {
     ...mapGetters({
+      user: "authentication/user",
       games: "games/games",
       loading: "games/loading",
       error: "games/error",
     }),
     welcomeMessage() {
-      return `Bonjour ${this.$user.pseudo}`;
+      return `Bonjour ${this.user.pseudo}`;
     },
   },
 };

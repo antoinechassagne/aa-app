@@ -91,7 +91,7 @@ export const actions = {
       this.$axios
         .$get("/logged-user")
         .then((user) => {
-          context.commit("SET_USER", user);
+          context.commit("SET_USER", user || null);
           return resolve();
         })
         .catch((error) => reject(error))

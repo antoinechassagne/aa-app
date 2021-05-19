@@ -32,7 +32,7 @@ export const actions = {
       this.$axios
         .$get("/participations", { params: { ...query } })
         .then((participations) => {
-          context.commit("SET_PARTICIPATIONS", participations);
+          context.commit("SET_PARTICIPATIONS", participations || []);
           return resolve();
         })
         .catch((error) => {

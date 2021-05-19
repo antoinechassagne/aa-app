@@ -1,6 +1,6 @@
 <template>
   <div>
-    <BaseHeader :unreadNotificationsCount="unreadNotificationsCount" />
+    <BaseHeader :user="user" :unreadNotificationsCount="unreadNotificationsCount" />
     <main class="container mx-auto pl-4 pr-4">
       <Nuxt />
     </main>
@@ -18,6 +18,7 @@ export default {
   },
   computed: {
     ...mapGetters({
+      user: "authentication/user",
       unreadNotificationsCount: "notifications/unreadCount",
     }),
   },
