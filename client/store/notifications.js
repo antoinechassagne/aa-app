@@ -46,24 +46,19 @@ export const actions = {
   },
   pollNotifications(context) {
     return new Promise((resolve, reject) => {
-      context.commit("SET_ERROR", null);
-      context.commit("SET_LOADING", true);
       const { user } = context.rootState.authentication;
       if (!user) {
         return;
       }
       this.$axios
         .$get("/notifications", { params: { read: false, userId: user.id } })
-        .then((notifications) => {
-          context.commit("SET_NOTIFICATIONS", notifications || []);
+        .then((unreadNotifications) => {
+          const readNotifications = context.state.notifications.filter((n) => n.read);
+          context.commit("SET_NOTIFICATIONS", [...unreadNotifications, ...readNotifications] || []);
           return resolve();
         })
         .catch((error) => {
-          context.commit("SET_ERROR", error);
           return reject();
-        })
-        .finally(() => {
-          context.commit("SET_LOADING", false);
         });
     });
   },
