@@ -1,6 +1,6 @@
 <template>
   <div>
-    <BaseHeader :user="user" />
+    <BaseHeader :unreadNotificationsCount="unreadNotificationsCount" />
     <main class="container mx-auto pl-4 pr-4">
       <Nuxt />
     </main>
@@ -8,6 +8,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import BaseHeader from "@/components/BaseHeader";
 
 export default {
@@ -16,9 +17,9 @@ export default {
     BaseHeader,
   },
   computed: {
-    user() {
-      return this.$user;
-    },
+    ...mapGetters({
+      unreadNotificationsCount: "notifications/unreadCount",
+    }),
   },
 };
 </script>

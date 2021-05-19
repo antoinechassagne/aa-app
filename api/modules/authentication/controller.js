@@ -36,7 +36,7 @@ exports.logout = async function (req, res) {
   const sessionId = SessionCookie.getCookie(req);
   await Authenticator.discardSession(sessionId);
   SessionCookie.discardCookie(res);
-  res.status(204).send();
+  res.sendStatus(204);
 };
 
 exports.getLoggedUser = async function (req, res) {
@@ -58,7 +58,7 @@ exports.verifyEmail = async function (req, res) {
     if (!valid) {
       return res.status(400).send({ error: "Le lien n'est plus valide." });
     }
-    res.status(204).send();
+    res.sendStatus(204);
   } catch (err) {
     res.status(500).send({ error: "Une erreur s'est produite." });
   }
@@ -71,7 +71,7 @@ exports.getResetToken = async function (req, res) {
       return res.status(400).send({ error: "Cette adresse email n'est pas reconnue." });
     }
     await Mails.sendResetPasswordEmail(token);
-    res.status(204).send();
+    res.sendStatus(204);
   } catch (err) {
     res.status(500).send({ error: "Une erreur s'est produite." });
   }
@@ -83,7 +83,7 @@ exports.resetPassword = async function (req, res) {
     if (!success) {
       return res.status(400).send({ error: "Une erreur s'est produite." });
     }
-    res.status(204).send();
+    res.sendStatus(204);
   } catch (err) {
     res.status(500).send({ error: "Une erreur s'est produite." });
   }
