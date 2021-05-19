@@ -36,6 +36,7 @@ exports.getParticipations = async function (req, res) {
 exports.createParticipation = async function (req, res) {
   try {
     const [id] = await ParticipationsRepository.createParticipation(req.body);
+    await ParticipationsManager.onParticipationCreation(id);
     res.status(200).send(id);
   } catch (err) {
     res.status(500).send({ error: "Une erreur s'est produite." });
@@ -54,11 +55,10 @@ exports.updateParticipation = async function (req, res) {
 
 exports.deleteParticipation = async function (req, res) {
   try {
-    await ParticipationsManager.onParticipationDeletion(req.params.id);
+    await ParticipationsManager.onParticipationDeletion(req.params.id, req.session.userId);
     await ParticipationsRepository.deleteParticipation(req.params.id);
     res.status(204).send();
   } catch (err) {
-    console.log(err);
     res.status(500).send({ error: "Une erreur s'est produite." });
   }
 };
