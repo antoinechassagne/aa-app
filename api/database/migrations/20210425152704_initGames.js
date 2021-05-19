@@ -1,9 +1,9 @@
 exports.up = function (knex) {
   return knex.schema.createTable("games", (table) => {
     table.uuid("id").primary();
-    table.date("creationDate").notNullable();
-    table.date("updateDate");
-    table.date("plannedDate").notNullable();
+    table.timestamp("creationDate").notNullable();
+    table.timestamp("updateDate");
+    table.timestamp("plannedDate").notNullable();
     table.integer("creatorId").references("id").inTable("users").notNullable();
     table.decimal("latitude").notNullable();
     table.decimal("longitude").notNullable();
