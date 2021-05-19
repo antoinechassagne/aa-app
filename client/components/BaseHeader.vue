@@ -15,9 +15,13 @@ export default {
   name: "BaseHeader",
   data() {
     return {
-      commonEntries: [],
-      privateEntries: [
+      commonEntries: [
         { label: "AA App", path: "/" },
+        { label: "Rechercher une partie", path: "/games" },
+      ],
+      privateEntries: [
+        { label: "Créer une partie", path: "/games/add" },
+        { label: "Notifications", path: "/notifications" },
         { label: "Se déconnecter", path: "/logout" },
       ],
       publicEntries: [
