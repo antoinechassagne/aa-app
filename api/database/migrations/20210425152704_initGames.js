@@ -4,12 +4,12 @@ exports.up = function (knex) {
     table.date("creationDate").notNullable();
     table.date("updateDate");
     table.date("plannedDate").notNullable();
-    table.integer("creatorId").references("id").inTable("users").notNull();
-    table.decimal("latitude").notNull();
-    table.decimal("longitude").notNull();
-    table.string("boardGameName").notNull();
-    table.string("description").notNull();
-    table.integer("missingPlayers").notNull();
+    table.integer("creatorId").references("id").inTable("users").notNullable();
+    table.decimal("latitude").notNullable();
+    table.decimal("longitude").notNullable();
+    table.string("boardGameName").notNullable();
+    table.string("description").notNullable();
+    table.integer("missingPlayers").notNullable();
   });
 };
 

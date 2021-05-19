@@ -3,9 +3,9 @@ exports.up = function (knex) {
     table.uuid("id").primary();
     table.date("creationDate").notNullable();
     table.date("updateDate");
-    table.integer("statusId").notNull();
-    table.integer("userId").references("id").inTable("users").notNull();
-    table.uuid("gameId").references("id").inTable("games").notNull();
+    table.integer("statusId").notNullable();
+    table.integer("userId").references("id").inTable("users").notNullable();
+    table.uuid("gameId").references("id").inTable("games").notNullable();
   });
 };
 
