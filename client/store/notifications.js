@@ -1,13 +1,14 @@
 export const state = () => ({
   loading: false,
   error: null,
-  user: null,
+  notifications: [],
 });
 
 export const getters = {
   loading: (state) => state.loading,
   error: (state) => state.error,
-  user: (state) => state.user,
+  notifications: (state) => state.notifications,
+  unreadCount: (state) => state.notifications.filter((n) => !n.read).length,
 };
 
 export const mutations = {
@@ -17,84 +18,66 @@ export const mutations = {
   SET_ERROR(state, error) {
     state.error = error;
   },
-  SET_USER(state, user) {
-    state.user = user;
+  SET_NOTIFICATIONS(state, notifications) {
+    state.notifications = notifications;
   },
 };
 
 export const actions = {
-  register(context, form) {
+  fetchNotifications(context, query = {}) {
+    return new Promise((resolve, reject) => {
+      context.commit("SET_ERROR", null);
+      context.commit("SET_LOADING", true);
+      const { user } = context.rootState.authentication;
+      this.$axios
+        .$get("/notifications", { params: { ...query, userId: user.id } })
+        .then((notifications) => {
+          context.commit("SET_NOTIFICATIONS", notifications || []);
+          return resolve();
+        })
+        .catch((error) => {
+          context.commit("SET_ERROR", error);
+          return reject();
+        })
+        .finally(() => {
+          context.commit("SET_LOADING", false);
+        });
+    });
+  },
+  pollNotifications(context) {
+    return new Promise((resolve, reject) => {
+      context.commit("SET_ERROR", null);
+      context.commit("SET_LOADING", true);
+      const { user } = context.rootState.authentication;
+      if (!user) {
+        return;
+      }
+      this.$axios
+        .$get("/notifications", { params: { read: false, userId: user.id } })
+        .then((notifications) => {
+          context.commit("SET_NOTIFICATIONS", notifications || []);
+          return resolve();
+        })
+        .catch((error) => {
+          context.commit("SET_ERROR", error);
+          return reject();
+        })
+        .finally(() => {
+          context.commit("SET_LOADING", false);
+        });
+    });
+  },
+  readNotification(context, notificationId) {
     return new Promise((resolve, reject) => {
       context.commit("SET_ERROR", null);
       context.commit("SET_LOADING", true);
       this.$axios
-        .$post("/register", form)
+        .$put(`/notifications/${notificationId}`, { read: true })
         .then(() => resolve())
         .catch((error) => {
           context.commit("SET_ERROR", error);
           return reject();
         })
-        .finally(() => {
-          context.commit("SET_LOADING", false);
-        });
-    });
-  },
-  login(context, credentials) {
-    return new Promise((resolve, reject) => {
-      context.commit("SET_ERROR", null);
-      context.commit("SET_LOADING", true);
-      this.$axios
-        .$post("/login", {
-          email: credentials.email,
-          password: credentials.password,
-        })
-        .then(() => {
-          return context
-            .dispatch("fetchUser")
-            .then(() => resolve())
-            .catch((error) => {
-              context.commit("SET_ERROR", error);
-            });
-        })
-        .catch((error) => {
-          context.commit("SET_ERROR", error);
-          return reject();
-        })
-        .finally(() => {
-          context.commit("SET_LOADING", false);
-        });
-    });
-  },
-  logout(context) {
-    return new Promise((resolve, reject) => {
-      context.commit("SET_ERROR", null);
-      context.commit("SET_LOADING", true);
-      this.$axios
-        .$get("/logout")
-        .then(() => {
-          context.commit("SET_USER", null);
-          return resolve();
-        })
-        .catch((error) => {
-          context.commit("SET_ERROR", error);
-          return reject();
-        })
-        .finally(() => {
-          context.commit("SET_LOADING", false);
-        });
-    });
-  },
-  fetchUser(context) {
-    context.commit("SET_ERROR", null);
-    context.commit("SET_LOADING", true);
-    return new Promise((resolve, reject) => {
-      this.$axios
-        .$get("/logged-user")
-        .then((user) => {
-          context.commit("SET_USER", user || null);
-          return resolve();
-        })
-        .catch((error) => reject(error))
         .finally(() => {
           context.commit("SET_LOADING", false);
         });

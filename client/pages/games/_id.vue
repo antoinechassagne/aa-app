@@ -68,14 +68,12 @@ export default {
   },
   computed: {
     ...mapGetters({
+      user: "authentication/user",
       game: "games/game",
       loading: "games/loading",
       error: "games/error",
       participations: "participations/participations",
     }),
-    user() {
-      return this.$user;
-    },
     participationsToDisplay() {
       if (!this.participations || !this.participations.length) {
         return [];

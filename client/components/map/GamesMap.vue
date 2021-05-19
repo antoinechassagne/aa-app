@@ -14,8 +14,11 @@
     <FeedbackMessage v-if="isThereMapError" type="error" class="mb-4">
       Une erreur est survenue lors de l'affichage de la carte. Veuillez réessayer dans quelques minutes.
     </FeedbackMessage>
+    <FeedbackMessage v-if="error" type="error" class="mb-4">
+      {{ error }}
+    </FeedbackMessage>
     <div class="relative w-full h-half-screen flex flex-col items-center justify-center overflow-hidden rounded-3xl">
-      <Loader v-if="loading" class="absolute top-2/4 right-2/4 translate-x-2/4 translate-y-2/4" />
+      <Loader v-if="loadingMap || loading" class="absolute top-2/4 right-2/4 translate-x-2/4 translate-y-2/4" />
       <div ref="map" class="w-full h-full" :class="mapClass"></div>
     </div>
   </div>
@@ -44,12 +47,19 @@ export default {
         return [];
       },
     },
+    loading: {
+      type: Boolean,
+      required: true,
+    },
+    error: {
+      type: String,
+    },
   },
   data() {
     return {
       map: null,
       markers: [],
-      loading: true,
+      loadingMap: true,
       currentUserGeolocation: null,
       isGeolocationSupported: true,
       isGeolocationEnabled: true,
@@ -59,7 +69,7 @@ export default {
   },
   computed: {
     mapClass() {
-      return this.loading ? "opacity-0" : null;
+      return this.loadingMap ? "opacity-0" : null;
     },
   },
   methods: {
@@ -93,7 +103,7 @@ export default {
     attachMapEventListeners() {
       this.map.on("load", () => {
         this.initMarkersAndPopups();
-        this.loading = false;
+        this.loadingMap = false;
       });
       this.map.on("error", () => {
         this.isThereMapError = true;

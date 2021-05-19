@@ -1,6 +1,6 @@
 <template>
   <div>
-    <BaseHeader :user="user" />
+    <BaseHeader :user="user" :unreadNotificationsCount="unreadNotificationsCount" />
     <main class="container mx-auto pl-4 pr-4">
       <Nuxt />
     </main>
@@ -8,6 +8,8 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from "vuex";
+import { poll, stopPolling } from "../services/Polling";
 import BaseHeader from "@/components/BaseHeader";
 
 export default {
@@ -15,10 +17,38 @@ export default {
   components: {
     BaseHeader,
   },
+  data() {
+    return {
+      currentPollingId: null,
+    };
+  },
   computed: {
+    ...mapGetters({
+      user: "authentication/user",
+      unreadNotificationsCount: "notifications/unreadCount",
+    }),
+  },
+  watch: {
     user() {
-      return this.$user;
+      this.startPolling();
     },
+  },
+  methods: {
+    ...mapActions({
+      pollNotifications: "notifications/pollNotifications",
+    }),
+    startPolling() {
+      if (this.currentPollingId) {
+        stopPolling(this.currentPollingId);
+      }
+      if (this.user) {
+        const currentPollingId = poll(this.pollNotifications, 10);
+        this.currentPollingId = currentPollingId;
+      }
+    },
+  },
+  mounted() {
+    this.startPolling();
   },
 };
 </script>

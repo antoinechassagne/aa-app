@@ -12,7 +12,7 @@ exports.getParticipation = function (query) {
 };
 
 exports.getParticipations = function (query) {
-  return database("participations").where(query);
+  return database("participations").where(query).orderBy("statusId", "asc").orderBy("creationDate", "desc");
 };
 
 exports.updateParticipation = function (id, update) {

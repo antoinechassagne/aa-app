@@ -35,7 +35,7 @@ export const actions = {
       this.$axios
         .$get(`/games/${gameId}`)
         .then((game) => {
-          context.commit("SET_GAME", game);
+          context.commit("SET_GAME", game || null);
           return resolve();
         })
         .catch((error) => {
@@ -54,7 +54,7 @@ export const actions = {
       this.$axios
         .$get("/games", { params: { ...query } })
         .then((games) => {
-          context.commit("SET_GAMES", games);
+          context.commit("SET_GAMES", games || []);
           return resolve();
         })
         .catch((error) => {

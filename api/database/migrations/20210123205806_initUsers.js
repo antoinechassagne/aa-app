@@ -1,9 +1,9 @@
 exports.up = function (knex) {
   return knex.schema.createTable("users", (table) => {
     table.increments("id").primary();
-    table.date("creationDate").notNullable();
-    table.date("updateDate");
-    table.date("confirmationDate");
+    table.timestamp("creationDate").notNullable();
+    table.timestamp("updateDate");
+    table.timestamp("confirmationDate");
     table.string("email").unique().notNullable();
     table.string("password").notNullable();
     table.string("salt").notNullable();

@@ -12,7 +12,7 @@ exports.getGame = function (query) {
 };
 
 exports.getGames = function (query) {
-  return database("games").where(query);
+  return database("games").where(query).orderBy("creationDate", "desc");
 };
 
 exports.updateGame = function (id, update) {

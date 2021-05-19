@@ -2,9 +2,19 @@
   <header>
     <nav class="p-4">
       <ul class="flex flex-row">
-        <li v-for="(entry, index) in menu" :key="index" class="px-2">
-          <RouteLink :to="entry.path">{{ entry.label }}</RouteLink>
-        </li>
+        <li class="px-2"><RouteLink to="/">AA App</RouteLink></li>
+        <li class="px-2"><RouteLink to="/games">Rechercher une partie</RouteLink></li>
+        <template v-if="user">
+          <li class="px-2"><RouteLink to="/games/add">Créer une partie</RouteLink></li>
+          <li class="px-2">
+            <RouteLink to="/notifications">Notifications {{ unreadNotificationsCountLabel }}</RouteLink>
+          </li>
+          <li class="px-2"><RouteLink to="/logout">Se déconnecter</RouteLink></li>
+        </template>
+        <template v-else>
+          <li class="px-2"><RouteLink to="/login">Se connecter</RouteLink></li>
+          <li class="px-2"><RouteLink to="/register">S'inscrire</RouteLink></li>
+        </template>
       </ul>
     </nav>
   </header>
@@ -13,24 +23,18 @@
 <script>
 export default {
   name: "BaseHeader",
-  data() {
-    return {
-      commonEntries: [],
-      privateEntries: [
-        { label: "AA App", path: "/" },
-        { label: "Se déconnecter", path: "/logout" },
-      ],
-      publicEntries: [
-        { label: "Se connecter", path: "/login" },
-        { label: "S'inscrire", path: "/register" },
-      ],
-    };
+  props: {
+    user: {
+      type: Object,
+    },
+    unreadNotificationsCount: {
+      type: Number,
+      required: true,
+    },
   },
   computed: {
-    menu() {
-      return this.$user
-        ? [...this.commonEntries, ...this.privateEntries]
-        : [...this.commonEntries, ...this.publicEntries];
+    unreadNotificationsCountLabel() {
+      return this.unreadNotificationsCount ? `(${this.unreadNotificationsCount})` : null;
     },
   },
 };
