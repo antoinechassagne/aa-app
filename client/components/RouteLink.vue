@@ -1,5 +1,5 @@
 <template>
-  <NuxtLink :to="to" :prefetch="prefetch" class="text-indigo-500 hover:underline">
+  <NuxtLink :to="to" :prefetch="prefetch">
     <slot />
   </NuxtLink>
 </template>

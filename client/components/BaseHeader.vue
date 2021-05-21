@@ -1,19 +1,19 @@
 <template>
   <header>
-    <nav class="p-4">
-      <ul class="flex flex-row">
-        <li class="px-2"><RouteLink to="/">AA App</RouteLink></li>
-        <li class="px-2"><RouteLink to="/games">Rechercher une partie</RouteLink></li>
+    <nav>
+      <ul>
+        <li><RouteLink to="/">AA App</RouteLink></li>
+        <li><RouteLink to="/games">Rechercher une partie</RouteLink></li>
         <template v-if="user">
-          <li class="px-2"><RouteLink to="/games/add">Créer une partie</RouteLink></li>
-          <li class="px-2">
+          <li><RouteLink to="/games/add">Créer une partie</RouteLink></li>
+          <li>
             <RouteLink to="/notifications">Notifications {{ unreadNotificationsCountLabel }}</RouteLink>
           </li>
-          <li class="px-2"><RouteLink to="/logout">Se déconnecter</RouteLink></li>
+          <li><RouteLink to="/logout">Se déconnecter</RouteLink></li>
         </template>
         <template v-else>
-          <li class="px-2"><RouteLink to="/login">Se connecter</RouteLink></li>
-          <li class="px-2"><RouteLink to="/register">S'inscrire</RouteLink></li>
+          <li><RouteLink to="/login">Se connecter</RouteLink></li>
+          <li><RouteLink to="/register">S'inscrire</RouteLink></li>
         </template>
       </ul>
     </nav>

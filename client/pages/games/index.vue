@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Heading level="1" class="mb-10">Parties autour de vous</Heading>
+    <Heading level="1">Parties autour de vous</Heading>
     <GamesMap :games="games" :loading="loading" :error="error" />
   </div>
 </template>

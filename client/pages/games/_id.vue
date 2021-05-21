@@ -4,12 +4,12 @@
     <FeedbackMessage v-if="error" type="error">
       {{ error }}
     </FeedbackMessage>
-    <Heading level="1" class="mb-10">{{ game.boardGameName }}</Heading>
+    <Heading level="1">{{ game.boardGameName }}</Heading>
     <p>Créée par {{ game.creator.pseudo }}</p>
     <p>{{ game.description }}</p>
     <p>Date : {{ gamePlannedDate }}</p>
     <p>Joueurs manquants : {{ game.missingPlayers }}</p>
-    <section v-if="!userIsCreator" class="mt-10">
+    <section v-if="!userIsCreator">
       <div v-if="user">
         <p v-if="hasParticipate">Vous avez participé à cette partie</p>
         <p v-if="willParticipate">Vous êtes inscris à cette partie</p>
@@ -21,7 +21,7 @@
       </route-link>
     </section>
     <section v-if="userIsCreator">
-      <Heading level="4" class="mt-10 mb-5">Demande de participations</Heading>
+      <Heading level="4">Demande de participations</Heading>
       <template v-if="participationsToDisplay.length">
         <ul v-for="participation in participationsToDisplay" :key="participation.id">
           <li>

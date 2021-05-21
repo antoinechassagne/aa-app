@@ -2,43 +2,20 @@
   <div>
     <Heading level="1">S'inscrire</Heading>
     <form @submit="submit">
-      <div class="flex flex-col">
+      <div>
         <label for="pseudo">Pseudo :</label>
-        <input
-          v-model="pseudo"
-          id="pseudo"
-          type="text"
-          placeholder="Saisissez votre adresse pseudo"
-          required
-          class="border-2 border-indigo-400 rounded p-1"
-        />
+        <input v-model="pseudo" id="pseudo" type="text" placeholder="Saisissez votre adresse pseudo" required />
       </div>
-      <div class="flex flex-col">
+      <div>
         <label for="email">Email :</label>
-        <input
-          v-model="email"
-          id="email"
-          type="text"
-          placeholder="Saisissez votre adresse email"
-          required
-          class="border-2 border-indigo-400 rounded p-1"
-        />
+        <input v-model="email" id="email" type="text" placeholder="Saisissez votre adresse email" required />
       </div>
-      <div class="flex flex-col my-2">
+      <div>
         <label for="password">Mot de passe :</label>
-        <input
-          v-model="password"
-          id="password"
-          type="password"
-          placeholder="Saisissez votre mot de passe"
-          required
-          class="border-2 border-indigo-400 rounded p-1"
-        />
-        <p class="text-sm text-gray-600">
-          8 caractères minimum dont au moins une majuscule, un chiffre et un caractère spécial.
-        </p>
+        <input v-model="password" id="password" type="password" placeholder="Saisissez votre mot de passe" required />
+        <p>8 caractères minimum dont au moins une majuscule, un chiffre et un caractère spécial.</p>
       </div>
-      <div class="flex flex-col my-2">
+      <div>
         <label for="password">Confirmez votre mot de passe :</label>
         <input
           v-model="passwordConfirmation"
@@ -46,22 +23,16 @@
           type="password"
           placeholder="Confirmez votre mot de passe"
           required
-          class="border-2 border-indigo-400 rounded p-1"
         />
       </div>
       <FeedbackMessage v-if="error" type="error">
         {{ error }}
       </FeedbackMessage>
-      <button
-        type="submit"
-        @click.prevent="submit"
-        class="border-2 border-indigo-400 rounded p-1 my-2"
-        :disabled="loading"
-      >
+      <button type="submit" @click.prevent="submit" :disabled="loading">
         <template v-if="loading">Inscription...</template>
         <template v-else>S'inscrire</template>
       </button>
-      <div class="flex flex-col my-2">
+      <div>
         <RouteLink to="/login">Vous êtes déjà inscrit ? Connectez-vous dès maintenant</RouteLink>
       </div>
     </form>

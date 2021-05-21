@@ -24,6 +24,9 @@ export default {
   computed: {
     typeClasses() {
       switch (this.type) {
+        /**
+         * @TODO Change class
+         */
         case "info":
           return "text-blue-600";
         case "success":

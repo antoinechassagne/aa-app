@@ -1,7 +1,7 @@
 <template>
   <div>
-    <Heading level="1" class="mb-10">Notifications</Heading>
-    <FeedbackMessage v-if="error" type="error" class="mb-4">
+    <Heading level="1">Notifications</Heading>
+    <FeedbackMessage v-if="error" type="error">
       {{ error }}
     </FeedbackMessage>
     <Loader v-if="loading" />

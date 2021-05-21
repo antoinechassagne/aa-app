@@ -16,7 +16,7 @@ export default {
   css: ["~/assets/styles/main"],
   plugins: ["~/plugins/axios.js", "~/plugins/route-link.js"],
   components: true,
-  buildModules: ["@nuxtjs/dotenv", "@nuxtjs/tailwindcss"],
+  buildModules: ["@nuxtjs/dotenv"],
   modules: ["@nuxtjs/axios", "@nuxtjs/pwa"],
   axios: {
     baseURL: process.env.API_URL,

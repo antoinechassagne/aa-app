@@ -1,10 +1,10 @@
 <template>
   <div>
-    <Heading level="4" class="mb-2">{{ game.boardGameName }}</Heading>
-    <p class="mb-2">{{ game.description }}</p>
-    <p class="mb-2">Créée par {{ game.creator.pseudo }}</p>
-    <p class="mb-2">
-      Joueurs manquants : <span class="font-bold">{{ game.missingPlayers }}</span>
+    <Heading level="4">{{ game.boardGameName }}</Heading>
+    <p>{{ game.description }}</p>
+    <p>Créée par {{ game.creator.pseudo }}</p>
+    <p>
+      Joueurs manquants : <span>{{ game.missingPlayers }}</span>
     </p>
     <RouteLink :to="`/games/${game.id}`" :prefetch="false">Voir la partie</RouteLink>
   </div>

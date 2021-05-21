@@ -1,7 +1,7 @@
 <template>
   <div>
     <BaseHeader :user="user" :unreadNotificationsCount="unreadNotificationsCount" />
-    <main class="container mx-auto pl-4 pr-4">
+    <main>
       <Nuxt />
     </main>
   </div>

@@ -1,5 +1,5 @@
 <template>
-  <component :is="`h${level}`" class="font-bold leading-none" :class="levelClasses">
+  <component :is="`h${level}`" :class="levelClasses">
     <slot />
   </component>
 </template>
@@ -16,6 +16,9 @@ export default {
   computed: {
     levelClasses() {
       switch (this.level) {
+        /**
+         * @TODO Change classes
+         */
         case "1":
           return "text-6xl";
         case "2":

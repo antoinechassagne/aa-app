@@ -1,25 +1,25 @@
 <template>
   <div>
-    <FeedbackMessage v-if="!isGeolocationSupported" type="warning" class="mb-4">
+    <FeedbackMessage v-if="!isGeolocationSupported" type="warning">
       Votre navigateur internet ne dispose pas de la fonctionnalité de géolocalisation. Veuillez utiliser un navigateur
       internet plus récent.
     </FeedbackMessage>
-    <FeedbackMessage v-if="!isGeolocationEnabled" type="warning" class="mb-4">
+    <FeedbackMessage v-if="!isGeolocationEnabled" type="warning">
       Votre navigateur a bloqué la fonctionnalité de géolocalisation. Veuillez l'activer afin de poursuivre la création
       de la partie.
     </FeedbackMessage>
-    <FeedbackMessage v-if="isThereGeoLocationError" type="error" class="mb-4">
+    <FeedbackMessage v-if="isThereGeoLocationError" type="error">
       Une erreur est survenue lors de votre géolocalisation. Veuillez réessayer dans quelques minutes.
     </FeedbackMessage>
-    <FeedbackMessage v-if="isThereMapError" type="error" class="mb-4">
+    <FeedbackMessage v-if="isThereMapError" type="error">
       Une erreur est survenue lors de l'affichage de la carte. Veuillez réessayer dans quelques minutes.
     </FeedbackMessage>
-    <FeedbackMessage v-if="error" type="error" class="mb-4">
+    <FeedbackMessage v-if="error" type="error">
       {{ error }}
     </FeedbackMessage>
-    <div class="relative w-full h-half-screen flex flex-col items-center justify-center overflow-hidden rounded-3xl">
-      <Loader v-if="loadingMap || loading" class="absolute top-2/4 right-2/4 translate-x-2/4 translate-y-2/4" />
-      <div ref="map" class="w-full h-full" :class="mapClass"></div>
+    <div>
+      <Loader v-if="loadingMap || loading" />
+      <div ref="map" :class="mapClass"></div>
     </div>
   </div>
 </template>
@@ -128,8 +128,4 @@ export default {
 };
 </script>
 
-<style scoped>
-.h-half-screen {
-  height: 50vh;
-}
-</style>
+<style scoped></style>

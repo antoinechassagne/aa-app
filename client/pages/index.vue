@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Heading level="1" class="mb-10">{{ welcomeMessage }}</Heading>
+    <Heading level="1">{{ welcomeMessage }}</Heading>
     <GamesMap :games="games" :loading="loading" :error="error" />
   </div>
 </template>

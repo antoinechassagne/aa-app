@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-row items-center mb-10">
+  <div>
     <div>
       <p>{{ notificationDate }}</p>
       <RouteLink v-if="this.notification.game" :to="`/games/${notification.game.id}`">
@@ -7,7 +7,7 @@
       </RouteLink>
       <p>{{ notificationLabel }}</p>
     </div>
-    <button v-if="!notification.read" @click="markAsRead" class="ml-5">X</button>
+    <button v-if="!notification.read" @click="markAsRead">X</button>
   </div>
 </template>
 

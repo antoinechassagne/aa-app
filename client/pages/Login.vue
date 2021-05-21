@@ -2,41 +2,22 @@
   <div>
     <Heading level="1">Se connecter</Heading>
     <form @submit="submit">
-      <div class="flex flex-col">
+      <div>
         <label for="email">Email :</label>
-        <input
-          v-model="email"
-          id="email"
-          type="text"
-          placeholder="Saisissez votre adresse email"
-          required
-          class="border-2 border-indigo-400 rounded p-1"
-        />
+        <input v-model="email" id="email" type="text" placeholder="Saisissez votre adresse email" required />
       </div>
-      <div class="flex flex-col my-2">
+      <div>
         <label for="password">Mot de passe :</label>
-        <input
-          v-model="password"
-          id="password"
-          type="password"
-          placeholder="Saisissez votre mot de passe"
-          required
-          class="border-2 border-indigo-400 rounded p-1"
-        />
+        <input v-model="password" id="password" type="password" placeholder="Saisissez votre mot de passe" required />
       </div>
       <FeedbackMessage v-if="error" type="error">
         {{ error }}
       </FeedbackMessage>
-      <button
-        type="submit"
-        @click.prevent="submit"
-        class="border-2 border-indigo-400 rounded p-1 my-2"
-        :disabled="loading"
-      >
+      <button type="submit" @click.prevent="submit" :disabled="loading">
         <template v-if="loading">Connexion...</template>
         <template v-else>Se connecter</template>
       </button>
-      <div class="flex flex-col my-2">
+      <div>
         <RouteLink to="/register">Vous n'êtes pas encore inscrit ? Inscrivez-vous dès maintenant</RouteLink>
       </div>
     </form>
