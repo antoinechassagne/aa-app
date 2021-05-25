@@ -1,7 +1,7 @@
 const ParticipationsRepository = require("../repositories/participations");
 const GamesRepository = require("../../games/repositories/games");
 const NotificationGenerator = require("../../notifications/services/NotificationsGenerator");
-const participationStatuses = require("../../../../common/constants/participationStatuses");
+const participationStatuses = require("../../../constants/participationStatuses");
 
 /**
  * Trigger logic that results from a participation creation.

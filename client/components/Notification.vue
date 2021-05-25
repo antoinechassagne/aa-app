@@ -13,7 +13,7 @@
 
 <script>
 import dayjs from "dayjs";
-const notificationTypes = require("../../common/constants/notificationTypes");
+import notificationTypes from "@/constants/notificationTypes";
 
 export default {
   name: "Notification",

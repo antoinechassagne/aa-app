@@ -1,5 +1,5 @@
 const NotificationsRepository = require("../repository");
-const types = require("../../../../common/constants/notificationTypes");
+const types = require("../../../constants/notificationTypes");
 
 /**
  * Create a notification.
