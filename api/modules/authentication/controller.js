@@ -14,7 +14,7 @@ exports.register = async function (req, res) {
     res.status(201).send({ id: userId });
   } catch (err) {
     console.log(err);
-    res.status(500).send({ error: "Une erreur s'est produite.", debug: err });
+    res.status(500).send({ error: "Une erreur s'est produite." });
   }
 };
 
@@ -30,7 +30,7 @@ exports.login = async function (req, res) {
     res.status(200).send({ userId });
   } catch (err) {
     console.log(err);
-    res.status(500).send({ error: "Une erreur s'est produite.", debug: err });
+    res.status(500).send({ error: "Une erreur s'est produite." });
   }
 };
 
