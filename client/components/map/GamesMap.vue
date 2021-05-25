@@ -17,9 +17,9 @@
     <FeedbackMessage v-if="error" type="error">
       {{ error }}
     </FeedbackMessage>
-    <div>
+    <div class="map-container">
       <Loader v-if="loadingMap || loading" />
-      <div ref="map" :class="mapClass"></div>
+      <div ref="map" class="map" :class="mapClass"></div>
     </div>
   </div>
 </template>
@@ -128,4 +128,14 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped>
+.map-container {
+  position: relative;
+  height: calc(100vh - 50px);
+  overflow: hidden;
+
+  .map {
+    height: 100%;
+  }
+}
+</style>

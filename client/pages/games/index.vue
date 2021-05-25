@@ -1,7 +1,14 @@
 <template>
   <div>
     <Heading level="1">Parties autour de vous</Heading>
-    <GamesMap :games="games" :loading="loading" :error="error" />
+    <div class="games">
+      <div class="games__cards">
+        <div v-for="game in games" :key="game.id">
+          {{ game.boardGameName }}
+        </div>
+      </div>
+      <GamesMap :games="games" :loading="loading" :error="error" class="games__map" />
+    </div>
   </div>
 </template>
 
@@ -36,3 +43,20 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.games {
+  display: flex;
+  flex-wrap: nowrap;
+
+  &__cards {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__map {
+    width: 50%;
+  }
+}
+</style>
