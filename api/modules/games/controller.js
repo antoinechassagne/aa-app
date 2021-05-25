@@ -1,5 +1,6 @@
 const GamesRepository = require("./repositories/games");
 const UsersRepository = require("../users/repositories/users");
+const GameCategoriesRepository = require("../gameCategories/repository");
 
 exports.getGame = async function (req, res) {
   try {
@@ -8,6 +9,7 @@ exports.getGame = async function (req, res) {
       return res.sendStatus(204);
     }
     game.creator = await UsersRepository.getUser({ id: game.creatorId });
+    game.category = await GameCategoriesRepository.getGameCategory({ id: game.categoryId });
     res.status(200).send(game);
   } catch (err) {
     res.status(500).send({ error: "Une erreur s'est produite." });
@@ -22,6 +24,7 @@ exports.getGames = async function (req, res) {
     }
     for await (game of games) {
       game.creator = await UsersRepository.getUser({ id: game.creatorId });
+      game.category = await GameCategoriesRepository.getGameCategory({ id: game.categoryId });
     }
     res.status(200).send(games);
   } catch (err) {

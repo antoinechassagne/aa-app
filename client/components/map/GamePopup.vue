@@ -1,6 +1,7 @@
 <template>
   <div>
     <Heading level="4">{{ game.boardGameName }}</Heading>
+    <p>{{ game.category.label }}</p>
     <p>{{ game.description }}</p>
     <p>Créée par {{ game.creator.pseudo }}</p>
     <p>
