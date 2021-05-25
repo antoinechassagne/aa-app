@@ -8,6 +8,7 @@ exports.up = function (knex) {
     table.decimal("latitude").notNullable();
     table.decimal("longitude").notNullable();
     table.string("boardGameName").notNullable();
+    table.integer("categoryId").references("id").inTable("gameCategories").notNullable();
     table.string("description").notNullable();
     table.integer("missingPlayers").notNullable();
   });
