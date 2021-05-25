@@ -6,6 +6,7 @@
     </FeedbackMessage>
     <Heading level="1">{{ game.boardGameName }}</Heading>
     <p>Créée par {{ game.creator.pseudo }}</p>
+    <p>Catégorie : {{ game.category.label }}</p>
     <p>{{ game.description }}</p>
     <p>Date : {{ gamePlannedDate }}</p>
     <p>Joueurs manquants : {{ game.missingPlayers }}</p>

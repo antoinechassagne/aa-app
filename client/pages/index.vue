@@ -26,6 +26,7 @@ export default {
       games: "games/games",
       loading: "games/loading",
       error: "games/error",
+      taxonomies: "taxonomies/taxonomies",
     }),
     welcomeMessage() {
       return `Bonjour ${this.user.pseudo}`;
