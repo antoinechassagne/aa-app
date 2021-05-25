@@ -1,5 +1,5 @@
 {
-  "name": "aa-app-api",
+  "name": "ludis-api",
   "scripts": {
     "develop": "nodemon -r dotenv/config index.js",
     "start": "node index.js",
