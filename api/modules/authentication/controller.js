@@ -13,7 +13,7 @@ exports.register = async function (req, res) {
     await Mails.sendConfirmationMail(userId);
     res.status(201).send({ id: userId });
   } catch (err) {
-    res.status(500).send({ error: "Une erreur s'est produite." });
+    res.status(500).send({ error: "Une erreur s'est produite.", debug: JSON.stringify(err) });
   }
 };
 
@@ -28,7 +28,7 @@ exports.login = async function (req, res) {
     SessionCookie.setCookie(res, sessionId);
     res.status(200).send({ userId });
   } catch (err) {
-    res.status(500).send({ error: "Une erreur s'est produite." });
+    res.status(500).send({ error: "Une erreur s'est produite.", debug: JSON.stringify(err) });
   }
 };
 
