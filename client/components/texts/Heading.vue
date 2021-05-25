@@ -20,19 +20,46 @@ export default {
          * @TODO Change classes
          */
         case "1":
-          return "text-6xl";
+          return "h1";
         case "2":
-          return "text-5xl";
+          return "h2";
         case "3":
-          return "text-4xl";
+          return "h3";
         case "4":
-          return "text-3xl";
+          return "h4";
         case "5":
-          return "text-2xl";
+          return "h5";
         case "6":
-          return "text-xl";
+          return "h6";
       }
     },
   },
 };
 </script>
+<style scoped>
+.h1 {
+  font-size: 3.75rem;
+  line-height: 1;
+}
+.h2 {
+  font-size: 3rem;
+  line-height: 1;
+}
+.h3 {
+  font-size: 2.25rem;
+  line-height: 2.5rem;
+}
+.h4 {
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+  font-weight: bold;
+}
+.h5 {
+  font-size: 1.5rem;
+  line-height: 2rem;
+}
+.h6 {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+}
+</style>

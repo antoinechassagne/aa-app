@@ -1,18 +1,29 @@
 :disabled {
   cursor: not-allowed;
 }
+:root {
+  --main-grey-color: #c4c4c4;
+  --light-grey-color: #e4e4e4;
+  --super-light-grey: rgba(231, 231, 231, 0.4);
 
-button {
-  padding: 0.5rem;
-  background: rgb(102, 126, 234);
-  border-radius: 1rem;
-  color: white;
+  --main-black-color: #000;
+  --light-black-color: #555555;
 
-  &:hover {
-    text-decoration: underline;
-  }
+  --main-white-color: #fff;
 
-  &:disabled {
-    text-decoration: none;
-  }
+  --main-purple-color: #7f5ff3;
+  --light-purple-color: rgba(127, 95, 243, 0.1);
+
+  --main-red-color: #ff9996;
+  --main-blue-color: #7dd8ff;
+  --main-yellow-color: #ffd464;
+
+  --dark-blue-color: #29335c;
+  --dark-blue-light: rgba(41, 51, 92, 0.1);
+  --medium-blue-color: #4895ef;
+  --medium-purple-color: #9173d8;
+
+  --main-green-color: #2b9348;
+  --light-green-color: #e9f5db;
 }
+@import "_reset.scss";
