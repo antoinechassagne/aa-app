@@ -51,7 +51,7 @@ import { mapGetters, mapActions } from "vuex";
 import Loader from "@/components/Loader";
 import Heading from "@/components/texts/Heading";
 import FeedbackMessage from "@/components/FeedbackMessage";
-const participationStatuses = require("../../../common/constants/participationStatuses");
+import participationStatuses from "@/constants/participationStatuses";
 
 export default {
   name: "PageGame",

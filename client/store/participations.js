@@ -1,4 +1,4 @@
-const participationStatuses = require("../../common/constants/participationStatuses");
+import participationStatuses from "../constants/participationStatuses";
 
 export const state = () => ({
   loading: false,
