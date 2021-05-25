@@ -18,8 +18,17 @@
         <input v-model="boardGameName" id="boardGameName" type="text" placeholder="Saisissez le nom du jeu" required />
       </div>
       <div>
-        <label for="email">Description :</label>
+        <label for="email">Catégorie :</label>
         <textarea v-model="description" id="description" type="text" placeholder="Saisissez une description" rows="6" />
+      </div>
+      <div>
+        <label for="email">Description :</label>
+        <select v-model="categoryId" id="categoryId">
+          <option :value="null">--Sélectionnez une catégorie--</option>
+          <template v-for="gameCategory in taxonomies.gameCategories">
+            <option :value="gameCategory.id" :key="gameCategory.id">{{ gameCategory.label }}</option>
+          </template>
+        </select>
       </div>
       <div>
         <label for="date">Date :</label>
@@ -72,6 +81,7 @@ export default {
       isThereGeoLocationError: false,
       currentUserGeolocation: null,
       boardGameName: null,
+      categoryId: null,
       description: null,
       date: dayjs().format("YYYY-MM-DD"),
       time: dayjs().format("hh:mm"),
@@ -82,6 +92,7 @@ export default {
     ...mapGetters({
       loading: "games/loading",
       error: "games/error",
+      taxonomies: "taxonomies/taxonomies",
     }),
     plannedDate() {
       if (!this.date || !this.time) {
@@ -115,6 +126,7 @@ export default {
         latitude: this.currentUserGeolocation.latitude,
         longitude: this.currentUserGeolocation.longitude,
         boardGameName: this.boardGameName,
+        categoryId: this.categoryId,
         description: this.description,
         missingPlayers: this.missingPlayers,
       }).then((gameId) => {

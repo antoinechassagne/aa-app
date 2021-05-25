@@ -1,5 +1,5 @@
 {
-  "name": "aa-app",
+  "name": "ludis",
   "scripts": {
     "unit-tests": "jest --config jest.config.js"
   },

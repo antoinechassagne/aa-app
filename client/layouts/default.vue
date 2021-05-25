@@ -36,6 +36,7 @@ export default {
   methods: {
     ...mapActions({
       pollNotifications: "notifications/pollNotifications",
+      fetchGameCategories: "taxonomies/fetchGameCategories",
     }),
     startPolling() {
       if (this.currentPollingId) {
@@ -49,6 +50,9 @@ export default {
   },
   mounted() {
     this.startPolling();
+  },
+  created() {
+    this.fetchGameCategories();
   },
 };
 </script>

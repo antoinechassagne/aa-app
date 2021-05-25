@@ -16,9 +16,4 @@ app.use(helmet());
 app.use("/", router);
 app.get("/", (req, res) => res.send("API is running 🎲"));
 
-const letsEncryptReponse = process.env.CERTBOT_RESPONSE;
-app.get("/.well-known/acme-challenge/:content", function (req, res) {
-  res.send(letsEncryptReponse);
-});
-
 module.exports = app;

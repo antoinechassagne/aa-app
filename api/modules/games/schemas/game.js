@@ -6,6 +6,7 @@ const schema = Joi.object({
   latitude: Joi.number().required(),
   longitude: Joi.number().required(),
   boardGameName: Joi.string().required(),
+  categoryId: Joi.number().required(),
   description: Joi.string(),
   missingPlayers: Joi.number(),
 });
