@@ -2,7 +2,7 @@
   <header>
     <nav>
       <ul>
-        <li><RouteLink to="/">AA App</RouteLink></li>
+        <li><RouteLink to="/">Ludis</RouteLink></li>
         <li><RouteLink to="/games">Rechercher une partie</RouteLink></li>
         <template v-if="user">
           <li><RouteLink to="/games/add">Créer une partie</RouteLink></li>
