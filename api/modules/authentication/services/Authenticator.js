@@ -10,6 +10,7 @@ async function register(email, password, userInformations) {
     return;
   }
   const userId = createUser({ email, password, ...userInformations });
+  console.log(userId);
   return userId;
 }
 

@@ -65,6 +65,7 @@ export default {
   data() {
     return {
       pseudo: null,
+      phone: null,
       email: null,
       password: null,
       passwordConfirmation: null,
