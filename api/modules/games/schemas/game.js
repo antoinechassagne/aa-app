@@ -5,6 +5,7 @@ const schema = Joi.object({
   creatorId: Joi.number().required(),
   latitude: Joi.number().required(),
   longitude: Joi.number().required(),
+  location: Joi.string().required(),
   boardGameName: Joi.string().required(),
   categoryId: Joi.number().required(),
   description: Joi.string(),

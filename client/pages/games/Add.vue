@@ -1,18 +1,7 @@
 <template>
   <div>
     <Heading level="1">Créer une nouvelle partie</Heading>
-    <FeedbackMessage v-if="!isGeolocationSupported" type="warning">
-      Votre navigateur internet ne dispose pas de la fonctionnalité de géolocalisation. Veuillez utiliser un navigateur
-      internet plus récent.
-    </FeedbackMessage>
-    <FeedbackMessage v-if="!isGeolocationEnabled" type="warning">
-      Votre navigateur a bloqué la fonctionnalité de géolocalisation. Veuillez l'activer afin de poursuivre la création
-      de la partie.
-    </FeedbackMessage>
-    <FeedbackMessage v-if="isThereGeoLocationError" type="error">
-      Une erreur est survenue lors de votre géolocalisation. Veuillez réessayer dans quelques minutes.
-    </FeedbackMessage>
-    <form @submit="submit">
+    <form>
       <div>
         <label for="boardGameName">Nom du jeu :</label>
         <input v-model="boardGameName" id="boardGameName" type="text" placeholder="Saisissez le nom du jeu" required />
@@ -23,7 +12,7 @@
       </div>
       <div>
         <label for="email">Description :</label>
-        <select v-model="categoryId" id="categoryId">
+        <select v-model="categoryId" id="categoryId" required>
           <option :value="null">--Sélectionnez une catégorie--</option>
           <template v-for="gameCategory in taxonomies.gameCategories">
             <option :value="gameCategory.id" :key="gameCategory.id">{{ gameCategory.label }}</option>
@@ -37,6 +26,9 @@
       <div>
         <label for="time">Heure :</label>
         <input v-model="time" id="time" type="time" required />
+      </div>
+      <div>
+        <InputSearchLocation @select-location="updateLocation" required />
       </div>
       <div>
         <label for="missingPlayers">Nombre de joueurs manquants:</label>
@@ -65,7 +57,7 @@ import dayjs from "dayjs";
 import { mapGetters, mapActions } from "vuex";
 import Heading from "@/components/texts/Heading";
 import FeedbackMessage from "@/components/FeedbackMessage";
-import { isGeolocationSupported, getCurrentGeolocation } from "@/services/Geolocation";
+import InputSearchLocation from "@/components/InputSearchLocation";
 
 export default {
   name: "PageGamesAdd",
@@ -73,18 +65,16 @@ export default {
   components: {
     Heading,
     FeedbackMessage,
+    InputSearchLocation,
   },
   data() {
     return {
-      isGeolocationSupported: true,
-      isGeolocationEnabled: true,
-      isThereGeoLocationError: false,
-      currentUserGeolocation: null,
       boardGameName: null,
       categoryId: null,
       description: null,
       date: dayjs().format("YYYY-MM-DD"),
       time: dayjs().format("hh:mm"),
+      location: null,
       missingPlayers: 0,
     };
   },
@@ -106,13 +96,7 @@ export default {
       return date.toISOString();
     },
     canSubmitForm() {
-      return (
-        !this.loading &&
-        this.isGeolocationSupported &&
-        this.isGeolocationEnabled &&
-        !this.isThereGeoLocationError &&
-        this.currentUserGeolocation
-      );
+      return !this.loading;
     },
   },
   methods: {
@@ -120,11 +104,15 @@ export default {
       createGame: "games/createGame",
       cleanError: "games/cleanError",
     }),
+    updateLocation(location) {
+      this.location = location;
+    },
     submit() {
       this.createGame({
         plannedDate: this.plannedDate,
-        latitude: this.currentUserGeolocation.latitude,
-        longitude: this.currentUserGeolocation.longitude,
+        latitude: this.location.latitude,
+        longitude: this.location.longitude,
+        location: this.location.label,
         boardGameName: this.boardGameName,
         categoryId: this.categoryId,
         description: this.description,
@@ -134,20 +122,7 @@ export default {
       });
     },
   },
-  mounted() {
-    this.isGeolocationSupported = isGeolocationSupported();
-    getCurrentGeolocation()
-      .then(({ latitude, longitude }) => {
-        this.currentUserGeolocation = { latitude, longitude };
-      })
-      .catch((error) => {
-        if (error.code === 1) {
-          this.isGeolocationEnabled = false;
-        } else {
-          this.isThereGeoLocationError = true;
-        }
-      });
-  },
+  mounted() {},
   destroyed() {
     this.cleanError();
   },

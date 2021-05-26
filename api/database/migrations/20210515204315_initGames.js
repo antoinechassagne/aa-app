@@ -7,6 +7,7 @@ exports.up = function (knex) {
     table.integer("creatorId").references("id").inTable("users").notNullable();
     table.decimal("latitude").notNullable();
     table.decimal("longitude").notNullable();
+    table.string("location").notNullable();
     table.string("boardGameName").notNullable();
     table.integer("categoryId").references("id").inTable("gameCategories").notNullable();
     table.string("description").notNullable();
