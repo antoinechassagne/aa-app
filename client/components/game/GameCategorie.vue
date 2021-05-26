@@ -40,7 +40,8 @@ export default {
   font-weight: normal;
 }
 .text-container span {
-  font-weight: bold;
+  font-weight: 500;
+  margin-bottom: 5%;
 }
 .text-container p {
   color: #555555;

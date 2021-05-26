@@ -26,13 +26,11 @@ export default {
 </script>
 <style scoped lang="scss">
 button {
-  border-radius: 10px;
+  border-radius: 5px;
   padding: 0.5rem;
   border: none;
-  max-width: 300px;
-  &:hover {
-    text-decoration: underline;
-  }
+  width: 150px;
+  font-size: 0.9rem;
   &:disabled {
     text-decoration: none;
   }
@@ -40,7 +38,13 @@ button {
 .color-black {
   color: var(--light-black-color);
 }
+.color-white {
+  color: var(--main-white-color);
+}
 .background-white {
   background-color: var(--main-white-color);
+}
+.background-black {
+  background-color: var(--main-black-color);
 }
 </style>

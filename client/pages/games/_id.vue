@@ -53,7 +53,6 @@ import Loader from "@/components/Loader";
 import Heading from "@/components/texts/Heading";
 import FeedbackMessage from "@/components/FeedbackMessage";
 import participationStatuses from "@/constants/participationStatuses";
-
 export default {
   name: "PageGame",
   components: {

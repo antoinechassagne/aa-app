@@ -52,7 +52,7 @@ export default {
 .h4 {
   font-size: 1.875rem;
   line-height: 2.25rem;
-  font-weight: bold;
+  font-weight: 500;
 }
 .h5 {
   font-size: 1.5rem;

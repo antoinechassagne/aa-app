@@ -15,21 +15,25 @@
       </div>
       <div>
         <Heading level="4">Aujourd'hui</Heading>
-        <div class="categorie-container">
-          <GameCategorie></GameCategorie>
+        <div class="game-card-container">
+          <div class="card-unit" v-for="game in games" :key="game.id">
+            <GameCardHome :game="game"></GameCardHome>
+          </div>
         </div>
       </div>
       <div class="create-container">
         <div class="create-text-container">
           <Heading level="4">Besion de joueurs ?</Heading>
           <span>Créer votre propre partie afin de trouver de nouvelles personnes pour jouer avec vous. </span>
-          <MainButton color="black" background="white">Créer ma partie</MainButton>
+          <MainButton color="white" background="black">Créer ma partie</MainButton>
         </div>
       </div>
       <div>
         <Heading level="4">Cette Semaine</Heading>
-        <div class="categorie-container">
-          <GameCategorie></GameCategorie>
+        <div class="game-card-container">
+          <div class="card-unit" v-for="game in games" :key="game.id">
+            <GameCardHome :game="game"></GameCardHome>
+          </div>
         </div>
       </div>
     </main>
@@ -42,6 +46,7 @@ import Heading from "@/components/texts/Heading";
 import GamesMap from "@/components/map/GamesMap";
 import GameCategorie from "@/components/game/GameCategorie";
 import MainButton from "@/components/buttons/MainButton";
+import GameCardHome from "@/components/game/GameCardHome";
 
 export default {
   name: "PageHome",
@@ -51,9 +56,15 @@ export default {
     GamesMap,
     GameCategorie,
     MainButton,
+    GameCardHome,
   },
   async fetch({ store }) {
     await store.dispatch("games/fetchGames", {});
+  },
+  data() {
+    return {
+      todayGames: [],
+    };
   },
   computed: {
     ...mapGetters({
@@ -61,8 +72,15 @@ export default {
       games: "games/games",
       loading: "games/loading",
       error: "games/error",
-      taxonomies: "taxonomies/taxonomies",
     }),
+    todayGames() {
+      return this.games.filter((game) => {
+        const start = dayjs().startOf("day");
+        const end = dayjs().endOf("day");
+        const plannedDate = dayjs(game.plannedDate);
+        return plannedDate.isBetween(start, end);
+      });
+    },
     welcomeMessage() {
       return `Bonjour ${this.user.pseudo}`;
     },
@@ -102,7 +120,8 @@ main {
   height: 33vh;
   width: 100%;
   border-radius: 10px;
-  background-color: #e7e7e7e7;
+  background: url("https://cdn.dribbble.com/users/2087893/screenshots/15036881/media/f54eb08629cb4229520931af14419444.jpg");
+  background-size: cover;
   margin: 3% 0 3% 0;
   display: flex;
   flex-direction: column;
@@ -112,7 +131,15 @@ main {
   width: 70%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-around;
   padding-left: 10%;
+  height: 70%;
+}
+.game-card-container {
+  display: flex;
+  flex-direction: row;
+}
+.card-unit {
+  width: 25%;
 }
 </style>
