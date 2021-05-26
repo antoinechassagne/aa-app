@@ -1,20 +1,30 @@
 <template>
-  <button :class="colorClasses">
-    <slot />
+  <button :class="colorClasses" @click="$emit('click')">
+    <Loader v-if="loading" :color="color" width="20" height="20" />
+    <slot v-else />
   </button>
 </template>
 
 <script>
+import Loader from "@/components/Loader";
+
 export default {
   name: "MainButton",
+  components: {
+    Loader,
+  },
   props: {
     color: {
       type: String,
-      require: true,
+      required: true,
     },
     background: {
       type: String,
-      require: true,
+      required: true,
+    },
+    loading: {
+      type: Boolean,
+      default: false,
     },
   },
   computed: {
@@ -31,6 +41,14 @@ button {
   border: none;
   width: 150px;
   font-size: 0.9rem;
+  min-width: 100px;
+  max-width: 300px;
+  max-height: 36px;
+  line-height: 20px;
+  &:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
   &:disabled {
     text-decoration: none;
   }
