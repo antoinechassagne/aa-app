@@ -1,8 +1,13 @@
 <template>
   <div class="container">
-    <div class="illu-container">
+    <div
+      class="illu-container"
+      :style="{
+        backgroundImage: 'url(' + require(`~/assets/images/gameCategories/${game.category.imageName}.png`) + ')',
+      }"
+    >
       <div class="pastille">
-        <span> Places : </span>
+        <span>Places restantes : </span>
         <p>{{ game.missingPlayers }}</p>
       </div>
       <div class="pastille-date">
@@ -47,7 +52,6 @@ export default {
 .illu-container {
   width: 100%;
   height: 33vh;
-  background: url("https://cdn.dribbble.com/users/329207/screenshots/4165459/2001_bemocs_space_park_cosmic_canyon_dribbble.jpg");
   background-size: cover;
   border-radius: 5%;
   display: flex;
