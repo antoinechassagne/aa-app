@@ -3,7 +3,7 @@
   "scripts": {
     "develop": "nodemon -r dotenv/config index.js",
     "start": "node index.js",
-    "db-update": "cd database/ && npx knex migrate:latest && cd ../"
+    "db-update": "cd database/ && npx knex migrate:latest && npx knex seed:run && cd ../"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
