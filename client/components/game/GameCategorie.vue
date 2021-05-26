@@ -2,13 +2,12 @@
   <div class="container">
     <div class="illu-container">
       <img
-        src="https://cdn.dribbble.com/users/3958760/screenshots/14926492/media/1cb4efc4014f7a7173287ee9baa66ac6.jpg"
-        alt=""
+        :src="require(`~/assets/images/gameCategories/${category.imageName}.png`)"
+        :alt="`Image ${category.label}`"
       />
     </div>
     <div class="text-container">
       <span>{{ category.label }}</span>
-      <p>{{ category.imageName }}</p>
     </div>
   </div>
 </template>
