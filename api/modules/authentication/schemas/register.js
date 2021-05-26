@@ -5,6 +5,7 @@ const passwordRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\\$
 
 const schema = Joi.object({
   pseudo: Joi.string().required(),
+  phone: Joi.string().required(),
   email: Joi.string().email({ minDomainSegments: 2 }).required(),
   password: Joi.string().pattern(passwordRegex).required(),
 });

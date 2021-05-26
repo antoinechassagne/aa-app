@@ -7,6 +7,17 @@
         <input v-model="pseudo" id="pseudo" type="text" placeholder="Saisissez votre adresse pseudo" required />
       </div>
       <div>
+        <label for="phone">Numéro de téléphone :</label>
+        <input
+          v-model="phone"
+          id="phone"
+          type="tel"
+          pattern="^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,5})|(\(?\d{2,6}\)?))(-| )?(\d{3,4})(-| )?(\d{4})(( x| ext)\d{1,5}){0,1}$"
+          placeholder="Saisissez votre numéro de téléphone"
+          required
+        />
+      </div>
+      <div>
         <label for="email">Email :</label>
         <input v-model="email" id="email" type="text" placeholder="Saisissez votre adresse email" required />
       </div>
@@ -72,7 +83,7 @@ export default {
       cleanError: "authentication/cleanError",
     }),
     submit() {
-      this.register({ pseudo: this.pseudo, email: this.email, password: this.password }).then(() => {
+      this.register({ pseudo: this.pseudo, phone: this.phone, email: this.email, password: this.password }).then(() => {
         this.login({ email: this.email, password: this.password }).then(() => {
           this.$router.push("/");
         });
