@@ -11,6 +11,7 @@ exports.up = function (knex) {
     table.string("resetToken");
     table.boolean("active").notNullable();
     table.string("pseudo").notNullable();
+    table.string("phone").notNullable();
   });
 };
 
