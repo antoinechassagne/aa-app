@@ -3,7 +3,7 @@
     <header class="header"></header>
     <main>
       <div>
-        <Heading level="4">Explorer nos catégories</Heading>
+        <Heading level="4">Explorez nos catégories</Heading>
         <div class="categorie-container">
           <GameCategorie
             v-for="gameCategory in taxonomies.gameCategories"
@@ -13,15 +13,15 @@
         </div>
       </div>
       <div>
-        <Heading level="4">Explorer nos catégories</Heading>
+        <Heading level="4">Explorez les parties au alentour</Heading>
         <!-- <GamesMap :games="games" :loading="loading" :error="error" class="map" /> -->
         <div class="placeholder">map</div>
       </div>
       <div>
         <Heading level="4">Aujourd'hui</Heading>
         <div class="game-card-container">
-          <div class="card-unit" v-for="game in games" :key="game.id">
-            <GameCardHome :game="game"></GameCardHome>
+          <div class="card-unit" v-for="game in todayGames" :key="game.id">
+            <GameCardHome :game="game" />
           </div>
         </div>
       </div>
@@ -33,10 +33,10 @@
         </div>
       </div>
       <div>
-        <Heading level="4">Cette Semaine</Heading>
+        <Heading level="4">Cette semaine</Heading>
         <div class="game-card-container">
-          <div class="card-unit" v-for="game in games" :key="game.id">
-            <GameCardHome :game="game"></GameCardHome>
+          <div class="card-unit" v-for="game in thisWeekGames" :key="game.id">
+            <GameCardHome :game="game" />
           </div>
         </div>
       </div>
@@ -45,12 +45,19 @@
 </template>
 
 <script>
+import dayjs from "dayjs";
+import isBetween from "dayjs/plugin/isBetween";
+import isToday from "dayjs/plugin/isToday";
+import "dayjs/locale/fr";
 import { mapGetters } from "vuex";
 import Heading from "@/components/texts/Heading";
 import GamesMap from "@/components/map/GamesMap";
 import GameCategorie from "@/components/game/GameCategorie";
 import MainButton from "@/components/buttons/MainButton";
 import GameCardHome from "@/components/game/GameCardHome";
+
+dayjs.extend(isBetween);
+dayjs.extend(isToday);
 
 export default {
   name: "PageHome",
@@ -65,11 +72,6 @@ export default {
   async fetch({ store }) {
     await store.dispatch("games/fetchGames", {});
   },
-  data() {
-    return {
-      todayGames: [],
-    };
-  },
   computed: {
     ...mapGetters({
       user: "authentication/user",
@@ -78,20 +80,17 @@ export default {
       error: "games/error",
       taxonomies: "taxonomies/taxonomies",
     }),
-    limitedTodayGames() {
-      /* Retrieve today's games */
-      const todayGames = this.games.filter((game) => {
-        const start = dayjs().startOf("day");
-        const end = dayjs().endOf("day");
-        const plannedDate = dayjs(game.plannedDate);
-        return plannedDate.isBetween(start, end);
-      });
-      /* Only show the last 4 games */
+    todayGames() {
       const limit = 4;
+      const todayGames = this.games.filter((game) => dayjs(game.plannedDate).isToday());
       return todayGames.slice(todayGames.length - limit, todayGames.length);
     },
-    welcomeMessage() {
-      return `Bonjour ${this.user.pseudo}`;
+    thisWeekGames() {
+      const limit = 4;
+      const thisWeekGames = this.games.filter((game) =>
+        dayjs(game.plannedDate).isBetween(dayjs(), dayjs().locale("fr").endOf("week"))
+      );
+      return thisWeekGames.slice(thisWeekGames.length - limit, thisWeekGames.length);
     },
   },
 };
