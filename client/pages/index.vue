@@ -5,7 +5,11 @@
       <div>
         <Heading level="4">Explorer nos catégories</Heading>
         <div class="categorie-container">
-          <GameCategorie></GameCategorie>
+          <GameCategorie
+            v-for="gameCategory in taxonomies.gameCategories"
+            :key="gameCategory.id"
+            :category="gameCategory"
+          />
         </div>
       </div>
       <div>
@@ -72,14 +76,19 @@ export default {
       games: "games/games",
       loading: "games/loading",
       error: "games/error",
+      taxonomies: "taxonomies/taxonomies",
     }),
-    todayGames() {
-      return this.games.filter((game) => {
+    limitedTodayGames() {
+      /* Retrieve today's games */
+      const todayGames = this.games.filter((game) => {
         const start = dayjs().startOf("day");
         const end = dayjs().endOf("day");
         const plannedDate = dayjs(game.plannedDate);
         return plannedDate.isBetween(start, end);
       });
+      /* Only show the last 4 games */
+      const limit = 4;
+      return todayGames.slice(todayGames.length - limit, todayGames.length);
     },
     welcomeMessage() {
       return `Bonjour ${this.user.pseudo}`;
@@ -102,7 +111,9 @@ main {
   padding: 3% 5% 3% 5%;
 }
 .categorie-container {
+  display: flex;
   margin: 3% 0 3% 0;
+  flex-wrap: wrap;
 }
 .map {
   height: 33vh;
@@ -138,8 +149,10 @@ main {
 .game-card-container {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
 }
 .card-unit {
   width: 25%;
+  min-width: 300px;
 }
 </style>

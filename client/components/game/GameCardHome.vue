@@ -19,7 +19,7 @@
 import dayjs from "dayjs";
 
 export default {
-  name: "GameCategorie",
+  name: "GameCardHome",
   props: {
     game: {
       type: Object,
@@ -42,7 +42,7 @@ export default {
   flex-direction: column;
   justify-content: center;
   width: 90%;
-  padding: 5%;
+  padding: 5% 0 5% 0;
 }
 .illu-container {
   width: 100%;
@@ -94,6 +94,7 @@ export default {
 }
 .game-name {
   text-transform: capitalize;
+  margin-top: 5%;
   font-weight: 500;
 }
 

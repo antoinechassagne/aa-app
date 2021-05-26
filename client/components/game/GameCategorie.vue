@@ -7,8 +7,8 @@
       />
     </div>
     <div class="text-container">
-      <span>Jeux de cartes</span>
-      <p>873 parties</p>
+      <span>{{ category.label }}</span>
+      <p>{{ category.imageName }}</p>
     </div>
   </div>
 </template>
@@ -16,7 +16,12 @@
 <script>
 export default {
   name: "GameCategorie",
-  props: {},
+  props: {
+    category: {
+      type: Object,
+      required: true,
+    },
+  },
 };
 </script>
 
@@ -25,6 +30,7 @@ export default {
   display: flex;
   align-items: center;
   width: 25%;
+  margin-bottom: 3%;
 }
 .illu-container {
   width: 64px;
@@ -37,7 +43,8 @@ export default {
 }
 .text-container {
   margin-left: 5%;
-  font-weight: normal;
+  display: flex;
+  flex-direction: column;
 }
 .text-container span {
   font-weight: 500;
@@ -46,5 +53,6 @@ export default {
 .text-container p {
   color: #555555;
   font-weight: lighter;
+  font-size: 0.8rem;
 }
 </style>
