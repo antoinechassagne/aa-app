@@ -124,7 +124,7 @@ export default {
       this.results = [];
       this.search = location.properties.label;
       const [longitude, latitude] = location.geometry.coordinates;
-      this.$emit("select-location", { longitude, latitude, location: location.properties.label });
+      this.$emit("select-location", { longitude, latitude, label: location.properties.label });
     },
     closeResults() {
       this.showResults = false;
