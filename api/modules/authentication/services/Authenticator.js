@@ -9,8 +9,7 @@ async function register(email, password, userInformations) {
   if (existingUser) {
     return;
   }
-  const userId = createUser({ email, password, ...userInformations });
-  console.log(userId);
+  const userId = await createUser({ email, password, ...userInformations });
   return userId;
 }
 
@@ -40,7 +39,7 @@ async function authenticateBySessionId(sessionId) {
 
 async function initializeSession(userId) {
   await removePreviousUserSessions(userId);
-  const sessionId = createSession(userId);
+  const sessionId = await createSession(userId);
   return sessionId;
 }
 
@@ -62,7 +61,7 @@ async function generateUserResetToken(email) {
   if (!user) {
     return;
   }
-  const resetToken = addResetTokenToUser(user.id);
+  const resetToken = await addResetTokenToUser(user.id);
   return resetToken;
 }
 
