@@ -14,7 +14,7 @@ export default {
     link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
   },
   css: ["~/assets/styles/main"],
-  plugins: ["~/plugins/axios.js", "~/plugins/route-link.js"],
+  plugins: ["~/plugins/axios.js", "~/plugins/route-link.js", "~/plugins/directives.client.js"],
   components: true,
   buildModules: ["@nuxtjs/dotenv"],
   modules: ["@nuxtjs/axios", "@nuxtjs/pwa"],
