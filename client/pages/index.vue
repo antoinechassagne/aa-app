@@ -5,7 +5,7 @@
       <div>
         <Heading level="4">Explorez nos catégories</Heading>
         <div class="categorie-container">
-          <GameCategorie
+          <CardCategory
             v-for="gameCategory in taxonomies.gameCategories"
             :key="gameCategory.id"
             :category="gameCategory"
@@ -21,7 +21,7 @@
         <Heading level="4">Aujourd'hui</Heading>
         <div class="game-card-container">
           <div class="card-unit" v-for="game in todayGames" :key="game.id">
-            <GameCardHome :game="game" />
+            <CardGame :game="game" />
           </div>
         </div>
       </div>
@@ -36,7 +36,7 @@
         <Heading level="4">Cette semaine</Heading>
         <div class="game-card-container">
           <div class="card-unit" v-for="game in thisWeekGames" :key="game.id">
-            <GameCardHome :game="game" />
+            <CardGame :game="game" />
           </div>
         </div>
       </div>
@@ -52,9 +52,9 @@ import "dayjs/locale/fr";
 import { mapGetters } from "vuex";
 import Heading from "@/components/texts/Heading";
 import GamesMap from "@/components/map/GamesMap";
-import GameCategorie from "@/components/game/GameCategorie";
+import CardCategory from "@/components/game/CardCategory";
 import MainButton from "@/components/buttons/MainButton";
-import GameCardHome from "@/components/game/GameCardHome";
+import CardGame from "@/components/game/CardGame";
 
 dayjs.extend(isBetween);
 dayjs.extend(isToday);
@@ -65,9 +65,9 @@ export default {
   components: {
     Heading,
     GamesMap,
-    GameCategorie,
+    CardCategory,
     MainButton,
-    GameCardHome,
+    CardGame,
   },
   async fetch({ store }) {
     await store.dispatch("games/fetchGames", {});
