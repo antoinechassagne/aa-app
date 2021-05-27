@@ -4,6 +4,7 @@
     <main>
       <Nuxt />
     </main>
+    <BaseFooter />
   </div>
 </template>
 
@@ -11,11 +12,13 @@
 import { mapGetters, mapActions } from "vuex";
 import { poll, stopPolling } from "../services/Polling";
 import BaseHeader from "@/components/BaseHeader";
+import BaseFooter from "@/components/BaseFooter";
 
 export default {
   name: "DefaultLayout",
   components: {
     BaseHeader,
+    BaseFooter,
   },
   data() {
     return {
