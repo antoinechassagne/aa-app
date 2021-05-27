@@ -14,7 +14,7 @@ h2 {
 }
 
 h3 {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   line-height: 1;
   font-weight: 500;
   font-family: $font-heading;
@@ -78,6 +78,11 @@ p {
 .color-danger {
   color: $color-danger !important;
 }
+
+.color-green {
+  color: $color-green;
+}
+
 .capitalize {
   text-transform: capitalize;
 }

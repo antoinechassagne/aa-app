@@ -1,19 +1,18 @@
 <template>
-  <div class="notification">
-    <div class="left-side">
-      <div class="title">
-        <Heading level="6">{{ this.notification.game.boardGameName }}</Heading>
-        <RouteLink class="voir-partie" v-if="this.notification.game" :to="`/games/${notification.game.id}`">
-          Voir la partie
-        </RouteLink>
+  <RouteLink class="voir-partie" v-if="this.notification.game" :to="`/games/${notification.game.id}`">
+    <div class="notification">
+      <div class="left-side">
+        <div class="title">
+          <Heading level="6">{{ this.notification.game.boardGameName }}</Heading>
+        </div>
+
+        <p>{{ notificationLabel }}</p>
+        <span>{{ notificationDate }}</span>
       </div>
 
-      <p>{{ notificationLabel }}</p>
-      <span>{{ notificationDate }}</span>
+      <ButtonPrimary v-if="!notification.read" @click="markAsRead">J'ai lu</ButtonPrimary>
     </div>
-
-    <ButtonPrimary v-if="!notification.read" @click="markAsRead">J'ai lu</ButtonPrimary>
-  </div>
+  </RouteLink>
 </template>
 
 <script>
@@ -74,7 +73,7 @@ export default {
   background-color: $color-white;
   padding: 3%;
   border-radius: 10px;
-  box-shadow: 0px 0px 6px 5px rgba(196, 196, 196, 0.2);
+  border: 1px solid $color-grey;
 }
 .left-side {
   max-width: 80%;

@@ -24,52 +24,62 @@
 
         <GamesMapLight class="map" :location="location" :games="[game]" />
       </div>
-      <div class="right-side"></div>
-    </div>
-
-    <p>Joueurs manquants : {{ game.missingPlayers }}</p>
-    <section v-if="!userIsCreator">
-      <div v-if="user">
-        <p v-if="hasParticipate">Vous avez participé à cette partie</p>
-        <p v-if="willParticipate">Vous êtes inscris à cette partie</p>
-        <ButtonPrimary v-if="canCreateParticipation" @click="requestToParticipate">Demander à rejoindre</ButtonPrimary>
-        <ButtonDanger v-if="canCancelParticipation" @click="cancelParticipation">Annuler la demande</ButtonDanger>
-      </div>
-      <route-link v-if="!user && !gameIsPast" to="/login">
-        Vous devez être connecté pour rejoindre cette partie
-      </route-link>
-    </section>
-    <section v-if="userIsCreator">
-      <Heading level="4">Demande de participations</Heading>
-      <template v-if="participationsToDisplay.length">
-        <ul v-for="participation in participationsToDisplay" :key="participation.id">
-          <li>
-            <p>{{ participation.user.pseudo }} - {{ getParticipationStatusLabel(participation.statusId) }}</p>
-            <template v-if="!gameIsPast">
-              <ButtonDanger
-                v-if="canRefuseUserParticipation(participation)"
-                @click="refuseUserParticipation(participation)"
-              >
-                Refuser la demande
-              </ButtonDanger>
-              <ButtonPrimary
-                v-if="canAcceptUserParticipation(participation)"
-                @click="acceptUserParticipation(participation)"
-              >
-                Accepter la demande
+      <div class="right-side">
+        <div class="missing-players">
+          <Heading class="color-primary" level="2">{{ game.missingPlayers }}</Heading>
+          <p>Joueurs manquants</p>
+        </div>
+        <div class="status">
+          <section v-if="!userIsCreator">
+            <div v-if="user" class="status-not-creator">
+              <p v-if="hasParticipate" class="color-green">Vous avez participé à cette partie</p>
+              <p v-if="willParticipate" class="color-green">Vous êtes inscris à cette partie</p>
+              <p v-if="canCreateParticipation">Demandez pour participer</p>
+              <ButtonPrimary v-if="canCreateParticipation" @click="requestToParticipate">
+                Demander à rejoindre
               </ButtonPrimary>
-              <ButtonDanger
-                v-if="canCancelUserParticipation(participation)"
-                @click="cancelUserParticipation(participation)"
-              >
-                Annuler la participation
-              </ButtonDanger>
-            </template>
-          </li>
-        </ul>
-      </template>
-      <p v-else>Aucune participations pour le moment.</p>
-    </section>
+              <ButtonDanger v-if="canCancelParticipation" @click="cancelParticipation">Annuler la demande</ButtonDanger>
+            </div>
+            <route-link v-if="!user && !gameIsPast" to="/login">
+              Vous devez être connecté pour rejoindre cette partie
+            </route-link>
+          </section>
+          <section v-if="userIsCreator">
+            <span class="subheading creator-title">Demande de participations</span>
+            <div class="user-is-creator">
+              <template v-if="participationsToDisplay.length">
+                <ul v-for="participation in participationsToDisplay" :key="participation.id">
+                  <li>
+                    <p>{{ participation.user.pseudo }} - {{ getParticipationStatusLabel(participation.statusId) }}</p>
+                    <template v-if="!gameIsPast">
+                      <ButtonDanger
+                        v-if="canRefuseUserParticipation(participation)"
+                        @click="refuseUserParticipation(participation)"
+                      >
+                        Refuser la demande
+                      </ButtonDanger>
+                      <ButtonPrimary
+                        v-if="canAcceptUserParticipation(participation)"
+                        @click="acceptUserParticipation(participation)"
+                      >
+                        Accepter la demande
+                      </ButtonPrimary>
+                      <ButtonDanger
+                        v-if="canCancelUserParticipation(participation)"
+                        @click="cancelUserParticipation(participation)"
+                      >
+                        Annuler la participation
+                      </ButtonDanger>
+                    </template>
+                  </li>
+                </ul>
+              </template>
+              <span v-else class="color-grey">Aucune demande participation pour le moment</span>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -260,5 +270,41 @@ export default {
   height: 33vh;
   border-radius: 10px;
   margin: 2rem 0 2rem 0;
+}
+.right-side {
+  width: calc(45% - 10rem);
+  padding: 1rem;
+}
+.missing-players {
+  width: 100%;
+  display: flex;
+  padding: 2rem;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid $color-grey;
+  border-radius: 5px;
+}
+.missing-players p {
+  margin-left: 2rem;
+}
+.status {
+  width: 100%;
+  padding: 2rem;
+  border: 1px solid $color-grey;
+  border-radius: 5px;
+  margin: 2rem 0 2rem 0;
+}
+.status-not-creator {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.user-is-creator {
+  display: flex;
+  flex-direction: column;
+  margin-top: 2rem;
+}
+.creator-title {
+  margin-bottom: 2rem;
 }
 </style>
