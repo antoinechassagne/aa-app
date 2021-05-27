@@ -1,15 +1,19 @@
 .button {
   border-radius: 5px;
-  padding: 0.5rem 0.75rem;
+  padding: 0.75rem 1rem;
   border: none;
   font-size: 1rem;
   min-width: 100px;
   max-width: 300px;
   line-height: 20px;
+  text-align: center;
+  text-decoration: none;
+  font-family: $font-text;
 
   &:hover {
     text-decoration: underline;
     cursor: pointer;
+    border-radius: 8px;
   }
 
   &:disabled {
@@ -19,6 +23,12 @@
   &--primary {
     background-color: $color-primary;
     color: $color-white;
+  }
+
+  &--secondary {
+    background-color: $color-white;
+    color: $color-black;
+    border: solid 1px $color-white;
   }
 
   &--danger {
