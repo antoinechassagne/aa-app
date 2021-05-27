@@ -6,10 +6,12 @@
   min-width: 100px;
   max-width: 300px;
   line-height: 20px;
+  text-decoration: none;
 
   &:hover {
     text-decoration: underline;
     cursor: pointer;
+    border-radius: 8px;
   }
 
   &:disabled {
