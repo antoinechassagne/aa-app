@@ -1,6 +1,6 @@
 <template>
   <div class="game-map">
-    <Loader v-if="loadingMap || loading" />
+    <Loader v-if="loadingMap || loading" class="game-map__loader" />
     <div ref="map" class="game-map__map" :class="mapClass"></div>
   </div>
 </template>
@@ -29,6 +29,10 @@ export default {
     loading: {
       type: Boolean,
       required: true,
+    },
+    zoom: {
+      type: Number,
+      default: 14,
     },
     location: {
       type: Object,
@@ -60,7 +64,7 @@ export default {
         center: this.location
           ? [this.location.longitude, this.location.latitude]
           : [this.defaultLocation.longitude, this.defaultLocation.latitude],
-        zoom: this.location ? 14 : 5,
+        zoom: this.zoom,
       });
       this.attachMapEventListeners();
     },
@@ -105,6 +109,13 @@ export default {
   position: relative;
   height: calc(100vh - 50px);
   overflow: hidden;
+
+  &__loader {
+    position: absolute;
+    top: 50%;
+    right: 50%;
+    transform: translate(50%, -50%);
+  }
 
   &__map {
     height: 100%;

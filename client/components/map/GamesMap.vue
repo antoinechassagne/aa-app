@@ -1,6 +1,6 @@
 <template>
   <div class="game-map">
-    <Loader v-if="loadingMap || loading" />
+    <Loader v-if="loadingMap || loading" class="game-map__loader" />
     <div ref="map" class="game-map__map" :class="mapClass"></div>
   </div>
 </template>
@@ -51,7 +51,6 @@ export default {
   },
   methods: {
     initMap() {
-      console.log("here");
       mapboxgl.accessToken = process.env.MAPBOX_ACCESS_TOKEN;
       this.map = new mapboxgl.Map({
         container: this.$refs.map,
@@ -61,7 +60,6 @@ export default {
           : [this.defaultLocation.longitude, this.defaultLocation.latitude],
         zoom: this.location ? 14 : 5,
       });
-      console.log(this.map);
       this.attachMapEventListeners();
     },
     initMarkersAndPopups() {
@@ -99,6 +97,13 @@ export default {
   position: relative;
   height: calc(100vh - 50px);
   overflow: hidden;
+
+  &__loader {
+    position: absolute;
+    top: 50%;
+    right: 50%;
+    transform: translate(50%, -50%);
+  }
 
   &__map {
     height: 100%;
