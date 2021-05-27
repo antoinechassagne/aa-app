@@ -198,7 +198,7 @@ export default {
 }
 
 .games {
-  padding: 2rem 0;
+  padding: 4rem 0;
 
   h2 {
     margin-bottom: 2rem;
