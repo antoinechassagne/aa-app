@@ -1,17 +1,15 @@
 <template>
-  <div class="card-category">
+  <RouteLink :to="`/games?categoryId=${category.id}`" class="card-category">
     <img
       :src="require(`~/assets/images/gameCategories/${category.imageName}.png`)"
       :alt="`Illustration ${category.label}`"
       class="card-category__image"
     />
-    <div class="card-category__label">
-      <span>{{ category.label }}</span>
+    <div class="card-category__content">
+      <p class="subheading card-category__label">{{ category.label }}</p>
+      <p>{{ countSentence }}</p>
     </div>
-    <div class="card-category__games">
-      <span>867 parties</span>
-    </div>
-  </div>
+  </RouteLink>
 </template>
 
 <script>
@@ -22,24 +20,51 @@ export default {
       type: Object,
       required: true,
     },
+    gamesCount: {
+      type: Number,
+      default: 0,
+    },
+  },
+  computed: {
+    countSentence() {
+      switch (this.gamesCount) {
+        case 0:
+          return "Aucune partie";
+        case 1:
+          return "1 partie";
+        default:
+          return `${this.gamesCount} parties`;
+      }
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.game-category {
+.card-category {
   display: flex;
   align-items: center;
-  width: 25%;
-  margin-bottom: 3%;
+  text-decoration: none;
+  border-radius: 5px;
+  padding: 1rem;
+
+  &:hover {
+    background-color: rgba($color-primary, 0.25);
+  }
 
   &__image {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 5px;
+  }
+
+  &__content {
+    margin-left: 1rem;
   }
 
   &__label {
-  }
-
-  &__games {
+    margin-bottom: 1rem;
   }
 }
 </style>

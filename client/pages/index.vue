@@ -1,46 +1,58 @@
 <template>
-  <div>
-    <header class="header"></header>
-    <main>
-      <div>
-        <Heading level="4">Explorez nos catégories</Heading>
-        <div class="categorie-container">
-          <CardCategory
-            v-for="gameCategory in taxonomies.gameCategories"
-            :key="gameCategory.id"
-            :category="gameCategory"
-          />
+  <div class="container">
+    <div class="hero">
+      <div class="hero__content">
+        <Heading level="1">Trouvez les parties <br />autour de vous</Heading>
+        <p class="subheading">Ludis vous aide à trouver des parties</p>
+        <div>
+          <RouteLink to="/games" class="button button--primary">Commencer</RouteLink>
         </div>
       </div>
-      <div>
-        <Heading level="4">Explorez les parties au alentour</Heading>
-        <!-- <GamesMap :games="games" :loading="loading" :error="error" class="map" /> -->
-        <div class="placeholder">map</div>
+      <img src="~/assets/images/illustration_1.png" alt="Illustration" class="hero__image" />
+    </div>
+    <div class="categories">
+      <Heading level="2">Explorez nos catégories</Heading>
+      <div class="categories__list">
+        <CardCategory
+          v-for="gameCategory in taxonomies.gameCategories"
+          :key="gameCategory.id"
+          :category="gameCategory"
+          :gamesCount="getCategoryGamesCount(gameCategory.id)"
+        />
       </div>
-      <div>
-        <Heading level="4">Aujourd'hui</Heading>
-        <div class="game-card-container">
-          <div class="card-unit" v-for="game in todayGames" :key="game.id">
-            <CardGame :game="game" />
-          </div>
+    </div>
+    <div class="map">
+      <Heading level="2">Explorez les parties au alentour</Heading>
+      <GamesMapLight :games="games" :loading="loading" :zoom="10" class="map__map" />
+    </div>
+    <div class="games">
+      <Heading level="2">Aujourd'hui</Heading>
+      <div class="games__list">
+        <template v-if="todayGames.length">
+          <CardGame v-for="game in todayGames" :key="game.id" :game="game" />
+        </template>
+        <p v-else>Pour le moment, aucune partie n'est organisée aujourd'hui.</p>
+      </div>
+    </div>
+    <div class="hero hero--colored">
+      <div class="hero__content">
+        <Heading level="2">Besoin de joueurs ?</Heading>
+        <p class="subheading">Créer votre propre partie afin de trouver de nouvelles personnes pour jouer avec vous.</p>
+        <div>
+          <RouteLink to="/games/add" class="button button--secondary">Créer votre partie</RouteLink>
         </div>
       </div>
-      <div class="create-container">
-        <div class="create-text-container">
-          <Heading level="4">Besion de joueurs ?</Heading>
-          <span>Créer votre propre partie afin de trouver de nouvelles personnes pour jouer avec vous. </span>
-          <ButtonPrimary>Créer ma partie</ButtonPrimary>
-        </div>
+      <img src="~/assets/images/illustration_2.png" alt="Illustration" class="hero__image" />
+    </div>
+    <div class="games">
+      <Heading level="2">Cette semaine</Heading>
+      <div class="games__list">
+        <template v-if="thisWeekGames.length">
+          <CardGame v-for="game in thisWeekGames" :key="game.id" :game="game" />
+        </template>
+        <p v-else>Pour le moment, aucune partie n'est organisée cette semaine.</p>
       </div>
-      <div>
-        <Heading level="4">Cette semaine</Heading>
-        <div class="game-card-container">
-          <div class="card-unit" v-for="game in thisWeekGames" :key="game.id">
-            <CardGame :game="game" />
-          </div>
-        </div>
-      </div>
-    </main>
+    </div>
   </div>
 </template>
 
@@ -81,77 +93,133 @@ export default {
       taxonomies: "taxonomies/taxonomies",
     }),
     todayGames() {
-      const limit = 4;
+      const limit = 3;
       const todayGames = this.games.filter((game) => dayjs(game.plannedDate).isToday());
       return todayGames.slice(todayGames.length - limit, todayGames.length);
     },
     thisWeekGames() {
-      const limit = 4;
+      const limit = 3;
       const thisWeekGames = this.games.filter((game) =>
         dayjs(game.plannedDate).isBetween(dayjs(), dayjs().locale("fr").endOf("week"))
       );
       return thisWeekGames.slice(thisWeekGames.length - limit, thisWeekGames.length);
     },
   },
+  methods: {
+    getCategoryGamesCount(categoryId) {
+      return this.games.filter((game) => game.categoryId === categoryId).length;
+    },
+  },
 };
 </script>
+
 <style lang="scss" scoped>
+.hero {
+  width: 80%;
+  margin: 0 auto;
+  padding: 2rem 0;
+  display: flex;
+
+  &--colored {
+    background-color: $color-primary;
+    width: 100%;
+    padding: 3rem;
+    border-radius: 10px;
+    max-height: 33vh;
+  }
+
+  &__content {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    @include on-mobile {
+      width: 100%;
+    }
+
+    h1,
+    h2 {
+      margin-bottom: 2rem;
+    }
+
+    p {
+      margin-bottom: 3rem;
+    }
+  }
+
+  &__image {
+    width: 50%;
+    object-fit: contain;
+
+    @include on-mobile {
+      display: none;
+    }
+  }
+}
+
+.categories {
+  padding: 2rem 0;
+
+  h2 {
+    margin-bottom: 2rem;
+  }
+
+  &__list {
+    display: flex;
+    flex-wrap: wrap;
+
+    a {
+      width: calc(33% - 2rem);
+      margin: 1rem;
+
+      @include on-tablet {
+        width: calc(50% - 2rem);
+      }
+
+      @include on-mobile {
+        width: calc(100% - 2rem);
+      }
+    }
+  }
+}
+
 .map {
-  width: 100%;
-  display: flex;
+  padding: 2rem 0;
+
+  h2 {
+    margin-bottom: 2rem;
+  }
+
+  &__map {
+    height: 50vh;
+    width: 100%;
+  }
 }
-.header {
-  width: 100%;
-  height: 60vh;
-  background: url("https://cdn.dribbble.com/users/1420243/screenshots/11863092/media/ab7c5ee0f85e3fb94bc7b55489129074.png");
-  background-size: cover;
-}
-main {
-  padding: 3% 5% 3% 5%;
-}
-.categorie-container {
-  display: flex;
-  margin: 3% 0 3% 0;
-  flex-wrap: wrap;
-}
-.map {
-  height: 33vh;
-  position: relative;
-  width: 100%;
-}
-.placeholder {
-  height: 33vh;
-  width: 100%;
-  border-radius: 10px;
-  background-color: #e7e7e7e7;
-  margin: 3% 0 3% 0;
-}
-.create-container {
-  height: 33vh;
-  width: 100%;
-  border-radius: 10px;
-  background: url("https://cdn.dribbble.com/users/2087893/screenshots/15036881/media/f54eb08629cb4229520931af14419444.jpg");
-  background-size: cover;
-  margin: 3% 0 3% 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-.create-text-container {
-  width: 70%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  padding-left: 10%;
-  height: 70%;
-}
-.game-card-container {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-}
-.card-unit {
-  width: 25%;
-  min-width: 300px;
+
+.games {
+  padding: 2rem 0;
+
+  h2 {
+    margin-bottom: 2rem;
+  }
+
+  &__list {
+    display: flex;
+    flex-wrap: wrap;
+
+    a {
+      width: calc(33% - 2rem);
+      margin: 1rem;
+
+      @include on-tablet {
+        width: calc(50% - 2rem);
+      }
+
+      @include on-mobile {
+        width: calc(100% - 2rem);
+      }
+    }
+  }
 }
 </style>
