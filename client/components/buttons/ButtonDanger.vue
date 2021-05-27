@@ -1,5 +1,5 @@
 <template>
-  <button @click.prevent="$emit('click')">
+  <button @click.prevent="$emit('click')" class="button button--danger">
     <Loader v-if="loading" color="white" width="20" height="20" />
     <slot v-else />
   </button>
