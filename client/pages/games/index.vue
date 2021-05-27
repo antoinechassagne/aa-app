@@ -7,7 +7,7 @@
           {{ game.boardGameName }}
         </div>
       </div>
-      <GamesMap :games="games" :loading="loading" :error="error" class="games__map" />
+      <GamesMap :location="location" :games="games" :loading="loading" class="games__map" />
     </div>
   </div>
 </template>
@@ -25,6 +25,11 @@ export default {
   },
   async fetch({ store }) {
     await store.dispatch("games/fetchGames", {});
+  },
+  data() {
+    return {
+      location: null,
+    };
   },
   computed: {
     ...mapGetters({

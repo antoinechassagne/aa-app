@@ -22,16 +22,8 @@
       >
         Utiliser la position actuelle
       </ButtonPrimary>
-      <FeedbackMessage v-if="!isGeolocationSupported" type="warning">
-        Votre navigateur internet ne dispose pas de la fonctionnalité de géolocalisation. Veuillez utiliser un
-        navigateur internet plus récent.
-      </FeedbackMessage>
-      <FeedbackMessage v-if="!isGeolocationEnabled" type="warning">
-        Votre navigateur a bloqué la fonctionnalité de géolocalisation. Veuillez l'activer afin de poursuivre la
-        création de la partie.
-      </FeedbackMessage>
       <FeedbackMessage v-if="isThereGeoLocationError" type="error">
-        Une erreur est survenue lors de votre géolocalisation. Veuillez réessayer dans quelques minutes.
+        Une erreur est survenue lors de votre géolocalisation.
       </FeedbackMessage>
       <div v-if="showResults" v-click-outside="closeResults" class="input-search-location__results">
         <Loader v-if="loadingSearch" />
@@ -54,7 +46,7 @@
 <script>
 import ButtonPrimary from "@/components/buttons/ButtonPrimary";
 import Loader from "@/components/Loader";
-import { isGeolocationSupported, getCurrentGeolocation } from "@/services/Geolocation";
+import Geolocation from "@/services/Geolocation";
 
 export default {
   name: "InputSearchLocation",
@@ -92,33 +84,23 @@ export default {
       this.showResults = true;
       this.loadingSearch = false;
     },
-    onUseCurrentLocation() {
+    async onUseCurrentLocation() {
       this.search = null;
       this.loadingGetCurrentLocation = true;
-      this.isGeolocationSupported = isGeolocationSupported();
-      if (!isGeolocationSupported) {
+      const { location, error, enabled, supported } = await Geolocation();
+      if (error || !enabled || !supported) {
+        this.isThereGeoLocationError = true;
         return;
       }
-      getCurrentGeolocation()
-        .then(async ({ latitude, longitude }) => {
-          const response = await this.$axios.get(
-            `https://api-adresse.data.gouv.fr/reverse/?lon=${longitude}&lat=${latitude}`
-          );
-          if (!response || !response.data || !response.data.features || !response.data.features.length) {
-            this.isThereGeoLocationError = true;
-          }
-          this.onSelectLocation(response.data.features[0]);
-        })
-        .catch((error) => {
-          if (error.code === 1) {
-            this.isGeolocationEnabled = false;
-          } else {
-            this.isThereGeoLocationError = true;
-          }
-        })
-        .finally(() => {
-          this.loadingGetCurrentLocation = false;
-        });
+      const response = await this.$axios.get(
+        `https://api-adresse.data.gouv.fr/reverse/?lon=${location.longitude}&lat=${location.latitude}`
+      );
+      if (!response || !response.data || !response.data.features || !response.data.features.length) {
+        this.isThereGeoLocationError = true;
+      } else {
+        this.onSelectLocation(response.data.features[0]);
+      }
+      this.loadingGetCurrentLocation = false;
     },
     onSelectLocation(location) {
       this.results = [];

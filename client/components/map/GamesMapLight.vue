@@ -12,16 +12,14 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import Loader from "@/components/Loader";
 import GameMarker from "./GameMarker";
 import GamePopup from "./GamePopup";
+import Geolocation from "@/services/Geolocation";
 
 export default {
-  name: "GamesMap",
+  name: "GamesMapLight",
   components: {
     Loader,
   },
   props: {
-    location: {
-      type: Object,
-    },
     games: {
       type: Array,
       default() {
@@ -38,6 +36,7 @@ export default {
       map: null,
       markers: [],
       loadingMap: true,
+      location: null,
       defaultLocation: {
         latitude: 46.227638,
         longitude: 2.213749,
@@ -51,7 +50,6 @@ export default {
   },
   methods: {
     initMap() {
-      console.log("here");
       mapboxgl.accessToken = process.env.MAPBOX_ACCESS_TOKEN;
       this.map = new mapboxgl.Map({
         container: this.$refs.map,
@@ -61,7 +59,6 @@ export default {
           : [this.defaultLocation.longitude, this.defaultLocation.latitude],
         zoom: this.location ? 14 : 5,
       });
-      console.log(this.map);
       this.attachMapEventListeners();
     },
     initMarkersAndPopups() {
@@ -88,7 +85,9 @@ export default {
       });
     },
   },
-  mounted() {
+  async mounted() {
+    const { location } = await Geolocation();
+    this.location = location;
     this.initMap();
   },
 };

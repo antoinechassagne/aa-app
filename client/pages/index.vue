@@ -51,7 +51,7 @@ import isToday from "dayjs/plugin/isToday";
 import "dayjs/locale/fr";
 import { mapGetters } from "vuex";
 import Heading from "@/components/texts/Heading";
-import GamesMap from "@/components/map/GamesMap";
+import GamesMapLight from "@/components/map/GamesMapLight";
 import CardCategory from "@/components/game/CardCategory";
 import ButtonPrimary from "@/components/buttons/ButtonPrimary";
 import CardGame from "@/components/game/CardGame";
@@ -64,7 +64,7 @@ export default {
   middleware: ["authenticatedOnly"],
   components: {
     Heading,
-    GamesMap,
+    GamesMapLight,
     CardCategory,
     ButtonPrimary,
     CardGame,
