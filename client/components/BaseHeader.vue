@@ -59,6 +59,7 @@ export default {
   width: 100%;
   background-color: $color-white;
   z-index: 10;
+  border-bottom: 1px solid $color-grey;
 }
 .nav {
   height: 10vh;

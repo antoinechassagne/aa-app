@@ -36,7 +36,7 @@ export default {
   },
 };
 </script>
-<style scoped>
+<style scoped lang="scss">
 .h1 {
   font-size: 3.75rem;
   line-height: 1;
@@ -50,9 +50,10 @@ export default {
   line-height: 2.5rem;
 }
 .h4 {
-  font-size: 1.875rem;
-  line-height: 2.25rem;
+  font-size: 1.5rem;
+  line-height: 1rem;
   font-weight: 500;
+  color: $color-grey;
 }
 .h5 {
   font-size: 1.5rem;

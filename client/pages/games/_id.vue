@@ -1,14 +1,32 @@
 <template>
   <Loader v-if="loading" />
-  <div v-else>
+  <div v-else class="container">
     <FeedbackMessage v-if="error" type="error">
       {{ error }}
     </FeedbackMessage>
-    <Heading level="1">{{ game.boardGameName }}</Heading>
-    <p>Créée par {{ game.creator.pseudo }}</p>
-    <p>Catégorie : {{ game.category.label }}</p>
+    <div class="game-content">
+      <div class="left-side">
+        <div class="game-hero">
+          <img
+            :src="require(`~/assets/images/gameCategories/${game.category.imageName}.png`)"
+            :alt="`Illustration ${game.category.label}`"
+            class="card-game__image"
+          />
+          <div class="text-content">
+            <Heading level="4">Proposée par {{ game.creator.pseudo }}</Heading>
+            <Heading level="2">{{ game.boardGameName }}</Heading>
+            <p class="">{{ gamePlannedDate }}</p>
+            <p>{{ game.category.label }}</p>
+          </div>
+        </div>
+
+        <div></div>
+      </div>
+      <div class="right-side"></div>
+    </div>
+
     <p>{{ game.description }}</p>
-    <p>Date : {{ gamePlannedDate }}</p>
+
     <p>Joueurs manquants : {{ game.missingPlayers }}</p>
     <section v-if="!userIsCreator">
       <div v-if="user">
@@ -99,7 +117,7 @@ export default {
       );
     },
     gamePlannedDate() {
-      const date = dayjs(this.game.plannedDate).format("DD/MM/YYYY");
+      const date = dayjs(this.game.plannedDate).format("ddd. DD MMM YYYY");
       const hour = dayjs(this.game.plannedDate).format("hh:mm");
       return `${date} à ${hour}`;
     },
@@ -200,3 +218,23 @@ export default {
   },
 };
 </script>
+<style scoped lang="scss">
+.game-content {
+  display: flex;
+}
+.game-hero {
+  margin-top: 2rem;
+  display: flex;
+}
+.game-hero img {
+  width: 200px;
+  height: auto;
+  border-radius: 100%;
+}
+.text-content {
+  margin-left: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+</style>
