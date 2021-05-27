@@ -13,10 +13,7 @@
       <FeedbackMessage v-if="error" type="error">
         {{ error }}
       </FeedbackMessage>
-      <button type="submit" @click.prevent="submit" :disabled="loading">
-        <template v-if="loading">Connexion...</template>
-        <template v-else>Se connecter</template>
-      </button>
+      <ButtonPrimary type="submit" @click="submit" :loading="loading" :disabled="loading"> Se connecter </ButtonPrimary>
       <div>
         <RouteLink to="/register">Vous n'êtes pas encore inscrit ? Inscrivez-vous dès maintenant</RouteLink>
       </div>
@@ -27,6 +24,7 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 import Heading from "@/components/texts/Heading";
+import ButtonPrimary from "@/components/buttons/ButtonPrimary";
 import FeedbackMessage from "@/components/FeedbackMessage";
 
 export default {
@@ -34,6 +32,7 @@ export default {
   middleware: ["guestOnly"],
   components: {
     Heading,
+    ButtonPrimary,
     FeedbackMessage,
   },
   data() {

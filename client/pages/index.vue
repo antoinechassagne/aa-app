@@ -29,7 +29,7 @@
         <div class="create-text-container">
           <Heading level="4">Besion de joueurs ?</Heading>
           <span>Créer votre propre partie afin de trouver de nouvelles personnes pour jouer avec vous. </span>
-          <MainButton color="white" background="black">Créer ma partie</MainButton>
+          <ButtonPrimary>Créer ma partie</ButtonPrimary>
         </div>
       </div>
       <div>
@@ -53,7 +53,7 @@ import { mapGetters } from "vuex";
 import Heading from "@/components/texts/Heading";
 import GamesMap from "@/components/map/GamesMap";
 import CardCategory from "@/components/game/CardCategory";
-import MainButton from "@/components/buttons/MainButton";
+import ButtonPrimary from "@/components/buttons/ButtonPrimary";
 import CardGame from "@/components/game/CardGame";
 
 dayjs.extend(isBetween);
@@ -66,7 +66,7 @@ export default {
     Heading,
     GamesMap,
     CardCategory,
-    MainButton,
+    ButtonPrimary,
     CardGame,
   },
   async fetch({ store }) {

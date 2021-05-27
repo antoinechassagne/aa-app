@@ -13,7 +13,7 @@
         class="input-search-location__input"
         @keyup="onTyping"
       />
-      <MainButton
+      <ButtonPrimary
         type="button"
         color="white"
         background="black"
@@ -21,7 +21,7 @@
         @click="onUseCurrentLocation"
       >
         Utiliser la position actuelle
-      </MainButton>
+      </ButtonPrimary>
       <FeedbackMessage v-if="!isGeolocationSupported" type="warning">
         Votre navigateur internet ne dispose pas de la fonctionnalité de géolocalisation. Veuillez utiliser un
         navigateur internet plus récent.
@@ -52,14 +52,14 @@
 </template>
 
 <script>
-import MainButton from "@/components/buttons/MainButton";
+import ButtonPrimary from "@/components/buttons/ButtonPrimary";
 import Loader from "@/components/Loader";
 import { isGeolocationSupported, getCurrentGeolocation } from "@/services/Geolocation";
 
 export default {
   name: "InputSearchLocation",
   components: {
-    MainButton,
+    ButtonPrimary,
     Loader,
   },
   props: {

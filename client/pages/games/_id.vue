@@ -14,8 +14,8 @@
       <div v-if="user">
         <p v-if="hasParticipate">Vous avez participé à cette partie</p>
         <p v-if="willParticipate">Vous êtes inscris à cette partie</p>
-        <button v-if="canCreateParticipation" @click="requestToParticipate">Demander à rejoindre</button>
-        <button v-if="canCancelParticipation" @click="cancelParticipation">Annuler la demande</button>
+        <ButtonPrimary v-if="canCreateParticipation" @click="requestToParticipate">Demander à rejoindre</ButtonPrimary>
+        <ButtonDanger v-if="canCancelParticipation" @click="cancelParticipation">Annuler la demande</ButtonDanger>
       </div>
       <route-link v-if="!user && !gameIsPast" to="/login">
         Vous devez être connecté pour rejoindre cette partie
@@ -28,15 +28,24 @@
           <li>
             <p>{{ participation.user.pseudo }} - {{ getParticipationStatusLabel(participation.statusId) }}</p>
             <template v-if="!gameIsPast">
-              <button v-if="canRefuseUserParticipation(participation)" @click="refuseUserParticipation(participation)">
+              <ButtonDanger
+                v-if="canRefuseUserParticipation(participation)"
+                @click="refuseUserParticipation(participation)"
+              >
                 Refuser la demande
-              </button>
-              <button v-if="canAcceptUserParticipation(participation)" @click="acceptUserParticipation(participation)">
+              </ButtonDanger>
+              <ButtonPrimary
+                v-if="canAcceptUserParticipation(participation)"
+                @click="acceptUserParticipation(participation)"
+              >
                 Accepter la demande
-              </button>
-              <button v-if="canCancelUserParticipation(participation)" @click="cancelUserParticipation(participation)">
+              </ButtonPrimary>
+              <ButtonDanger
+                v-if="canCancelUserParticipation(participation)"
+                @click="cancelUserParticipation(participation)"
+              >
                 Annuler la participation
-              </button>
+              </ButtonDanger>
             </template>
           </li>
         </ul>
@@ -51,6 +60,8 @@ import dayjs from "dayjs";
 import { mapGetters, mapActions } from "vuex";
 import Loader from "@/components/Loader";
 import Heading from "@/components/texts/Heading";
+import ButtonPrimary from "@/components/buttons/ButtonPrimary";
+import ButtonDanger from "@/components/buttons/ButtonDanger";
 import FeedbackMessage from "@/components/FeedbackMessage";
 import participationStatuses from "@/constants/participationStatuses";
 export default {
@@ -58,6 +69,8 @@ export default {
   components: {
     Loader,
     Heading,
+    ButtonPrimary,
+    ButtonDanger,
     FeedbackMessage,
   },
   async fetch({ params, store }) {

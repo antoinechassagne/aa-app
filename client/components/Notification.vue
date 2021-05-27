@@ -12,16 +12,17 @@
       <span>{{ notificationDate }}</span>
     </div>
 
-    <button class="" v-if="!notification.read" @click="markAsRead">J'ai lu</button>
+    <ButtonPrimary v-if="!notification.read" @click="markAsRead">J'ai lu</ButtonPrimary>
   </div>
 </template>
 
 <script>
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import notificationTypes from "@/constants/notificationTypes";
 import "dayjs/locale/fr";
+import notificationTypes from "@/constants/notificationTypes";
 import Heading from "@/components/texts/Heading";
+import ButtonPrimary from "@/components/buttons/ButtonPrimary";
 
 dayjs.extend(relativeTime);
 
@@ -29,6 +30,7 @@ export default {
   name: "Notification",
   components: {
     Heading,
+    ButtonPrimary,
   },
   props: {
     notification: {
@@ -63,6 +65,7 @@ export default {
   },
 };
 </script>
+
 <style lang="scss" scoped>
 .notification {
   display: flex;
@@ -95,13 +98,5 @@ export default {
 .notification span {
   color: $color-grey;
   font-size: 0.8rem;
-}
-button {
-  background-color: rgba($color-primary, 0.5);
-  color: $color-primary;
-  border: none;
-  border-radius: 5px;
-  padding: 10px 15px 10px 15px;
-  font-weight: 500;
 }
 </style>

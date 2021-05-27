@@ -41,13 +41,10 @@
           required
         />
       </div>
-      <FeedbackMessage v-if="error" type="error">
-        {{ error }}
-      </FeedbackMessage>
-      <button type="submit" @click.prevent="submit" :disabled="!canSubmitForm">
-        <template v-if="loading">Création...</template>
-        <template v-else>Créer</template>
-      </button>
+      <FeedbackMessage v-if="error" type="error"> {{ error }} </FeedbackMessage>
+      <ButtonPrimary connecter type="submit" @click="submit" :loading="loading" :disabled="!canSubmitForm">
+        Créer
+      </ButtonPrimary>
     </form>
   </div>
 </template>
@@ -56,6 +53,7 @@
 import dayjs from "dayjs";
 import { mapGetters, mapActions } from "vuex";
 import Heading from "@/components/texts/Heading";
+import ButtonPrimary from "@/components/buttons/ButtonPrimary";
 import FeedbackMessage from "@/components/FeedbackMessage";
 import InputSearchLocation from "@/components/InputSearchLocation";
 
@@ -64,6 +62,7 @@ export default {
   middleware: ["authenticatedOnly"],
   components: {
     Heading,
+    ButtonPrimary,
     FeedbackMessage,
     InputSearchLocation,
   },
@@ -122,7 +121,6 @@ export default {
       });
     },
   },
-  mounted() {},
   destroyed() {
     this.cleanError();
   },
