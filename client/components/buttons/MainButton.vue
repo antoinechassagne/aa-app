@@ -34,7 +34,7 @@ export default {
   },
 };
 </script>
-<style scoped lang="scss">
+<style lang="scss" scoped>
 button {
   border-radius: 5px;
   padding: 0.5rem;
@@ -54,15 +54,15 @@ button {
   }
 }
 .color-black {
-  color: var(--light-black-color);
+  color: $color-black;
 }
 .color-white {
-  color: var(--main-white-color);
+  color: $color-white;
 }
 .background-white {
-  background-color: var(--main-white-color);
+  background-color: $color-white;
 }
 .background-black {
-  background-color: var(--main-black-color);
+  background-color: $color-black;
 }
 </style>

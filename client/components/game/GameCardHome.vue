@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="game-card">
     <div
       class="illu-container"
       :style="{
@@ -41,8 +41,8 @@ export default {
 };
 </script>
 
-<style scoped>
-.container {
+<style lang="scss" scoped>
+.game-card {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -67,10 +67,10 @@ export default {
   justify-content: space-around;
   align-items: center;
   backdrop-filter: blur(2px);
-  color: var(--main-white-color);
+  color: $color-white;
   margin: 5% 5% 0 0;
   font-size: 0.8rem;
-  border: 1px solid var(--super-light-grey);
+  border: 1px solid $color-grey;
   justify-self: flex-start;
   align-self: flex-end;
 }
@@ -81,10 +81,10 @@ export default {
   justify-content: space-around;
   align-items: center;
   backdrop-filter: blur(2px);
-  color: var(--main-white-color);
+  color: $color-white;
   margin: 0 0 5% 5%;
   font-size: 0.8rem;
-  border: 1px solid var(--super-light-grey);
+  border: 1px solid $color-grey;
   justify-self: flex-start;
 }
 .pastille p {

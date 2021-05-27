@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="notification">
     <div class="left-side">
       <div class="title">
         <Heading level="6">{{ this.notification.game.boardGameName }}</Heading>
@@ -63,12 +63,12 @@ export default {
   },
 };
 </script>
-<style scoped>
-.container {
+<style lang="scss" scoped>
+.notification {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: var(--main-white-color);
+  background-color: $color-white;
   padding: 3%;
   border-radius: 10px;
   box-shadow: 0px 0px 6px 5px rgba(196, 196, 196, 0.2);
@@ -85,20 +85,20 @@ export default {
 .title .voir-partie {
   margin-left: 10%;
   text-decoration: underline;
-  color: var(--light-black-color);
+  color: $color-black;
   font-size: 0.8rem;
 }
-.container p {
-  color: var(--main-grey-color);
+.notification p {
+  color: $color-grey;
   margin-bottom: 20px;
 }
-.container span {
-  color: var(--main-grey-color);
+.notification span {
+  color: $color-grey;
   font-size: 0.8rem;
 }
 button {
-  background-color: var(--light-purple-color);
-  color: var(--main-purple-color);
+  background-color: rgba($color-primary, 0.5);
+  color: $color-primary;
   border: none;
   border-radius: 5px;
   padding: 10px 15px 10px 15px;

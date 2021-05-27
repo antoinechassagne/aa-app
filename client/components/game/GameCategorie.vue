@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="game-category">
     <div class="illu-container">
       <img
         :src="require(`~/assets/images/gameCategories/${category.imageName}.png`)"
@@ -25,7 +25,7 @@ export default {
 </script>
 
 <style scoped>
-.container {
+.game-category {
   display: flex;
   align-items: center;
   width: 25%;

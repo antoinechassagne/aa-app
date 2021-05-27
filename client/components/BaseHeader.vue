@@ -52,19 +52,18 @@ export default {
   },
 };
 </script>
-<style scoped>
+<style lang="scss" scoped>
 .sticky {
   position: sticky;
   top: 0;
   width: 100%;
-  background-color: var(--main-white-color);
+  background-color: $color-white;
   z-index: 10;
 }
 .nav {
   height: 10vh;
   display: flex;
   justify-content: space-between;
-  box-shadow: 0px 0px 6px 5px rgba(196, 196, 196, 0.62);
 }
 ul {
   display: flex;
@@ -82,7 +81,7 @@ ul {
   height: 40px;
   justify-content: center;
   align-items: center;
-  background-color: var(--light-purple-color);
+  background-color: rgba($color-primary, 0.5);
   border-radius: 10px;
 }
 .pastille-notification {
@@ -93,8 +92,8 @@ ul {
   height: 15px;
   font-size: 0.6rem;
   font-weight: 500;
-  color: var(--main-white-color);
-  background-color: var(--main-red-color);
+  color: $color-white;
+  background-color: $color-primary;
   border-radius: 10px;
   position: absolute;
   bottom: -3px;

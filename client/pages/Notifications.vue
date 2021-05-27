@@ -62,13 +62,13 @@ export default {
   },
 };
 </script>
-<style scoped>
+<style lang="scss" scoped>
 .notification-page {
   width: 80%;
   margin: 5% 10% 5% 10%;
 }
 hr {
-  border: 1px solid var(--super-light-grey);
+  border: 1px solid $color-white;
 }
 .notification-container {
   display: flex;
