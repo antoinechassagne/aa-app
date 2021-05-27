@@ -13,19 +13,19 @@
             class="card-game__image"
           />
           <div class="text-content">
-            <Heading level="4">Proposée par {{ game.creator.pseudo }}</Heading>
+            <Heading level="3" class="color-grey capitalize"> {{ game.creator.pseudo }} Propose</Heading>
             <Heading level="2">{{ game.boardGameName }}</Heading>
-            <p class="">{{ gamePlannedDate }}</p>
-            <p>{{ game.category.label }}</p>
+            <p class="color-primary">{{ gamePlannedDate }}</p>
+            <p class="tertiary">{{ game.category.label }}</p>
           </div>
         </div>
+        <span class="subheading">Description</span>
+        <p class="description">{{ game.description }}</p>
 
-        <div></div>
+        <GamesMapLight class="map" :location="location" :games="[game]" />
       </div>
       <div class="right-side"></div>
     </div>
-
-    <p>{{ game.description }}</p>
 
     <p>Joueurs manquants : {{ game.missingPlayers }}</p>
     <section v-if="!userIsCreator">
@@ -82,6 +82,7 @@ import ButtonPrimary from "@/components/buttons/ButtonPrimary";
 import ButtonDanger from "@/components/buttons/ButtonDanger";
 import FeedbackMessage from "@/components/FeedbackMessage";
 import participationStatuses from "@/constants/participationStatuses";
+import GamesMapLight from "@/components/map/GamesMapLight";
 export default {
   name: "PageGame",
   components: {
@@ -90,7 +91,9 @@ export default {
     ButtonPrimary,
     ButtonDanger,
     FeedbackMessage,
+    GamesMapLight,
   },
+
   async fetch({ params, store }) {
     await Promise.all([
       store.dispatch("games/fetchGame", params.id),
@@ -153,6 +156,9 @@ export default {
       return (
         !this.gameIsPast && this.userParticipation && this.userParticipation.statusId === participationStatuses.ACCEPTED
       );
+    },
+    location() {
+      return { longitude: this.game.longitude, latitude: this.game.latitude };
     },
   },
   methods: {
@@ -222,9 +228,14 @@ export default {
 .game-content {
   display: flex;
 }
+.left-side {
+  width: 55%;
+}
 .game-hero {
   margin-top: 2rem;
   display: flex;
+  margin-bottom: 2rem;
+  align-items: center;
 }
 .game-hero img {
   width: 200px;
@@ -235,6 +246,19 @@ export default {
   margin-left: 2rem;
   display: flex;
   flex-direction: column;
+  align-items: stretch;
   justify-content: center;
+}
+.text-content > * {
+  margin: 0.5rem 0 0.5rem 0;
+}
+.description {
+  margin: 2rem 0 1rem 0;
+}
+.map {
+  width: 100%;
+  height: 33vh;
+  border-radius: 10px;
+  margin: 2rem 0 2rem 0;
 }
 </style>
