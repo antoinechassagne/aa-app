@@ -34,13 +34,16 @@ export default {
       type: Number,
       default: 14,
     },
+    location: {
+      type: Object,
+    },
   },
   data() {
     return {
       map: null,
       markers: [],
       loadingMap: true,
-      location: null,
+      currentLocation: null,
       defaultLocation: {
         latitude: 46.227638,
         longitude: 2.213749,
@@ -90,8 +93,12 @@ export default {
     },
   },
   async mounted() {
-    const { location } = await Geolocation();
-    this.location = location;
+    if (this.location) {
+      this.currentLocation = this.location;
+    } else {
+      const { location } = await Geolocation();
+      this.currentLocation = location;
+    }
     this.initMap();
   },
 };

@@ -90,3 +90,6 @@ p {
 .color-danger {
   color: $color-danger !important;
 }
+.capitalize {
+  text-transform: capitalize;
+}
