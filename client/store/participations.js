@@ -1,7 +1,12 @@
 import participationStatuses from "../constants/participationStatuses";
 
 export const state = () => ({
-  loading: false,
+  loading: {
+    participations: false,
+    create: false,
+    update: false,
+    delete: false,
+  },
   error: null,
   participations: [],
 });
@@ -14,7 +19,7 @@ export const getters = {
 
 export const mutations = {
   SET_LOADING(state, loading) {
-    state.loading = loading;
+    state.loading = { ...state.loading, ...loading };
   },
   SET_ERROR(state, error) {
     state.error = error;
@@ -28,7 +33,7 @@ export const actions = {
   fetchParticipations(context, query = {}) {
     return new Promise((resolve, reject) => {
       context.commit("SET_ERROR", null);
-      context.commit("SET_LOADING", true);
+      context.commit("SET_LOADING", { participations: true });
       this.$axios
         .$get("/participations", { params: { ...query } })
         .then((participations) => {
@@ -40,14 +45,14 @@ export const actions = {
           return reject();
         })
         .finally(() => {
-          context.commit("SET_LOADING", false);
+          context.commit("SET_LOADING", { participations: false });
         });
     });
   },
   createParticipation(context, gameId) {
     return new Promise((resolve, reject) => {
       context.commit("SET_ERROR", null);
-      context.commit("SET_LOADING", true);
+      context.commit("SET_LOADING", { create: true });
       const { user } = context.rootState.authentication;
       this.$axios
         .$post("/participations", { userId: user.id, gameId, statusId: participationStatuses.PENDING })
@@ -57,14 +62,14 @@ export const actions = {
           return reject();
         })
         .finally(() => {
-          context.commit("SET_LOADING", false);
+          context.commit("SET_LOADING", { create: false });
         });
     });
   },
   acceptParticipation(context, participationId) {
     return new Promise((resolve, reject) => {
       context.commit("SET_ERROR", null);
-      context.commit("SET_LOADING", true);
+      context.commit("SET_LOADING", { update: true });
       this.$axios
         .$put(`/participations/${participationId}`, { statusId: participationStatuses.ACCEPTED })
         .then(() => resolve())
@@ -73,14 +78,14 @@ export const actions = {
           return reject();
         })
         .finally(() => {
-          context.commit("SET_LOADING", false);
+          context.commit("SET_LOADING", { update: false });
         });
     });
   },
   refuseParticipation(context, participationId) {
     return new Promise((resolve, reject) => {
       context.commit("SET_ERROR", null);
-      context.commit("SET_LOADING", true);
+      context.commit("SET_LOADING", { update: true });
       this.$axios
         .$put(`/participations/${participationId}`, { statusId: participationStatuses.REFUSED })
         .then(() => resolve())
@@ -89,14 +94,14 @@ export const actions = {
           return reject();
         })
         .finally(() => {
-          context.commit("SET_LOADING", false);
+          context.commit("SET_LOADING", { update: false });
         });
     });
   },
   deleteParticipation(context, participationId) {
     return new Promise((resolve, reject) => {
       context.commit("SET_ERROR", null);
-      context.commit("SET_LOADING", true);
+      context.commit("SET_LOADING", { delete: true });
       this.$axios
         .$delete(`/participations/${participationId}`)
         .then(() => resolve())
@@ -105,7 +110,7 @@ export const actions = {
           return reject();
         })
         .finally(() => {
-          context.commit("SET_LOADING", false);
+          context.commit("SET_LOADING", { delete: true });
         });
     });
   },
