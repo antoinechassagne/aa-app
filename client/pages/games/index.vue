@@ -7,7 +7,7 @@
           {{ game.boardGameName }}
         </div>
       </div>
-      <GamesMap :location="location" :games="games" :loading="loading" class="games__map" />
+      <GamesMap :location="location" :games="games" :loading="loading.games" class="games__map" />
     </div>
   </div>
 </template>

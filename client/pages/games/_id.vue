@@ -1,6 +1,5 @@
 <template>
-  <Loader v-if="loading" />
-  <div v-else class="container">
+  <div class="container">
     <FeedbackMessage v-if="error" type="error">
       {{ error }}
     </FeedbackMessage>
@@ -21,8 +20,7 @@
         </div>
         <span class="subheading">Description</span>
         <p class="description">{{ game.description }}</p>
-
-        <GamesMapLight class="map" :location="location" :games="[game]" />
+        <GamesMapLight class="map" :location="location" :games="[game]" :loading="gamesLoading.game" />
       </div>
       <div class="right-side">
         <div class="missing-players">
@@ -35,10 +33,20 @@
               <p v-if="hasParticipate" class="color-green">Vous avez participé à cette partie</p>
               <p v-if="willParticipate" class="color-green">Vous êtes inscris à cette partie</p>
               <p v-if="canCreateParticipation">Demandez pour participer</p>
-              <ButtonPrimary v-if="canCreateParticipation" @click="requestToParticipate">
+              <ButtonPrimary
+                v-if="canCreateParticipation"
+                :loading="participationsLoading.create"
+                @click="requestToParticipate"
+              >
                 Demander à rejoindre
               </ButtonPrimary>
-              <ButtonDanger v-if="canCancelParticipation" @click="cancelParticipation">Annuler la demande</ButtonDanger>
+              <ButtonDanger
+                v-if="canCancelParticipation"
+                :loading="participationsLoading.delete"
+                @click="cancelParticipation"
+              >
+                Annuler la demande
+              </ButtonDanger>
             </div>
             <route-link v-if="!user && !gameIsPast" to="/login">
               Vous devez être connecté pour rejoindre cette partie
@@ -54,18 +62,21 @@
                     <template v-if="!gameIsPast">
                       <ButtonDanger
                         v-if="canRefuseUserParticipation(participation)"
+                        :loading="participationsLoading.update"
                         @click="refuseUserParticipation(participation)"
                       >
                         Refuser la demande
                       </ButtonDanger>
                       <ButtonPrimary
                         v-if="canAcceptUserParticipation(participation)"
+                        :loading="participationsLoading.update"
                         @click="acceptUserParticipation(participation)"
                       >
                         Accepter la demande
                       </ButtonPrimary>
                       <ButtonDanger
                         v-if="canCancelUserParticipation(participation)"
+                        :loading="participationsLoading.delete"
                         @click="cancelUserParticipation(participation)"
                       >
                         Annuler la participation
@@ -103,7 +114,6 @@ export default {
     FeedbackMessage,
     GamesMapLight,
   },
-
   async fetch({ params, store }) {
     await Promise.all([
       store.dispatch("games/fetchGame", params.id),
@@ -114,8 +124,9 @@ export default {
     ...mapGetters({
       user: "authentication/user",
       game: "games/game",
-      loading: "games/loading",
       error: "games/error",
+      gamesLoading: "games/loading",
+      participationsLoading: "participations/loading",
       participations: "participations/participations",
     }),
     participationsToDisplay() {

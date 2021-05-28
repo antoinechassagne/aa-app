@@ -1,18 +1,17 @@
 <template>
   <div class="notification-page">
-    <Heading level="4">Notifications</Heading>
+    <Heading level="2">Notifications</Heading>
     <hr />
     <FeedbackMessage v-if="error" type="error">
       {{ error }}
     </FeedbackMessage>
-    <Loader v-if="loading" />
     <div v-else class="notification-container">
       <div>
         <Notification
           v-for="notification in notifications"
           :key="notification.id"
           :notification="notification"
-          @markAsRead="onMarkAsRead"
+          :markAsRead="markAsRead"
         />
       </div>
     </div>
@@ -51,8 +50,8 @@ export default {
       readNotification: "notifications/readNotification",
       fetchNotifications: "notifications/fetchNotifications",
     }),
-    onMarkAsRead(notificationId) {
-      this.readNotification(notificationId).then(() => {
+    markAsRead(notificationId) {
+      return this.readNotification(notificationId).then(() => {
         this.fetchNotifications();
       });
     },
