@@ -1,5 +1,10 @@
 export const state = () => ({
-  loading: false,
+  loading: {
+    register: false,
+    login: false,
+    logout: false,
+    user: false,
+  },
   error: null,
   user: null,
 });
@@ -12,7 +17,7 @@ export const getters = {
 
 export const mutations = {
   SET_LOADING(state, loading) {
-    state.loading = loading;
+    state.loading = { ...state.loading, ...loading };
   },
   SET_ERROR(state, error) {
     state.error = error;
@@ -26,7 +31,7 @@ export const actions = {
   register(context, form) {
     return new Promise((resolve, reject) => {
       context.commit("SET_ERROR", null);
-      context.commit("SET_LOADING", true);
+      context.commit("SET_LOADING", { register: true });
       this.$axios
         .$post("/register", form)
         .then(() => resolve())
@@ -35,14 +40,14 @@ export const actions = {
           return reject();
         })
         .finally(() => {
-          context.commit("SET_LOADING", false);
+          context.commit("SET_LOADING", { register: false });
         });
     });
   },
   login(context, credentials) {
     return new Promise((resolve, reject) => {
       context.commit("SET_ERROR", null);
-      context.commit("SET_LOADING", true);
+      context.commit("SET_LOADING", { login: true });
       this.$axios
         .$post("/login", {
           email: credentials.email,
@@ -61,14 +66,14 @@ export const actions = {
           return reject();
         })
         .finally(() => {
-          context.commit("SET_LOADING", false);
+          context.commit("SET_LOADING", { login: false });
         });
     });
   },
   logout(context) {
     return new Promise((resolve, reject) => {
       context.commit("SET_ERROR", null);
-      context.commit("SET_LOADING", true);
+      context.commit("SET_LOADING", { logout: true });
       this.$axios
         .$get("/logout")
         .then(() => {
@@ -80,13 +85,13 @@ export const actions = {
           return reject();
         })
         .finally(() => {
-          context.commit("SET_LOADING", false);
+          context.commit("SET_LOADING", { logout: false });
         });
     });
   },
   fetchUser(context) {
     context.commit("SET_ERROR", null);
-    context.commit("SET_LOADING", true);
+    context.commit("SET_LOADING", { user: true });
     return new Promise((resolve, reject) => {
       this.$axios
         .$get("/logged-user")
@@ -96,7 +101,7 @@ export const actions = {
         })
         .catch((error) => reject(error))
         .finally(() => {
-          context.commit("SET_LOADING", false);
+          context.commit("SET_LOADING", { user: false });
         });
     });
   },
