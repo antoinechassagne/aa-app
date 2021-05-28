@@ -2,9 +2,12 @@
   <div class="games">
     <div class="games__cards">
       <Heading level="2">Recherchez une partie</Heading>
-      <div v-for="game in games" :key="game.id">
-        <CardGame :game="game" class="games__cards__card" />
-      </div>
+      <p v-if="!games.length">Aucunes parties trouvées.</p>
+      <template v-else>
+        <div v-for="game in games" :key="game.id">
+          <CardGame :game="game" class="games__cards__card" />
+        </div>
+      </template>
     </div>
     <GamesMap :center="location" :games="games" :loading="loading.games" class="games__map" />
   </div>
@@ -23,8 +26,12 @@ export default {
     CardGame,
     GamesMap,
   },
-  async fetch({ store }) {
-    await store.dispatch("games/fetchGames", {});
+  async fetch({ store, query }) {
+    const fetchQuery = {};
+    if (query.categoryId) {
+      fetchQuery.categoryId = JSON.parse(query.categoryId);
+    }
+    await store.dispatch("games/fetchGames", fetchQuery);
   },
   data() {
     return {
