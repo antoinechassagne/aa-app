@@ -1,13 +1,13 @@
 <template>
   <div>
-    <Heading level="1">Parties autour de vous</Heading>
+    <Heading level="2">Recherchez une partie</Heading>
     <div class="games">
       <div class="games__cards">
         <div v-for="game in games" :key="game.id">
           {{ game.boardGameName }}
         </div>
       </div>
-      <GamesMap :location="location" :games="games" :loading="loading.games" class="games__map" />
+      <GamesMap :center="location" :games="games" :loading="loading.games" class="games__map" />
     </div>
   </div>
 </template>

@@ -20,7 +20,7 @@
         </div>
         <span class="subheading">Description</span>
         <p class="description">{{ game.description }}</p>
-        <GamesMapLight class="map" :location="location" :games="[game]" :loading="gamesLoading.game" />
+        <GamesMap :location="location" :games="[game]" :loading="gamesLoading.game" :showPopups="false" class="map" />
       </div>
       <div class="right-side">
         <div class="missing-players">
@@ -103,7 +103,8 @@ import ButtonPrimary from "@/components/buttons/ButtonPrimary";
 import ButtonDanger from "@/components/buttons/ButtonDanger";
 import FeedbackMessage from "@/components/FeedbackMessage";
 import participationStatuses from "@/constants/participationStatuses";
-import GamesMapLight from "@/components/map/GamesMapLight";
+import GamesMap from "@/components/map/GamesMap";
+
 export default {
   name: "PageGame",
   components: {
@@ -112,7 +113,7 @@ export default {
     ButtonPrimary,
     ButtonDanger,
     FeedbackMessage,
-    GamesMapLight,
+    GamesMap,
   },
   async fetch({ params, store }) {
     await Promise.all([

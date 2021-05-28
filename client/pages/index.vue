@@ -23,7 +23,7 @@
     </div>
     <div class="map">
       <Heading level="2">Explorez les parties au alentour</Heading>
-      <GamesMapLight :games="games" :loading="loading.games" :zoom="10" class="map__map" />
+      <GamesMap :games="games" :loading="loading.games" :zoom="10" class="map__map" />
     </div>
     <div class="games">
       <Heading level="2">Aujourd'hui</Heading>
@@ -63,7 +63,7 @@ import isToday from "dayjs/plugin/isToday";
 import "dayjs/locale/fr";
 import { mapGetters } from "vuex";
 import Heading from "@/components/texts/Heading";
-import GamesMapLight from "@/components/map/GamesMapLight";
+import GamesMap from "@/components/map/GamesMap";
 import CardCategory from "@/components/game/CardCategory";
 import ButtonPrimary from "@/components/buttons/ButtonPrimary";
 import CardGame from "@/components/game/CardGame";
@@ -76,7 +76,7 @@ export default {
   middleware: ["authenticatedOnly"],
   components: {
     Heading,
-    GamesMapLight,
+    GamesMap,
     CardCategory,
     ButtonPrimary,
     CardGame,
