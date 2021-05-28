@@ -5,7 +5,7 @@
     <FeedbackMessage v-if="error" type="error">
       {{ error }}
     </FeedbackMessage>
-    <Loader v-if="loading" />
+    <Loader v-if="loading.notifications" />
     <div v-else class="notification-container">
       <div>
         <Notification
