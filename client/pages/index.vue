@@ -23,7 +23,7 @@
     </div>
     <div class="map">
       <Heading level="2">Explorez les parties au alentour</Heading>
-      <GamesMapLight :games="games" :loading="loading" :zoom="10" class="map__map" />
+      <GamesMapLight :games="games" :loading="loading.games" :zoom="10" class="map__map" />
     </div>
     <div class="games">
       <Heading level="2">Aujourd'hui</Heading>

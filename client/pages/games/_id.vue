@@ -1,5 +1,5 @@
 <template>
-  <Loader v-if="loading" />
+  <Loader v-if="loading.game" />
   <div v-else class="container">
     <FeedbackMessage v-if="error" type="error">
       {{ error }}
@@ -103,7 +103,6 @@ export default {
     FeedbackMessage,
     GamesMapLight,
   },
-
   async fetch({ params, store }) {
     await Promise.all([
       store.dispatch("games/fetchGame", params.id),

@@ -42,7 +42,7 @@
         />
       </div>
       <FeedbackMessage v-if="error" type="error"> {{ error }} </FeedbackMessage>
-      <ButtonPrimary connecter type="submit" @click="submit" :loading="loading" :disabled="!canSubmitForm">
+      <ButtonPrimary connecter type="submit" @click="submit" :loading="loading.create" :disabled="!canSubmitForm">
         Créer
       </ButtonPrimary>
     </form>
@@ -95,7 +95,7 @@ export default {
       return date.toISOString();
     },
     canSubmitForm() {
-      return !this.loading;
+      return !this.loading.create;
     },
   },
   methods: {
