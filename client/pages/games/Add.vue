@@ -42,7 +42,7 @@
         />
       </div>
       <FeedbackMessage v-if="error" type="error"> {{ error }} </FeedbackMessage>
-      <ButtonPrimary connecter type="submit" @click="submit" :loading="loading.create" :disabled="!canSubmitForm">
+      <ButtonPrimary type="submit" @click="submit" :loading="loading.create" :disabled="!canSubmitForm">
         Créer
       </ButtonPrimary>
     </form>
