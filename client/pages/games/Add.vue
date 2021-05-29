@@ -7,11 +7,11 @@
         <input v-model="boardGameName" id="boardGameName" type="text" placeholder="Saisissez le nom du jeu" required />
       </div>
       <div>
-        <label for="email">Catégorie :</label>
+        <label for="email">Description :</label>
         <textarea v-model="description" id="description" type="text" placeholder="Saisissez une description" rows="6" />
       </div>
       <div>
-        <label for="email">Description :</label>
+        <label for="email">Catégorie :</label>
         <select v-model="categoryId" id="categoryId" required>
           <option :value="null">--Sélectionnez une catégorie--</option>
           <template v-for="gameCategory in taxonomies.gameCategories">

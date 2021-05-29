@@ -14,11 +14,11 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .marker {
   width: 25px;
   height: 25px;
-  background: #667eea;
+  background: $color-primary;
   display: block;
   border-radius: 50%;
 }
