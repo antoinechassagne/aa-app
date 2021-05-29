@@ -1,5 +1,5 @@
-const ParticipationsRepository = require("../repositories/participations");
-const GamesRepository = require("../../games/repositories/games");
+const ParticipationsRepository = require("../repository");
+const GamesRepository = require("../../games/repository");
 const NotificationGenerator = require("../../notifications/services/NotificationsGenerator");
 const participationStatuses = require("../../../constants/participationStatuses");
 

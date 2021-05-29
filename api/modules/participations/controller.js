@@ -1,6 +1,6 @@
-const ParticipationsRepository = require("./repositories/participations");
-const GamesRepository = require("../games/repositories/games");
-const UsersRepository = require("../users/repositories/users");
+const ParticipationsRepository = require("./repository");
+const GamesRepository = require("../games/repository");
+const UsersRepository = require("../users/repository");
 const ParticipationsManager = require("./services/ParticipationsManager");
 
 exports.getParticipation = async function (req, res) {

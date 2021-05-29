@@ -1,5 +1,5 @@
 const NotificationsRepository = require("./repository");
-const GamesRepository = require("../games/repositories/games");
+const GamesRepository = require("../games/repository");
 
 exports.getNotifications = async function (req, res) {
   try {

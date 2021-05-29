@@ -1,4 +1,4 @@
-const database = require("../../../database/index");
+const database = require("../../database/index");
 
 exports.createUser = function (user) {
   return database("users")

@@ -1,5 +1,5 @@
-const GamesRepository = require("./repositories/games");
-const UsersRepository = require("../users/repositories/users");
+const GamesRepository = require("./repository");
+const UsersRepository = require("../users/repository");
 const GameCategoriesRepository = require("../gameCategories/repository");
 
 exports.getGame = async function (req, res) {
