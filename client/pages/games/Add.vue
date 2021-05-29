@@ -1,51 +1,70 @@
 <template>
-  <div>
-    <Heading level="1">Créer une nouvelle partie</Heading>
-    <form>
-      <div>
-        <label for="boardGameName">Nom du jeu :</label>
-        <input v-model="boardGameName" id="boardGameName" type="text" placeholder="Saisissez le nom du jeu" required />
-      </div>
-      <div>
-        <label for="email">Catégorie :</label>
-        <textarea v-model="description" id="description" type="text" placeholder="Saisissez une description" rows="6" />
-      </div>
-      <div>
-        <label for="email">Description :</label>
-        <select v-model="categoryId" id="categoryId" required>
-          <option :value="null">--Sélectionnez une catégorie--</option>
-          <template v-for="gameCategory in taxonomies.gameCategories">
-            <option :value="gameCategory.id" :key="gameCategory.id">{{ gameCategory.label }}</option>
-          </template>
-        </select>
-      </div>
-      <div>
-        <label for="date">Date :</label>
-        <input v-model="date" id="date" type="date" required />
-      </div>
-      <div>
-        <label for="time">Heure :</label>
-        <input v-model="time" id="time" type="time" required />
-      </div>
-      <div>
-        <InputSearchLocation @select-location="updateLocation" required />
-      </div>
-      <div>
-        <label for="missingPlayers">Nombre de joueurs manquants:</label>
-        <input
-          v-model.number="missingPlayers"
-          id="missingPlayers"
-          type="number"
-          min="0"
-          placeholder="Saisissez le nombre de joueurs manquants"
-          required
-        />
-      </div>
-      <FeedbackMessage v-if="error" type="error"> {{ error }} </FeedbackMessage>
-      <ButtonPrimary connecter type="submit" @click="submit" :loading="loading.create" :disabled="!canSubmitForm">
-        Créer
-      </ButtonPrimary>
-    </form>
+  <div class="container">
+    <div class="form-container">
+      <Heading level="1">Créer une partie</Heading>
+      <form>
+        <div>
+          <label for="boardGameName">Nom du jeu </label>
+          <input
+            v-model="boardGameName"
+            id="boardGameName"
+            type="text"
+            placeholder="Saisissez le nom du jeu"
+            required
+          />
+        </div>
+        <div>
+          <label for="email"> Description </label>
+          <textarea
+            v-model="description"
+            id="description"
+            type="text"
+            placeholder="Saisissez une description"
+            rows="6"
+          />
+        </div>
+        <div>
+          <div>
+            <label for="email"> Catégorie </label>
+            <select v-model="categoryId" id="categoryId" required>
+              <option :value="null">Sélectionnez une catégorie</option>
+              <template v-for="gameCategory in taxonomies.gameCategories">
+                <option :value="gameCategory.id" :key="gameCategory.id">{{ gameCategory.label }}</option>
+              </template>
+            </select>
+          </div>
+          <div>
+            <label for="missingPlayers">Nombre de places</label>
+            <input
+              v-model.number="missingPlayers"
+              id="missingPlayers"
+              type="number"
+              min="0"
+              placeholder="Saisissez le nombre de joueurs manquants"
+              required
+            />
+          </div>
+        </div>
+        <div>
+          <div>
+            <label for="date">Date </label>
+            <input v-model="date" id="date" type="date" required />
+          </div>
+          <div>
+            <label for="time">Heure </label>
+            <input v-model="time" id="time" type="time" required />
+          </div>
+        </div>
+        <div>
+          <InputSearchLocation @select-location="updateLocation" required />
+        </div>
+
+        <FeedbackMessage v-if="error" type="error"> {{ error }} </FeedbackMessage>
+        <ButtonPrimary connecter type="submit" @click="submit" :loading="loading.create" :disabled="!canSubmitForm">
+          Créer
+        </ButtonPrimary>
+      </form>
+    </div>
   </div>
 </template>
 
@@ -126,3 +145,53 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+input {
+  border: solid 2px $color-primary;
+  border-radius: 5px;
+  padding: 0.5rem;
+  &:focus {
+    border-color: $color-primary;
+    box-shadow: none;
+    outline: 0 none;
+  }
+  &::placeholder {
+    font-size: 1rem;
+    color: $color-grey;
+  }
+}
+select {
+  border: solid 2px $color-primary;
+  border-radius: 5px;
+  padding: 0.5rem;
+  &:focus {
+    border-color: $color-primary;
+    box-shadow: none;
+    outline: 0 none;
+  }
+}
+textarea {
+  border: solid 2px $color-primary;
+  border-radius: 5px;
+  padding: 0.5rem;
+  &:focus {
+    border-color: $color-primary;
+    box-shadow: none;
+    outline: 0 none;
+  }
+}
+.form-container {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  margin-top: 2rem;
+}
+form {
+  margin-top: 2rem;
+}
+form > div {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 2rem;
+}
+</style>
