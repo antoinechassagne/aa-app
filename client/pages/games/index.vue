@@ -11,6 +11,14 @@
           </template>
         </select>
         <InputSearchLocation @select-location="updateLocation" />
+        <div>
+          <label for="start">A partir du :</label>
+          <input v-model="query.start" id="start" type="date" />
+        </div>
+        <div>
+          <label for="end">Jusqu'au :</label>
+          <input v-model="query.end" id="end" type="date" />
+        </div>
       </div>
       <Loader v-if="loading.games" />
       <template v-else>
@@ -63,7 +71,11 @@ export default {
   watch: {
     query: {
       handler() {
-        this.fetchGames(this.query);
+        const query = this.query;
+        if (!query.start) {
+          query.start = dayjs().subtract(12, "hours").toISOString();
+        }
+        this.fetchGames(query);
       },
       deep: true,
     },
