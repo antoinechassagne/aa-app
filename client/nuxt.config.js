@@ -23,6 +23,11 @@ export default {
   styleResources: {
     scss: ["assets/styles/main.scss"],
   },
+  build: {
+    loaders: {
+      scss: { sourceMap: false },
+    },
+  },
   plugins: ["~/plugins/axios.js", "~/plugins/route-link.js", "~/plugins/directives.client.js"],
   components: true,
   buildModules: ["@nuxtjs/dotenv"],

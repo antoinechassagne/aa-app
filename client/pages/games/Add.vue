@@ -28,6 +28,7 @@
         <input v-model="time" id="time" type="time" required />
       </div>
       <div>
+        <label>Lieu : </label>
         <InputSearchLocation @select-location="updateLocation" required />
       </div>
       <div>
