@@ -1,57 +1,47 @@
 <template>
   <div class="input-search-location">
-    <label for="search">Lieu :</label>
-    <div class="input-search-location__container">
-      <input
-        v-model="search"
-        id="search"
-        type="text"
-        placeholder="Rechercher une adresse"
-        autocomplete="off"
-        :disabled="loadingGetCurrentLocation"
-        :required="required"
-        class="input-search-location__input"
-        @keyup="onTyping"
-      />
-      <ButtonPrimary
-        type="button"
-        color="white"
-        background="black"
-        :loading="loadingGetCurrentLocation"
-        @click="onUseCurrentLocation"
-      >
-        Utiliser la position actuelle
-      </ButtonPrimary>
-      <FeedbackMessage v-if="isThereGeoLocationError" type="error">
-        Une erreur est survenue lors de votre géolocalisation.
-      </FeedbackMessage>
-      <div v-if="showResults" v-click-outside="closeResults" class="input-search-location__results">
-        <Loader v-if="loadingSearch" />
-        <ul v-else>
-          <li
-            v-for="(result, index) in results"
-            :key="index"
-            class="input-search-location__results__row"
-            @click="onSelectLocation(result)"
-          >
-            <p>{{ result.properties.label }}</p>
-            <p>{{ result.properties.context }}</p>
-          </li>
-        </ul>
-      </div>
+    <input
+      v-model="search"
+      id="search"
+      type="text"
+      placeholder="Rechercher une adresse"
+      autocomplete="off"
+      :disabled="loadingGetCurrentLocation"
+      :required="required"
+      class="input-search-location__input"
+      @keyup="onTyping"
+      @focus="onFocus"
+    />
+    <FeedbackMessage v-if="isThereGeoLocationError" type="error">
+      Une erreur est survenue lors de votre géolocalisation.
+    </FeedbackMessage>
+    <div v-if="showResults" v-click-outside="closeResults" class="input-search-location__results">
+      <Loader v-if="loadingSearch" color="primary" />
+      <ul v-else class="input-search-location__list">
+        <li @click="onUseCurrentLocation" class="input-search-location__list__row">
+          Utiliser ma position actuelle <Loader v-if="loadingGetCurrentLocation" width="16" height="16" />
+        </li>
+        <li
+          v-for="(result, index) in results"
+          :key="index"
+          class="input-search-location__list__row"
+          @click="onSelectLocation(result)"
+        >
+          <p>{{ result.properties.label }}</p>
+          <p>{{ result.properties.context }}</p>
+        </li>
+      </ul>
     </div>
   </div>
 </template>
 
 <script>
-import ButtonPrimary from "@/components/buttons/ButtonPrimary";
 import Loader from "@/components/Loader";
 import Geolocation from "@/services/Geolocation";
 
 export default {
   name: "InputSearchLocation",
   components: {
-    ButtonPrimary,
     Loader,
   },
   props: {
@@ -73,6 +63,9 @@ export default {
     };
   },
   methods: {
+    onFocus() {
+      this.showResults = true;
+    },
     async onTyping() {
       if (!this.search || this.search.length < 3) {
         this.results = [];
@@ -107,6 +100,7 @@ export default {
       this.search = location.properties.label;
       const [longitude, latitude] = location.geometry.coordinates;
       this.$emit("select-location", { longitude, latitude, label: location.properties.label });
+      this.closeResults();
     },
     closeResults() {
       this.showResults = false;
@@ -117,21 +111,48 @@ export default {
 
 <style lang="scss" scoped>
 .input-search-location {
-  &__container {
-    position: relative;
-  }
+  max-width: 300px;
+  width: 100%;
+  position: relative;
+
   &__input {
+    width: 100%;
+    border: solid 2px $color-primary;
+    border-radius: 5px;
+    padding: 0.5rem;
+
+    &:focus {
+      border-color: $color-primary;
+      box-shadow: none;
+      outline: 0 none;
+    }
   }
 
   &__results {
     position: absolute;
-    top: 25px;
     background: white;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    min-width: 100%;
+    top: 33px;
+    border: solid 2px $color-primary;
+    border-radius: 5px;
+  }
+
+  &__list {
+    width: 100%;
+
+    li:last-of-type {
+      border-bottom: none;
+    }
 
     &__row {
-      margin-bottom: 0.5rem;
-      border: solid 1px black;
-      padding: 0.25rem;
+      border-bottom: solid 2px $color-primary;
+      padding: 0.5rem;
+      &:hover {
+        background-color: rgba($color-primary, 0.25);
+      }
 
       &:hover {
         cursor: pointer;

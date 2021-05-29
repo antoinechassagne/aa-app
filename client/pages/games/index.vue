@@ -4,18 +4,21 @@
       <Heading level="2">Recherchez une partie</Heading>
       <div class="games__filters">
         <label for="email">Catégorie :</label>
-        <select v-model="query.categoryId" id="categoryId" required>
+        <select v-model="query.categoryId" id="categoryId" required class="mb-1">
           <option :value="null">--Sélectionnez une catégorie--</option>
           <template v-for="gameCategory in taxonomies.gameCategories">
             <option :value="gameCategory.id" :key="gameCategory.id">{{ gameCategory.label }}</option>
           </template>
         </select>
-        <InputSearchLocation @select-location="updateLocation" />
-        <div>
+        <div class="flex-row mb-1">
+          <label>Lieu : </label>
+          <InputSearchLocation @select-location="updateLocation" />
+        </div>
+        <div class="mb-1">
           <label for="start">A partir du :</label>
           <input v-model="query.start" id="start" type="date" />
         </div>
-        <div>
+        <div class="mb-1">
           <label for="end">Jusqu'au :</label>
           <input v-model="query.end" id="end" type="date" />
         </div>
@@ -137,6 +140,14 @@ export default {
 
   &__map {
     width: 50%;
+  }
+
+  .flex-row {
+    display: flex;
+  }
+
+  .mb-1 {
+    margin-bottom: 1rem;
   }
 }
 </style>
