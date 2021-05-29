@@ -12,6 +12,7 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import Loader from "@/components/Loader";
 import GameMarker from "./GameMarker";
 import GamePopup from "./GamePopup";
+import Geolocation from "@/services/Geolocation";
 
 export default {
   name: "GamesMap",
@@ -19,9 +20,6 @@ export default {
     Loader,
   },
   props: {
-    location: {
-      type: Object,
-    },
     games: {
       type: Array,
       default() {
@@ -32,21 +30,55 @@ export default {
       type: Boolean,
       required: true,
     },
+    center: {
+      type: Object,
+    },
+    zoom: {
+      type: Number,
+    },
+    showPopups: {
+      type: Boolean,
+      default: true,
+    },
   },
   data() {
     return {
       map: null,
       markers: [],
       loadingMap: true,
-      defaultLocation: {
+      currentLocation: null,
+      defaultCenter: {
         latitude: 46.227638,
         longitude: 2.213749,
       },
     };
   },
+  watch: {
+    center: {
+      handler() {
+        this.updateMapCenter();
+      },
+      deep: true,
+    },
+  },
   computed: {
     mapClass() {
       return this.loadingMap ? "game-map__map--hidden" : null;
+    },
+    centerLocation() {
+      if (this.center) {
+        return [this.center.longitude, this.center.latitude];
+      }
+      if (this.currentLocation) {
+        return [this.currentLocation.longitude, this.currentLocation.latitude];
+      }
+      return [this.defaultCenter.longitude, this.defaultCenter.latitude];
+    },
+    zoomLevel() {
+      if (this.zoom) {
+        return this.zoom;
+      }
+      return this.center || this.currentLocation ? 14 : 5;
     },
   },
   methods: {
@@ -55,10 +87,8 @@ export default {
       this.map = new mapboxgl.Map({
         container: this.$refs.map,
         style: "mapbox://styles/mapbox/streets-v11",
-        center: this.location
-          ? [this.location.longitude, this.location.latitude]
-          : [this.defaultLocation.longitude, this.defaultLocation.latitude],
-        zoom: this.location ? 14 : 5,
+        center: this.centerLocation,
+        zoom: this.zoomLevel,
       });
       this.attachMapEventListeners();
     },
@@ -69,14 +99,18 @@ export default {
           ...GameMarker,
           propsData: { game },
         }).$mount();
-        const popupComponent = new Vue({
-          router: this.$router,
-          ...GamePopup,
-          propsData: { game },
-        }).$mount();
         const marker = new mapboxgl.Marker({ element: markerComponent.$el }).setLngLat([game.longitude, game.latitude]);
-        const popup = new mapboxgl.Popup().setDOMContent(popupComponent.$el);
-        marker.setPopup(popup).addTo(this.map);
+        if (this.showPopups) {
+          const popupComponent = new Vue({
+            router: this.$router,
+            ...GamePopup,
+            propsData: { game },
+          }).$mount();
+          const popup = new mapboxgl.Popup().setDOMContent(popupComponent.$el);
+          marker.setPopup(popup).addTo(this.map);
+        } else {
+          marker.addTo(this.map);
+        }
       });
     },
     attachMapEventListeners() {
@@ -85,8 +119,15 @@ export default {
         this.loadingMap = false;
       });
     },
+    updateMapCenter() {
+      this.map.flyTo({
+        center: this.centerLocation,
+      });
+    },
   },
-  mounted() {
+  async mounted() {
+    const { location } = await Geolocation();
+    this.currentLocation = location;
     this.initMap();
   },
 };

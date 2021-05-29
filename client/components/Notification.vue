@@ -10,7 +10,7 @@
         <span>{{ notificationDate }}</span>
       </div>
 
-      <ButtonPrimary v-if="!notification.read" @click="markAsRead">J'ai lu</ButtonPrimary>
+      <ButtonPrimary v-if="!notification.read" @click="read" :loading="loadingRead">J'ai lu</ButtonPrimary>
     </div>
   </RouteLink>
 </template>
@@ -36,6 +36,15 @@ export default {
       type: Object,
       required: true,
     },
+    markAsRead: {
+      type: Function,
+      required: true,
+    },
+  },
+  data() {
+    return {
+      loadingRead: false,
+    };
   },
   computed: {
     notificationLabel() {
@@ -58,8 +67,10 @@ export default {
     },
   },
   methods: {
-    markAsRead() {
-      this.$emit("markAsRead", this.notification.id);
+    async read() {
+      this.loadingRead = true;
+      await this.markAsRead(this.notification.id);
+      this.loadingRead = false;
     },
   },
 };

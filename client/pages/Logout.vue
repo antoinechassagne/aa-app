@@ -1,9 +1,16 @@
-<template></template>
+<template>
+  <Loader />
+</template>
+
 <script>
 import { mapActions } from "vuex";
+import Loader from "@/components/Loader";
 
 export default {
   name: "PageLogout",
+  components: {
+    Loader,
+  },
   methods: {
     ...mapActions({
       logout: "authentication/logout",

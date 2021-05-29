@@ -39,7 +39,9 @@
       <FeedbackMessage v-if="error" type="error">
         {{ error }}
       </FeedbackMessage>
-      <ButtonPrimary type="submit" @click="submit" :loading="loading" :disabled="loading"> S'inscrire </ButtonPrimary>
+      <ButtonPrimary type="submit" @click="submit" :loading="loading.register" :disabled="loading.register">
+        S'inscrire
+      </ButtonPrimary>
       <div>
         <RouteLink to="/login">Vous êtes déjà inscrit ? Connectez-vous dès maintenant</RouteLink>
       </div>

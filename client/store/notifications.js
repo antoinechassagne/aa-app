@@ -1,5 +1,8 @@
 export const state = () => ({
-  loading: false,
+  loading: {
+    notifications: false,
+    read: false,
+  },
   error: null,
   notifications: [],
 });
@@ -13,7 +16,7 @@ export const getters = {
 
 export const mutations = {
   SET_LOADING(state, loading) {
-    state.loading = loading;
+    state.loading = { ...state.loading, ...loading };
   },
   SET_ERROR(state, error) {
     state.error = error;
@@ -27,7 +30,7 @@ export const actions = {
   fetchNotifications(context, query = {}) {
     return new Promise((resolve, reject) => {
       context.commit("SET_ERROR", null);
-      context.commit("SET_LOADING", true);
+      context.commit("SET_LOADING", { notifications: true });
       const { user } = context.rootState.authentication;
       this.$axios
         .$get("/notifications", { params: { ...query, userId: user.id } })
@@ -40,7 +43,7 @@ export const actions = {
           return reject();
         })
         .finally(() => {
-          context.commit("SET_LOADING", false);
+          context.commit("SET_LOADING", { notifications: false });
         });
     });
   },
@@ -65,7 +68,7 @@ export const actions = {
   readNotification(context, notificationId) {
     return new Promise((resolve, reject) => {
       context.commit("SET_ERROR", null);
-      context.commit("SET_LOADING", true);
+      context.commit("SET_LOADING", { read: true });
       this.$axios
         .$put(`/notifications/${notificationId}`, { read: true })
         .then(() => resolve())
@@ -74,7 +77,7 @@ export const actions = {
           return reject();
         })
         .finally(() => {
-          context.commit("SET_LOADING", false);
+          context.commit("SET_LOADING", { read: false });
         });
     });
   },
