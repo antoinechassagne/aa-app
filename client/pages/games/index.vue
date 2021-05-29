@@ -2,11 +2,23 @@
   <div class="games">
     <div class="games__cards">
       <Heading level="2">Recherchez une partie</Heading>
-      <p v-if="!games.length">Aucunes parties trouvées.</p>
+      <div class="games__filters">
+        <label for="email">Catégorie :</label>
+        <select v-model="query.categoryId" id="categoryId" required>
+          <option :value="null">--Sélectionnez une catégorie--</option>
+          <template v-for="gameCategory in taxonomies.gameCategories">
+            <option :value="gameCategory.id" :key="gameCategory.id">{{ gameCategory.label }}</option>
+          </template>
+        </select>
+      </div>
+      <Loader v-if="loading.games" />
       <template v-else>
-        <div v-for="game in games" :key="game.id">
-          <CardGame :game="game" class="games__cards__card" />
-        </div>
+        <p v-if="!games.length">Aucunes parties trouvées.</p>
+        <template v-else>
+          <div v-for="game in games" :key="game.id">
+            <CardGame :game="game" class="games__cards__card" />
+          </div>
+        </template>
       </template>
     </div>
     <GamesMap :center="location" :games="games" :loading="loading.games" class="games__map" />
@@ -36,19 +48,37 @@ export default {
   data() {
     return {
       location: null,
+      query: {
+        categoryId: null,
+      },
     };
+  },
+  watch: {
+    query: {
+      handler() {
+        this.fetchGames(this.query);
+      },
+      deep: true,
+    },
   },
   computed: {
     ...mapGetters({
       games: "games/games",
       loading: "games/loading",
       error: "games/error",
+      taxonomies: "taxonomies/taxonomies",
     }),
   },
   methods: {
     ...mapActions({
+      fetchGames: "games/fetchGames",
       cleanError: "games/cleanError",
     }),
+  },
+  created() {
+    if (this.$route.query && this.$route.query.categoryId) {
+      this.query.categoryId = JSON.parse(this.$route.query.categoryId);
+    }
   },
   destroyed() {
     this.cleanError();
@@ -64,6 +94,10 @@ export default {
   max-height: calc(100vh - 92px);
 
   h2 {
+    margin-bottom: 2rem;
+  }
+
+  &__filters {
     margin-bottom: 2rem;
   }
 

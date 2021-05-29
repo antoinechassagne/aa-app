@@ -60,6 +60,10 @@ export default {
       },
       deep: true,
     },
+    games() {
+      this.removeCurrentMarkers();
+      this.renderMarkersAndPopups();
+    },
   },
   computed: {
     mapClass() {
@@ -92,7 +96,7 @@ export default {
       });
       this.attachMapEventListeners();
     },
-    initMarkersAndPopups() {
+    renderMarkersAndPopups() {
       this.games.forEach((game) => {
         const markerComponent = new Vue({
           router: this.$router,
@@ -100,6 +104,7 @@ export default {
           propsData: { game },
         }).$mount();
         const marker = new mapboxgl.Marker({ element: markerComponent.$el }).setLngLat([game.longitude, game.latitude]);
+        this.markers.push(marker);
         if (this.showPopups) {
           const popupComponent = new Vue({
             router: this.$router,
@@ -113,9 +118,12 @@ export default {
         }
       });
     },
+    removeCurrentMarkers() {
+      this.markers.forEach((marker) => marker.remove());
+    },
     attachMapEventListeners() {
       this.map.on("load", () => {
-        this.initMarkersAndPopups();
+        this.renderMarkersAndPopups();
         this.loadingMap = false;
       });
     },
@@ -129,6 +137,9 @@ export default {
     const { location } = await Geolocation();
     this.currentLocation = location;
     this.initMap();
+  },
+  destroyed() {
+    this.map.remove();
   },
 };
 </script>
