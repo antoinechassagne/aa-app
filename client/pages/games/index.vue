@@ -10,6 +10,7 @@
             <option :value="gameCategory.id" :key="gameCategory.id">{{ gameCategory.label }}</option>
           </template>
         </select>
+        <InputSearchLocation @select-location="updateLocation" />
       </div>
       <Loader v-if="loading.games" />
       <template v-else>
@@ -26,10 +27,12 @@
 </template>
 
 <script>
+import dayjs from "dayjs";
 import { mapGetters, mapActions } from "vuex";
 import Heading from "@/components/texts/Heading";
 import CardGame from "@/components/game/CardGame";
 import GamesMap from "@/components/map/GamesMap";
+import InputSearchLocation from "@/components/InputSearchLocation";
 
 export default {
   name: "PageGames",
@@ -37,9 +40,10 @@ export default {
     Heading,
     CardGame,
     GamesMap,
+    InputSearchLocation,
   },
   async fetch({ store, query }) {
-    const fetchQuery = {};
+    const fetchQuery = { missingPlayers: true, start: dayjs().subtract(12, "hours").toISOString() };
     if (query.categoryId) {
       fetchQuery.categoryId = JSON.parse(query.categoryId);
     }
@@ -49,6 +53,9 @@ export default {
     return {
       location: null,
       query: {
+        missingPlayers: true,
+        start: dayjs().subtract(12, "hours").toISOString(),
+        end: null,
         categoryId: null,
       },
     };
@@ -74,6 +81,9 @@ export default {
       fetchGames: "games/fetchGames",
       cleanError: "games/cleanError",
     }),
+    updateLocation(location) {
+      this.location = location;
+    },
   },
   created() {
     if (this.$route.query && this.$route.query.categoryId) {
