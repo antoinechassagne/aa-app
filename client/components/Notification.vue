@@ -3,7 +3,7 @@
     <div class="notification">
       <div class="left-side">
         <div class="title">
-          <Heading level="6">{{ this.notification.game.boardGameName }}</Heading>
+          <Heading level="6" class="color-black">{{ this.notification.game.boardGameName }}</Heading>
         </div>
 
         <p>{{ notificationLabel }}</p>
@@ -66,6 +66,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+a {
+  text-decoration: none;
+}
 .notification {
   display: flex;
   justify-content: space-between;
