@@ -12,7 +12,21 @@ exports.getGame = function (query) {
 };
 
 exports.getGames = function (query) {
-  return database("games").where(query).orderBy("creationDate", "desc");
+  const { end, start, missingPlayers, ...where } = query;
+  return database("games")
+    .where(where)
+    .modify((queryBuilder) => {
+      if (start) {
+        queryBuilder.where("plannedDate", ">=", start);
+      }
+      if (end) {
+        queryBuilder.where("plannedDate", "<=", end);
+      }
+      if (missingPlayers) {
+        queryBuilder.where("missingPlayers", ">", 0);
+      }
+    })
+    .orderBy("creationDate", "desc");
 };
 
 exports.updateGame = function (id, update) {

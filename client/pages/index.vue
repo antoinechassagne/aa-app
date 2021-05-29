@@ -82,7 +82,10 @@ export default {
     CardGame,
   },
   async fetch({ store }) {
-    await store.dispatch("games/fetchGames", {});
+    await store.dispatch("games/fetchGames", {
+      missingPlayers: true,
+      start: dayjs().subtract(12, "hours").toISOString(),
+    });
   },
   computed: {
     ...mapGetters({
