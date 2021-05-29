@@ -65,7 +65,6 @@ import { mapGetters } from "vuex";
 import Heading from "@/components/texts/Heading";
 import GamesMap from "@/components/map/GamesMap";
 import CardCategory from "@/components/game/CardCategory";
-import ButtonPrimary from "@/components/buttons/ButtonPrimary";
 import CardGame from "@/components/game/CardGame";
 
 dayjs.extend(isBetween);
@@ -78,11 +77,13 @@ export default {
     Heading,
     GamesMap,
     CardCategory,
-    ButtonPrimary,
     CardGame,
   },
   async fetch({ store }) {
-    await store.dispatch("games/fetchGames", {});
+    await store.dispatch("games/fetchGames", {
+      missingPlayers: true,
+      start: dayjs().subtract(12, "hours").toISOString(),
+    });
   },
   computed: {
     ...mapGetters({
