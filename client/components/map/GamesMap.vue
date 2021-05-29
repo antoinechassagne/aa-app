@@ -136,7 +136,8 @@ export default {
   async mounted() {
     const { location } = await Geolocation();
     this.currentLocation = location;
-    this.initMap();
+    /* Wait until the DOM has been fully rendered before injecting map */
+    this.$nextTick(() => this.initMap());
   },
   destroyed() {
     this.map.remove();
