@@ -38,25 +38,7 @@
       </template>
     </div>
     <ButtonPrimary @click="toggleMobileMap" class="games__map__open-btn" :class="openButtonClass">
-      Carte
-      <svg
-        role="img"
-        xmlns="http://www.w3.org/2000/svg"
-        width="20px"
-        height="20px"
-        viewBox="0 0 24 24"
-        aria-labelledby="mapIconTitle"
-        stroke="#FFFFFF"
-        stroke-width="1"
-        stroke-linecap="round"
-        stroke-linejoin="miter"
-        fill="none"
-        color="#FFFFFF"
-      >
-        <title id="mapIconTitle">Map</title>
-        <polygon points="9 19 3 21 3 5 9 3 15 5 21 3 21 18.5 15 21" />
-        <path stroke-linecap="round" d="M15 5L15 21M9 3L9 19" />
-      </svg>
+      Carte <IconMap width="20" height="20" color="white" />
     </ButtonPrimary>
     <div @click="toggleMobileMap" class="games__map__close-btn" :class="closeButtonClass">X</div>
     <GamesMap :center="location" :games="games" :loading="loading.games" class="games__map" :class="mapClass" />
@@ -71,6 +53,7 @@ import CardGame from "@/components/game/CardGame";
 import GamesMap from "@/components/map/GamesMap";
 import InputSearchLocation from "@/components/InputSearchLocation";
 import ButtonPrimary from "@/components/buttons/ButtonPrimary";
+import IconMap from "@/components/icons/IconMap";
 
 export default {
   name: "PageGames",
@@ -80,6 +63,7 @@ export default {
     GamesMap,
     InputSearchLocation,
     ButtonPrimary,
+    IconMap,
   },
   async fetch({ store, query }) {
     const fetchQuery = { missingPlayers: true, start: dayjs().subtract(12, "hours").toISOString() };

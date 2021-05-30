@@ -9,14 +9,13 @@
           <li class="router-notification">
             <RouteLink to="/notifications">
               <div class="notification">
-                <img src="./../assets/images/bell.svg" alt="" />
+                <IconNotification width="30" height="30" color="white" />
               </div>
               <template v-if="unreadNotificationsCount">
                 <div class="pastille-notification">{{ unreadNotificationsCountLabel }}</div>
               </template>
             </RouteLink>
           </li>
-
           <li class="deroulant">
             <a href="#">{{ this.user.pseudo }}</a>
             <ul class="sous">
@@ -34,8 +33,13 @@
 </template>
 
 <script>
+import IconNotification from "@/components/icons/IconNotification";
+
 export default {
   name: "BaseHeader",
+  components: {
+    IconNotification,
+  },
   props: {
     user: {
       type: Object,
@@ -82,7 +86,7 @@ ul {
   height: 40px;
   justify-content: center;
   align-items: center;
-  background-color: rgba($color-primary, 0.5);
+  background-color: $color-primary;
   border-radius: 10px;
 }
 .pastille-notification {
@@ -94,7 +98,7 @@ ul {
   font-size: 0.6rem;
   font-weight: 500;
   color: $color-white;
-  background-color: $color-primary;
+  background-color: $color-danger;
   border-radius: 10px;
   position: absolute;
   bottom: -3px;

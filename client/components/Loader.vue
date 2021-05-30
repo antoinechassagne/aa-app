@@ -73,7 +73,7 @@ export default {
 }
 
 .color-white {
-  fill: $color-black;
+  fill: $color-white;
 }
 
 .color-grey {

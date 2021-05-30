@@ -1,0 +1,31 @@
+.icon {
+  &--primary {
+    stroke: $color-primary;
+    color: $color-primary;
+  }
+
+  &--secondary {
+    stroke: $color-secondary;
+    color: $color-secondary;
+  }
+
+  &--black {
+    stroke: $color-black;
+    color: $color-black;
+  }
+
+  &--white {
+    stroke: $color-white;
+    color: $color-white;
+  }
+
+  &--grey {
+    stroke: $color-grey;
+    color: $color-grey;
+  }
+
+  &--danger {
+    stroke: $color-danger;
+    color: $color-danger;
+  }
+}
