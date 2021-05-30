@@ -1,7 +1,7 @@
 <template>
   <div class="game-map">
     <Loader v-if="loadingMap || loading" class="game-map__loader" />
-    <div ref="map" class="game-map__map" :class="mapClass"></div>
+    <div id="map" class="game-map__map" :class="mapClass"></div>
   </div>
 </template>
 
@@ -89,7 +89,7 @@ export default {
     initMap() {
       mapboxgl.accessToken = process.env.MAPBOX_ACCESS_TOKEN;
       this.map = new mapboxgl.Map({
-        container: this.$refs.map,
+        container: document.getElementById("map"),
         style: "mapbox://styles/mapbox/streets-v11",
         center: this.centerLocation,
         zoom: this.zoomLevel,
@@ -136,8 +136,7 @@ export default {
   async mounted() {
     const { location } = await Geolocation();
     this.currentLocation = location;
-    /* Wait until the DOM has been fully rendered before injecting map */
-    this.$nextTick(() => this.initMap());
+    this.initMap();
   },
   destroyed() {
     this.map.remove();
