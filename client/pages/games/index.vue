@@ -1,7 +1,7 @@
 <template>
   <div class="games">
     <div class="games__cards">
-      <Heading level="2">Recherchez une partie</Heading>
+      <Heading level="2">Rechercher une partie</Heading>
       <div class="games__filters">
         <div class="input-container w-50">
           <label for="email" class="subheading">Catégorie :</label>

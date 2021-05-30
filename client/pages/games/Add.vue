@@ -1,7 +1,7 @@
 <template>
   <div class="container flex">
     <div class="form-container">
-      <Heading level="1">Créer une partie</Heading>
+      <Heading level="2">Créer une partie</Heading>
       <form>
         <div>
           <label class="subheading" for="boardGameName">Nom du jeu </label>
@@ -99,7 +99,7 @@ export default {
       categoryId: null,
       description: null,
       date: dayjs().format("YYYY-MM-DD"),
-      time: dayjs().format("hh:mm"),
+      time: dayjs().format("HH:mm"),
       location: null,
       missingPlayers: 0,
     };
@@ -115,8 +115,8 @@ export default {
         return null;
       }
       const date = dayjs(this.date);
-      const hour = this.time.substring(0, 1);
-      const minute = this.time.substring(3, 4);
+      const hour = this.time.substring(0, 2);
+      const minute = this.time.substring(3, 5);
       date.hour(hour);
       date.minute(minute);
       return date.toISOString();
