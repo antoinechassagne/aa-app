@@ -88,6 +88,7 @@ a {
   padding: 3%;
   border-radius: 10px;
   border: 1px solid $color-grey;
+  margin-bottom: 1rem;
 }
 .left-side {
   max-width: 80%;

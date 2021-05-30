@@ -180,11 +180,20 @@ form > div {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+
+  @include on-mobile {
+    flex-direction: column;
+  }
 }
 .double-input > div {
   display: flex;
   flex-direction: column;
   width: 45%;
+
+  @include on-mobile {
+    width: 100%;
+    margin-top: 1rem;
+  }
 }
 .input-search-location {
   max-width: 100%;
