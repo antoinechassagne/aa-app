@@ -154,39 +154,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-select {
-  border: solid 2px $color-primary;
-  border-radius: 5px;
-  padding: 0.5rem;
-  &:focus {
-    border-color: $color-primary;
-    box-shadow: none;
-    outline: 0 none;
-  }
-  &::placeholder {
-    font-size: 1rem;
-    color: $color-grey;
-    font-family: $font-text;
-  }
-}
-textarea {
-  border: solid 2px $color-primary;
-  border-radius: 5px;
-  padding: 0.5rem;
-  &:focus {
-    border-color: $color-primary;
-    box-shadow: none;
-    outline: 0 none;
-  }
-  &::placeholder {
-    font-size: 1rem;
-    color: $color-grey;
-    font-family: $font-text;
-  }
-}
-label {
-  margin-bottom: 1rem;
-}
 .flex {
   display: flex;
   justify-content: space-between;

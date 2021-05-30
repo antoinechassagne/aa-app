@@ -5,7 +5,7 @@
       <div class="games__filters">
         <label for="email">Catégorie :</label>
         <select v-model="query.categoryId" id="categoryId" required class="mb-1">
-          <option :value="null">--Sélectionnez une catégorie--</option>
+          <option :value="null">Sélectionnez une catégorie</option>
           <template v-for="gameCategory in taxonomies.gameCategories">
             <option :value="gameCategory.id" :key="gameCategory.id">{{ gameCategory.label }}</option>
           </template>
