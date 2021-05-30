@@ -29,6 +29,7 @@ select {
     font-family: $font-text;
   }
 }
+
 textarea {
   border: solid 2px $color-primary;
   border-radius: 5px;
@@ -44,6 +45,13 @@ textarea {
     font-family: $font-text;
   }
 }
+
 label {
+  margin-bottom: 0.5rem;
+}
+
+.input-container {
+  display: flex;
+  flex-direction: column;
   margin-bottom: 1rem;
 }
