@@ -111,7 +111,6 @@ export default {
 
 <style lang="scss" scoped>
 .input-search-location {
-  max-width: 300px;
   width: 100%;
   position: relative;
 

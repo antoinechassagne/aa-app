@@ -3,24 +3,28 @@
     <div class="games__cards">
       <Heading level="2">Recherchez une partie</Heading>
       <div class="games__filters">
-        <label for="email">Catégorie :</label>
-        <select v-model="query.categoryId" id="categoryId" required class="mb-1">
-          <option :value="null">Sélectionnez une catégorie</option>
-          <template v-for="gameCategory in taxonomies.gameCategories">
-            <option :value="gameCategory.id" :key="gameCategory.id">{{ gameCategory.label }}</option>
-          </template>
-        </select>
-        <div class="flex-row mb-1">
-          <label>Lieu : </label>
+        <div class="input-container w-50">
+          <label for="email" class="subheading">Catégorie :</label>
+          <select v-model="query.categoryId" id="categoryId" required>
+            <option :value="null">Sélectionnez une catégorie</option>
+            <template v-for="gameCategory in taxonomies.gameCategories">
+              <option :value="gameCategory.id" :key="gameCategory.id">{{ gameCategory.label }}</option>
+            </template>
+          </select>
+        </div>
+        <div class="input-container">
+          <label class="subheading">Lieu : </label>
           <InputSearchLocation @select-location="updateLocation" />
         </div>
-        <div class="mb-1">
-          <label for="start">A partir du :</label>
-          <input v-model="query.start" id="start" type="date" />
-        </div>
-        <div class="mb-1">
-          <label for="end">Jusqu'au :</label>
-          <input v-model="query.end" id="end" type="date" />
+        <div class="inputs-date">
+          <div class="input-container w-50">
+            <label for="start" class="subheading">A partir du :</label>
+            <input v-model="query.start" id="start" type="date" />
+          </div>
+          <div class="input-container w-50">
+            <label for="end" class="subheading">Jusqu'au :</label>
+            <input v-model="query.end" id="end" type="date" />
+          </div>
         </div>
       </div>
       <Loader v-if="loading.games" />
@@ -142,12 +146,12 @@ export default {
     width: 50%;
   }
 
-  .flex-row {
+  .inputs-date {
     display: flex;
+    justify-content: space-between;
   }
-
-  .mb-1 {
-    margin-bottom: 1rem;
+  .w-50 {
+    width: calc(50% - 1rem);
   }
 }
 </style>
