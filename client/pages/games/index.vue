@@ -37,7 +37,29 @@
         </template>
       </template>
     </div>
-    <GamesMap :center="location" :games="games" :loading="loading.games" class="games__map" />
+    <ButtonPrimary @click="toggleMobileMap" class="games__map__open-btn" :class="openButtonClass">
+      Carte
+      <svg
+        role="img"
+        xmlns="http://www.w3.org/2000/svg"
+        width="20px"
+        height="20px"
+        viewBox="0 0 24 24"
+        aria-labelledby="mapIconTitle"
+        stroke="#FFFFFF"
+        stroke-width="1"
+        stroke-linecap="round"
+        stroke-linejoin="miter"
+        fill="none"
+        color="#FFFFFF"
+      >
+        <title id="mapIconTitle">Map</title>
+        <polygon points="9 19 3 21 3 5 9 3 15 5 21 3 21 18.5 15 21" />
+        <path stroke-linecap="round" d="M15 5L15 21M9 3L9 19" />
+      </svg>
+    </ButtonPrimary>
+    <div @click="toggleMobileMap" class="games__map__close-btn" :class="closeButtonClass">X</div>
+    <GamesMap :center="location" :games="games" :loading="loading.games" class="games__map" :class="mapClass" />
   </div>
 </template>
 
@@ -48,6 +70,7 @@ import Heading from "@/components/texts/Heading";
 import CardGame from "@/components/game/CardGame";
 import GamesMap from "@/components/map/GamesMap";
 import InputSearchLocation from "@/components/InputSearchLocation";
+import ButtonPrimary from "@/components/buttons/ButtonPrimary";
 
 export default {
   name: "PageGames",
@@ -56,6 +79,7 @@ export default {
     CardGame,
     GamesMap,
     InputSearchLocation,
+    ButtonPrimary,
   },
   async fetch({ store, query }) {
     const fetchQuery = { missingPlayers: true, start: dayjs().subtract(12, "hours").toISOString() };
@@ -73,6 +97,7 @@ export default {
         end: null,
         categoryId: null,
       },
+      showMobileMap: false,
     };
   },
   watch: {
@@ -94,6 +119,15 @@ export default {
       error: "games/error",
       taxonomies: "taxonomies/taxonomies",
     }),
+    mapClass() {
+      return this.showMobileMap ? "games__map--visible" : null;
+    },
+    openButtonClass() {
+      return this.showMobileMap ? null : "games__map__open-btn--visible";
+    },
+    closeButtonClass() {
+      return this.showMobileMap ? "games__map__close-btn--visible" : null;
+    },
   },
   methods: {
     ...mapActions({
@@ -102,6 +136,9 @@ export default {
     }),
     updateLocation(location) {
       this.location = location;
+    },
+    toggleMobileMap() {
+      this.showMobileMap = !this.showMobileMap;
     },
   },
   created() {
@@ -137,6 +174,10 @@ export default {
     padding: 4rem 2rem 0 2rem;
     overflow: scroll;
 
+    @include on-tablet {
+      width: 100%;
+    }
+
     &__card {
       margin-bottom: 1rem;
     }
@@ -144,14 +185,77 @@ export default {
 
   &__map {
     width: 50%;
+
+    @include on-tablet {
+      opacity: 0;
+      z-index: -1;
+      width: 100%;
+      position: absolute;
+    }
+
+    &--visible {
+      @include on-tablet {
+        opacity: 1;
+        z-index: 2;
+      }
+    }
+
+    &__open-btn {
+      display: none;
+
+      &--visible {
+        @include on-tablet {
+          display: flex;
+          position: absolute;
+          bottom: 3rem;
+          right: 50%;
+          transform: translateX(50%);
+        }
+      }
+    }
+
+    &__close-btn {
+      display: none;
+      background-color: $color-primary;
+      color: $color-white;
+      width: 36px;
+      height: 36px;
+      border-radius: 1rem;
+      justify-content: center;
+      align-items: center;
+
+      &--visible {
+        @include on-tablet {
+          display: flex;
+          position: absolute;
+          top: 12rem;
+          left: 3rem;
+          z-index: 3;
+        }
+
+        @include on-mobile {
+          top: 6rem;
+          left: 2rem;
+        }
+      }
+    }
   }
 
   .inputs-date {
     display: flex;
     justify-content: space-between;
+
+    @include on-mobile {
+      flex-wrap: wrap;
+    }
   }
+
   .w-50 {
     width: calc(50% - 1rem);
+
+    @include on-mobile {
+      width: 100%;
+    }
   }
 }
 </style>
