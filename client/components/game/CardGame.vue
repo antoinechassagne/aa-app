@@ -35,7 +35,7 @@ export default {
   computed: {
     dateFormat() {
       const date = dayjs(this.game.plannedDate).format("DD/MM/YYYY");
-      const hour = dayjs(this.game.plannedDate).format("hh:mm");
+      const hour = dayjs(this.game.plannedDate).format("HH:mm");
       return `${date} à ${hour}`;
     },
   },
