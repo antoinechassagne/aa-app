@@ -1,14 +1,25 @@
+label {
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
 input {
   border: solid 2px $color-primary;
   border-radius: 5px;
-  padding: 0.5rem;
+  padding: 0.75rem;
+  font-size: 0.875rem;
+  color: $color-grey;
+  font-family: $font-text;
+
   &:focus {
     border-color: $color-primary;
     box-shadow: none;
     outline: 0 none;
   }
+
   &::placeholder {
-    font-size: 1rem;
+    font-size: 0.875rem;
     color: $color-grey;
     font-family: $font-text;
   }
@@ -17,14 +28,19 @@ input {
 select {
   border: solid 2px $color-primary;
   border-radius: 5px;
-  padding: 0.5rem;
+  padding: 0.75rem;
+  font-size: 0.875rem;
+  color: $color-grey;
+  font-family: $font-text;
+
   &:focus {
     border-color: $color-primary;
     box-shadow: none;
     outline: 0 none;
   }
+
   &::placeholder {
-    font-size: 1rem;
+    font-size: 0.875rem;
     color: $color-grey;
     font-family: $font-text;
   }
@@ -33,21 +49,22 @@ select {
 textarea {
   border: solid 2px $color-primary;
   border-radius: 5px;
-  padding: 0.5rem;
+  padding: 0.75rem;
+  font-size: 0.875rem;
+  color: $color-grey;
+  font-family: $font-text;
+
   &:focus {
     border-color: $color-primary;
     box-shadow: none;
     outline: 0 none;
   }
+
   &::placeholder {
-    font-size: 1rem;
+    font-size: 0.875rem;
     color: $color-grey;
     font-family: $font-text;
   }
-}
-
-label {
-  margin-bottom: 0.5rem;
 }
 
 .input-container {

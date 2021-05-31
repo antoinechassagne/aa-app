@@ -95,6 +95,10 @@ export default {
     width: 100%;
     height: 100%;
 
+    @include on-mobile {
+      flex-direction: column;
+    }
+
     & > a {
       display: flex;
       align-items: center;
@@ -102,7 +106,7 @@ export default {
       text-decoration: none;
       color: $color-black;
       font-size: 14px;
-      font-weight: 500;
+      font-weight: 600;
       text-transform: uppercase;
 
       svg {
@@ -120,10 +124,11 @@ export default {
 
     a.header__logo {
       font-weight: 700;
-      text-transform: uppercase;
       text-decoration: none;
       color: $color-black;
       font-size: 1.25rem;
+      font-family: $font-heading;
+      letter-spacing: 2px;
     }
   }
 

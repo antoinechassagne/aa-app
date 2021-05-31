@@ -45,10 +45,10 @@ export default {
 <style lang="scss" scoped>
 .card-game {
   display: flex;
-  border: solid 1px $color-grey;
   text-decoration: none;
   border-radius: 5px;
   padding: 1rem;
+  background-color: white;
 
   &:hover {
     background-color: rgba($color-primary, 0.25);

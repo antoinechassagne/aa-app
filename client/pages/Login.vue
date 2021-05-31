@@ -4,11 +4,11 @@
       <Heading level="1">Se connecter</Heading>
       <form @submit="submit">
         <div>
-          <label class="subheading" for="email">Email :</label>
+          <label for="email">Email :</label>
           <input v-model="email" id="email" type="text" placeholder="Saisissez votre adresse email" required />
         </div>
         <div>
-          <label class="subheading" for="password">Mot de passe :</label>
+          <label for="password">Mot de passe :</label>
           <input v-model="password" id="password" type="password" placeholder="Saisissez votre mot de passe" required />
         </div>
         <FeedbackMessage v-if="error" type="error">
@@ -97,9 +97,7 @@ form > div {
   flex-direction: column;
   margin-bottom: 2rem !important;
 }
-label {
-  margin-bottom: 1rem;
-}
+
 .right-side {
   display: flex;
   justify-content: center;

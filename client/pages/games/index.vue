@@ -4,7 +4,7 @@
       <Heading level="2">Rechercher une partie</Heading>
       <div class="games__filters">
         <div class="input-container w-50">
-          <label for="email" class="subheading">Catégorie :</label>
+          <label for="email">Catégorie :</label>
           <select v-model="query.categoryId" id="categoryId" required>
             <option :value="null">Sélectionnez une catégorie</option>
             <template v-for="gameCategory in taxonomies.gameCategories">
@@ -13,16 +13,16 @@
           </select>
         </div>
         <div class="input-container">
-          <label class="subheading">Lieu : </label>
+          <label>Lieu : </label>
           <InputSearchLocation @select-location="updateLocation" />
         </div>
         <div class="inputs-date">
           <div class="input-container w-50">
-            <label for="start" class="subheading">A partir du :</label>
+            <label for="start">A partir du :</label>
             <input v-model="query.start" id="start" type="date" />
           </div>
           <div class="input-container w-50">
-            <label for="end" class="subheading">Jusqu'au :</label>
+            <label for="end">Jusqu'au :</label>
             <input v-model="query.end" id="end" type="date" />
           </div>
         </div>
@@ -38,7 +38,7 @@
       </template>
     </div>
     <ButtonPrimary @click="toggleMobileMap" class="games__map__open-btn" :class="openButtonClass">
-      Carte <IconMap width="20" height="20" color="white" />
+      Carte <IconMap width="20" height="20" color="white" class="margin--left--s" />
     </ButtonPrimary>
     <div @click="toggleMobileMap" class="games__map__close-btn" :class="closeButtonClass">X</div>
     <GamesMap :center="location" :games="games" :loading="loading.games" class="games__map" :class="mapClass" />

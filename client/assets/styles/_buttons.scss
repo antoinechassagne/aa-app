@@ -12,6 +12,7 @@
   text-align: center;
   text-decoration: none;
   font-family: $font-text;
+  font-weight: 600;
 
   &:hover {
     text-decoration: underline;
@@ -37,9 +38,5 @@
   &--danger {
     background-color: $color-danger;
     color: $color-white;
-  }
-
-  svg {
-    margin-left: 0.5rem;
   }
 }

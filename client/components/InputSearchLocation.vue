@@ -118,7 +118,7 @@ export default {
     width: 100%;
     border: solid 2px $color-primary;
     border-radius: 5px;
-    padding: 0.5rem;
+    padding: 0.75rem;
 
     &:focus {
       border-color: $color-primary;

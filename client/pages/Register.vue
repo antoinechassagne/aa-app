@@ -4,11 +4,11 @@
       <Heading level="1">S'inscrire</Heading>
       <form @submit="submit">
         <div>
-          <label class="subheading" for="pseudo">Pseudo :</label>
+          <label for="pseudo">Pseudo :</label>
           <input v-model="pseudo" id="pseudo" type="text" placeholder="Saisissez votre adresse pseudo" required />
         </div>
         <div>
-          <label class="subheading" for="phone">Numéro de téléphone :</label>
+          <label for="phone">Numéro de téléphone :</label>
           <input
             v-model="phone"
             id="phone"
@@ -19,16 +19,16 @@
           />
         </div>
         <div>
-          <label class="subheading" for="email">Email :</label>
+          <label for="email">Email :</label>
           <input v-model="email" id="email" type="text" placeholder="Saisissez votre adresse email" required />
         </div>
         <div>
-          <label class="subheading" for="password">Mot de passe :</label>
+          <label for="password">Mot de passe :</label>
           <input v-model="password" id="password" type="password" placeholder="Saisissez votre mot de passe" required />
           <p>8 caractères minimum dont au moins une majuscule, un chiffre et un caractère spécial.</p>
         </div>
         <div>
-          <label class="subheading" for="password">Confirmez votre mot de passe :</label>
+          <label for="password">Confirmez votre mot de passe :</label>
           <input
             v-model="passwordConfirmation"
             id="passwordConfirmation"
@@ -129,9 +129,7 @@ form > div {
   flex-direction: column;
   margin-bottom: 2rem !important;
 }
-label {
-  margin-bottom: 1rem;
-}
+
 .right-side {
   display: flex;
   justify-content: center;
