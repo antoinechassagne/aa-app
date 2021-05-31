@@ -114,11 +114,9 @@ export default {
       if (!this.date || !this.time) {
         return null;
       }
-      const date = dayjs(this.date);
-      const hour = this.time.substring(0, 2);
-      const minute = this.time.substring(3, 5);
-      date.hour(hour);
-      date.minute(minute);
+      const hour = parseFloat(this.time.substring(0, 2));
+      const minute = parseFloat(this.time.substring(3, 5));
+      const date = dayjs(this.date).hour(hour).minute(minute);
       return date.toISOString();
     },
     canSubmitForm() {
@@ -153,6 +151,7 @@ export default {
   },
 };
 </script>
+
 <style lang="scss" scoped>
 .flex {
   display: flex;
