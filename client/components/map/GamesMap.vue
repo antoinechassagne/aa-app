@@ -60,6 +60,9 @@ export default {
       },
       deep: true,
     },
+    zoomLevel() {
+      this.updateMapCenter();
+    },
     games() {
       this.removeCurrentMarkers();
       this.renderMarkersAndPopups();
@@ -130,13 +133,16 @@ export default {
     updateMapCenter() {
       this.map.flyTo({
         center: this.centerLocation,
+        zoom: this.zoomLevel,
       });
     },
   },
-  async mounted() {
-    const { location } = await Geolocation();
-    this.currentLocation = location;
+  mounted() {
     this.initMap();
+    Geolocation().then(({ location }) => {
+      this.currentLocation = location;
+      this.updateMapCenter();
+    });
   },
   destroyed() {
     if (this.map) {
