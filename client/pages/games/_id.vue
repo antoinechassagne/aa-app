@@ -96,6 +96,7 @@
 
 <script>
 import dayjs from "dayjs";
+import "dayjs/locale/fr";
 import { mapGetters, mapActions } from "vuex";
 import { poll, stopPolling } from "@/services/Polling";
 import Loader from "@/components/Loader";
@@ -148,8 +149,8 @@ export default {
       );
     },
     gamePlannedDate() {
-      const date = dayjs(this.game.plannedDate).format("ddd. DD MMM YYYY");
-      const hour = dayjs(this.game.plannedDate).format("hh:mm");
+      const date = dayjs(this.game.plannedDate).locale("fr").format("ddd. DD MMM YYYY");
+      const hour = dayjs(this.game.plannedDate).locale("fr").format("HH:mm");
       return `${date} à ${hour}`;
     },
     userIsCreator() {
