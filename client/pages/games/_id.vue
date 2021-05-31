@@ -97,6 +97,7 @@
 <script>
 import dayjs from "dayjs";
 import { mapGetters, mapActions } from "vuex";
+import { poll, stopPolling } from "@/services/Polling";
 import Loader from "@/components/Loader";
 import Heading from "@/components/texts/Heading";
 import ButtonPrimary from "@/components/buttons/ButtonPrimary";
@@ -120,6 +121,11 @@ export default {
       store.dispatch("games/fetchGame", params.id),
       store.dispatch("participations/fetchParticipations", { gameId: params.id }),
     ]);
+  },
+  data() {
+    return {
+      currentPollingId: null,
+    };
   },
   computed: {
     ...mapGetters({
@@ -240,12 +246,26 @@ export default {
     refreshData() {
       Promise.all([this.fetchGame(this.$route.params.id), this.fetchParticipations({ gameId: this.$route.params.id })]);
     },
+    startPolling() {
+      if (this.currentPollingId) {
+        stopPolling(this.currentPollingId);
+      }
+      const currentPollingId = poll(() => {
+        this.fetchParticipations({ gameId: this.$route.params.id });
+      }, 10);
+      this.currentPollingId = currentPollingId;
+    },
+  },
+  mounted() {
+    this.startPolling();
   },
   destroyed() {
     this.cleanError();
+    stopPolling(this.currentPollingId);
   },
 };
 </script>
+
 <style scoped lang="scss">
 .game-content {
   display: flex;

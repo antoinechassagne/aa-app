@@ -10,7 +10,7 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-import { poll, stopPolling } from "../services/Polling";
+import { poll, stopPolling } from "@/services/Polling";
 import BaseHeader from "@/components/BaseHeader";
 import BaseFooter from "@/components/BaseFooter";
 
