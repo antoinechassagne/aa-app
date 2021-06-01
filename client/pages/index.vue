@@ -156,6 +156,10 @@ export default {
     padding: 3rem;
     border-radius: 10px;
     max-height: 33vh;
+
+    @include on-mobile {
+      max-height: none;
+    }
   }
 
   &__content {
