@@ -32,6 +32,9 @@ export const actions = {
       context.commit("SET_ERROR", null);
       context.commit("SET_LOADING", { notifications: true });
       const { user } = context.rootState.authentication;
+      if (!user) {
+        return resolve();
+      }
       this.$axios
         .$get("/notifications", { params: { ...query, userId: user.id } })
         .then((notifications) => {
