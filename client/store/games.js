@@ -42,7 +42,7 @@ export const actions = {
         .$get(`/games/${gameId}`)
         .then((game) => {
           context.commit("SET_GAME", game || null);
-          return resolve();
+          return resolve(context.state.game);
         })
         .catch((error) => {
           context.commit("SET_ERROR", error);
@@ -61,7 +61,7 @@ export const actions = {
         .$get("/games", { params: { ...query } })
         .then((games) => {
           context.commit("SET_GAMES", games || []);
-          return resolve();
+          return resolve(games || []);
         })
         .catch((error) => {
           context.commit("SET_ERROR", error);

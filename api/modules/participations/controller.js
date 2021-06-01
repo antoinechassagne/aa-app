@@ -23,7 +23,7 @@ exports.getParticipations = async function (req, res) {
     if (!participations.length) {
       return res.status(204).send();
     }
-    for await (participation of participations) {
+    for (participation of participations) {
       participation.game = await GamesRepository.getGame({ id: participation.gameId });
       participation.user = await UsersRepository.getUser({ id: participation.userId });
     }

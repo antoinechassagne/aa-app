@@ -36,7 +36,7 @@ export const actions = {
         .$get("/notifications", { params: { ...query, userId: user.id } })
         .then((notifications) => {
           context.commit("SET_NOTIFICATIONS", notifications || []);
-          return resolve();
+          return resolve(context.state.notifications);
         })
         .catch((error) => {
           context.commit("SET_ERROR", error);
@@ -58,7 +58,7 @@ export const actions = {
         .then((unreadNotifications) => {
           const readNotifications = context.state.notifications.filter((n) => n.read);
           context.commit("SET_NOTIFICATIONS", [...unreadNotifications, ...readNotifications] || []);
-          return resolve();
+          return resolve(context.state.notifications);
         })
         .catch((error) => {
           return reject();

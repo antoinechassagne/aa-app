@@ -33,7 +33,7 @@ export const actions = {
         .$get("/game-categories", { params: { ...query } })
         .then((gameCategories) => {
           context.commit("SET_TAXONOMIES", { gameCategories: gameCategories || [] });
-          return resolve();
+          return resolve(context.state.taxonomies);
         })
         .catch((error) => {
           context.commit("SET_ERROR", error);

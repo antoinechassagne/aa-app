@@ -12,7 +12,7 @@ exports.getGame = function (query) {
 };
 
 exports.getGames = function (query) {
-  const { end, start, missingPlayers, ...where } = query;
+  const { end, start, missingPlayers, ids, ...where } = query;
   return database("games")
     .where(where)
     .modify((queryBuilder) => {
@@ -24,6 +24,9 @@ exports.getGames = function (query) {
       }
       if (missingPlayers) {
         queryBuilder.where("missingPlayers", ">", 0);
+      }
+      if (ids) {
+        queryBuilder.whereIn("id", ids);
       }
     })
     .orderBy("creationDate", "desc");

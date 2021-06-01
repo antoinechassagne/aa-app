@@ -38,7 +38,7 @@ export const actions = {
         .$get("/participations", { params: { ...query } })
         .then((participations) => {
           context.commit("SET_PARTICIPATIONS", participations || []);
-          return resolve();
+          return resolve(context.state.participations);
         })
         .catch((error) => {
           context.commit("SET_ERROR", error);

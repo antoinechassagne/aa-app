@@ -7,7 +7,7 @@ exports.getNotifications = async function (req, res) {
     if (!notifications.length) {
       return res.status(204).send();
     }
-    for await (notification of notifications) {
+    for (notification of notifications) {
       if (notification.content.gameId) {
         notification.game = await GamesRepository.getGame({ id: notification.content.gameId });
       }
