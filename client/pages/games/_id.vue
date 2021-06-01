@@ -57,37 +57,60 @@
             <div class="user-is-creator">
               <template v-if="participationsToDisplay.length">
                 <ul v-for="participation in participationsToDisplay" :key="participation.id">
-                  <li>
-                    <p>{{ participation.user.pseudo }} - {{ getParticipationStatusLabel(participation.statusId) }}</p>
-                    <template v-if="!gameIsPast">
-                      <ButtonDanger
-                        v-if="canRefuseUserParticipation(participation)"
-                        :loading="participationsLoading.update"
-                        @click="refuseUserParticipation(participation)"
-                      >
-                        Refuser la demande
-                      </ButtonDanger>
-                      <ButtonPrimary
-                        v-if="canAcceptUserParticipation(participation)"
-                        :loading="participationsLoading.update"
-                        @click="acceptUserParticipation(participation)"
-                      >
-                        Accepter la demande
-                      </ButtonPrimary>
-                      <ButtonDanger
-                        v-if="canCancelUserParticipation(participation)"
-                        :loading="participationsLoading.delete"
-                        @click="cancelUserParticipation(participation)"
-                      >
-                        Annuler la participation
-                      </ButtonDanger>
-                    </template>
+                  <li class="list-participation">
+                    <div class="participation-text">
+                      <span>
+                        {{ participation.user.pseudo }}
+                      </span>
+                      <p>
+                        {{ getParticipationStatusLabel(participation.statusId) }}
+                      </p>
+                    </div>
+                    <div class="participation-button-container">
+                      <template v-if="!gameIsPast">
+                        <ButtonDanger
+                          v-if="canRefuseUserParticipation(participation)"
+                          :loading="participationsLoading.update"
+                          @click="refuseUserParticipation(participation)"
+                        >
+                          Refuser
+                        </ButtonDanger>
+                        <ButtonPrimary
+                          v-if="canAcceptUserParticipation(participation)"
+                          :loading="participationsLoading.update"
+                          @click="acceptUserParticipation(participation)"
+                        >
+                          Accepter
+                        </ButtonPrimary>
+                        <ButtonDanger
+                          v-if="canCancelUserParticipation(participation)"
+                          :loading="participationsLoading.delete"
+                          @click="cancelUserParticipation(participation)"
+                        >
+                          Annuler
+                        </ButtonDanger>
+                      </template>
+                    </div>
                   </li>
                 </ul>
               </template>
               <span v-else class="color-grey">Aucune demande participation pour le moment</span>
             </div>
           </section>
+        </div>
+        <div v-if="userIsCreator || (!userIsCreator && willParticipate)" class="status user-info">
+          <div>
+            <span class="subheading">Addresse</span>
+            <p class="description">{{ game.location }}</p>
+          </div>
+          <div>
+            <span class="subheading">Telephone</span>
+            <p class="description">{{ game.creator.phone }}</p>
+          </div>
+        </div>
+        <div class="status time-to-game">
+          <p>La partie commence dans :</p>
+          <Heading class="color-primary" level="2">{{ timeToGame }}</Heading>
         </div>
       </div>
     </div>
@@ -97,6 +120,7 @@
 <script>
 import dayjs from "dayjs";
 import "dayjs/locale/fr";
+import relativeTime from "dayjs/plugin/relativeTime";
 import { mapGetters, mapActions } from "vuex";
 import { poll, stopPolling } from "@/services/Polling";
 import Loader from "@/components/Loader";
@@ -106,6 +130,8 @@ import ButtonDanger from "@/components/buttons/ButtonDanger";
 import FeedbackMessage from "@/components/FeedbackMessage";
 import participationStatuses from "@/constants/participationStatuses";
 import GamesMap from "@/components/map/GamesMap";
+
+dayjs.extend(relativeTime);
 
 export default {
   name: "PageGame",
@@ -149,9 +175,13 @@ export default {
       );
     },
     gamePlannedDate() {
-      const date = dayjs(this.game.plannedDate).locale("fr").format("ddd. DD MMM YYYY");
+      const date = dayjs(this.game.plannedDate).locale("fr").format("ddd DD MMM YYYY");
       const hour = dayjs(this.game.plannedDate).locale("fr").format("HH:mm");
       return `${date} à ${hour}`;
+    },
+    timeToGame() {
+      const timeToGame = dayjs(this.game.plannedDate).locale("fr").fromNow(true);
+      return timeToGame;
     },
     userIsCreator() {
       return this.user && this.game.creatorId === this.user.id;
@@ -270,20 +300,39 @@ export default {
 <style scoped lang="scss">
 .game-content {
   display: flex;
+
+  @include on-mobile {
+    display: flex;
+    flex-direction: column;
+  }
 }
 .left-side {
   width: 55%;
+
+  @include on-mobile {
+    width: 100%;
+  }
 }
 .game-hero {
   margin-top: 2rem;
   display: flex;
   margin-bottom: 2rem;
   align-items: center;
+
+  @include on-mobile {
+    display: flex;
+    flex-direction: column;
+  }
 }
 .game-hero img {
   width: 200px;
   height: auto;
   border-radius: 100%;
+
+  @include on-mobile {
+    width: 150px;
+    margin-bottom: 1rem;
+  }
 }
 .text-content {
   margin-left: 2rem;
@@ -291,6 +340,11 @@ export default {
   flex-direction: column;
   align-items: stretch;
   justify-content: center;
+
+  @include on-mobile {
+    align-items: center;
+    margin-left: 0;
+  }
 }
 .text-content > * {
   margin: 0.5rem 0 0.5rem 0;
@@ -305,8 +359,12 @@ export default {
   margin: 2rem 0 2rem 0;
 }
 .right-side {
-  width: calc(45% - 10rem);
-  padding: 1rem;
+  width: 50%;
+  padding: 1rem 0 1rem 1rem;
+
+  @include on-mobile {
+    width: 100%;
+  }
 }
 .missing-players {
   width: 100%;
@@ -339,5 +397,69 @@ export default {
 }
 .creator-title {
   margin-bottom: 2rem;
+}
+.list-participation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0 1rem 0;
+  border-bottom: 1px solid $color-grey;
+
+  @include on-mobile {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+.participation-button-container {
+  display: flex;
+
+  @include on-mobile {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+.participation-button-container button {
+  font-size: 0.8rem;
+  margin-left: 1rem;
+  line-height: 1;
+
+  @include on-mobile {
+    margin-left: 0;
+  }
+}
+.participation-text {
+  display: flex;
+  flex-direction: column;
+  width: 25%;
+
+  @include on-mobile {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+}
+.participation-text span {
+  font-size: 1rem;
+  color: $color-primary;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+.participation-text p {
+  font-size: 0.8rem;
+}
+.user-info {
+  display: flex;
+  justify-content: space-around;
+}
+.user-info > div {
+  width: 40%;
+}
+.time-to-game {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.time-to-game p {
+  margin-right: 1rem;
+  line-height: 1;
 }
 </style>
