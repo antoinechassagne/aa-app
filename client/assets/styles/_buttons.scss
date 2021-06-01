@@ -2,9 +2,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  border-style: solid;
+  border-width: 1px;
   border-radius: 5px;
   padding: 0.75rem 1rem;
-  border: none;
   font-size: 1rem;
   min-width: 100px;
   max-width: 300px;
@@ -26,17 +27,25 @@
 
   &--primary {
     background-color: $color-primary;
+    border-color: $color-primary;
     color: $color-white;
-  }
 
-  &--secondary {
-    background-color: $color-white;
-    color: $color-black;
-    border: solid 1px $color-white;
+    &--empty {
+      background-color: $color-white;
+      border-color: $color-primary;
+      color: $color-primary;
+    }
   }
 
   &--danger {
     background-color: $color-danger;
+    border-color: $color-danger;
     color: $color-white;
+
+    &--empty {
+      background-color: $color-white;
+      border-color: $color-danger;
+      color: $color-danger;
+    }
   }
 }
