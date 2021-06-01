@@ -3,7 +3,7 @@
     <div class="notification">
       <div class="left-side">
         <div class="title">
-          <Heading level="6" class="color-black">{{ this.notification.game.boardGameName }}</Heading>
+          <p class="subheading color-black">{{ this.notification.game.boardGameName }}</p>
         </div>
 
         <p>{{ notificationLabel }}</p>

@@ -93,7 +93,7 @@ export default {
       mapboxgl.accessToken = process.env.MAPBOX_ACCESS_TOKEN;
       this.map = new mapboxgl.Map({
         container: document.getElementById("map"),
-        style: "mapbox://styles/mapbox/streets-v11",
+        style: "mapbox://styles/antoinewebians/ckp76q3me0g8m18qvz3i5uvcj",
         center: this.centerLocation,
         zoom: this.zoomLevel,
       });

@@ -6,7 +6,7 @@
     :height="`${height}px`"
     viewBox="0 0 24 24"
     aria-labelledby="searchIconTitle"
-    stroke-width="1"
+    stroke-width="1.5"
     stroke-linecap="round"
     stroke-linejoin="miter"
     fill="none"
