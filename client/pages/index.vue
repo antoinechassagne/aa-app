@@ -102,14 +102,16 @@ export default {
     todayGames() {
       const limit = 3;
       const todayGames = this.games.filter((game) => dayjs(game.plannedDate).isToday());
-      return todayGames.slice(todayGames.length - limit, todayGames.length);
+      return todayGames.length > limit ? todayGames.slice(todayGames.length - limit, todayGames.length) : todayGames;
     },
     thisWeekGames() {
       const limit = 3;
       const thisWeekGames = this.games.filter((game) =>
         dayjs(game.plannedDate).isBetween(dayjs(), dayjs().locale("fr").endOf("week"))
       );
-      return thisWeekGames.slice(thisWeekGames.length - limit, thisWeekGames.length);
+      return thisWeekGames.length > limit
+        ? thisWeekGames.slice(thisWeekGames.length - limit, thisWeekGames.length)
+        : thisWeekGames;
     },
   },
   methods: {
