@@ -36,6 +36,9 @@ export default {
   components: true,
   buildModules: ["@nuxtjs/dotenv"],
   modules: ["@nuxtjs/axios", "@nuxtjs/pwa", "@nuxtjs/style-resources"],
+  env: {
+    mapboxAccessToken: process.env.MAPBOX_ACCESS_TOKEN,
+  },
   axios: {
     baseURL: process.env.API_URL,
     credentials: true,

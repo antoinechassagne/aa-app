@@ -90,7 +90,7 @@ export default {
   },
   methods: {
     initMap() {
-      mapboxgl.accessToken = process.env.MAPBOX_ACCESS_TOKEN;
+      mapboxgl.accessToken = process.env.mapboxAccessToken;
       this.map = new mapboxgl.Map({
         container: document.getElementById("map"),
         style: "mapbox://styles/antoinewebians/ckp76q3me0g8m18qvz3i5uvcj",
