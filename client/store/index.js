@@ -8,8 +8,9 @@ export const actions = {
   async nuxtServerInit(context) {
     try {
       await context.dispatch("authentication/fetchUser");
-      await context.dispatch("notifications/fetchNotifications");
-      await context.dispatch("taxonomies/fetchGameCategories");
+      await Promise.all[
+        (context.dispatch("notifications/fetchNotifications"), context.dispatch("taxonomies/fetchGameCategories"))
+      ];
     } catch (error) {}
   },
 };
