@@ -61,8 +61,7 @@ import dayjs from "dayjs";
 import isBetween from "dayjs/plugin/isBetween";
 import isToday from "dayjs/plugin/isToday";
 import "dayjs/locale/fr";
-import { mapGetters, mapActions } from "vuex";
-import { poll, stopPolling } from "@/services/Polling";
+import { mapGetters } from "vuex";
 import Heading from "@/components/texts/Heading";
 import GamesMap from "@/components/map/GamesMap";
 import CardCategory from "@/components/game/CardCategory";
@@ -115,30 +114,9 @@ export default {
     },
   },
   methods: {
-    ...mapActions({
-      fetchGames: "games/fetchGames",
-    }),
     getCategoryGamesCount(categoryId) {
       return this.games.filter((game) => game.categoryId === categoryId).length;
     },
-    startPolling() {
-      if (this.currentPollingId) {
-        stopPolling(this.currentPollingId);
-      }
-      const currentPollingId = poll(() => {
-        this.fetchGames({
-          missingPlayers: true,
-          start: dayjs().subtract(12, "hours").toISOString(),
-        });
-      }, 10);
-      this.currentPollingId = currentPollingId;
-    },
-  },
-  mounted() {
-    this.startPolling();
-  },
-  destroyed() {
-    stopPolling(this.currentPollingId);
   },
 };
 </script>
