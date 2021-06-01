@@ -6,12 +6,15 @@
     :height="`${height}px`"
     viewBox="0 0 24 24"
     stroke-width="1.5"
-    stroke-linecap="round"
+    stroke-linecap="square"
     stroke-linejoin="miter"
     fill="none"
     :class="`icon icon--${color}`"
   >
-    <path d="M17 12L7 12M12 17L12 7" />
+    <path
+      stroke-linecap="round"
+      d="M5.5,19.5 C7.83333333,18.5 9.33333333,17.6666667 10,17 C11,16 8,16 8,11 C8,7.66666667 9.33333333,6 12,6 C14.6666667,6 16,7.66666667 16,11 C16,16 13,16 14,17 C14.6666667,17.6666667 16.1666667,18.5 18.5,19.5"
+    />
     <circle cx="12" cy="12" r="10" />
   </svg>
 </template>
@@ -20,7 +23,7 @@
 import Icon from "./Icon";
 
 export default {
-  name: "IconAdd",
+  name: "IconUser",
   mixins: [Icon],
 };
 </script>

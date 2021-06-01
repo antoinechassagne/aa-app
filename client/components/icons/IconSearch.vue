@@ -5,14 +5,12 @@
     :width="`${width}px`"
     :height="`${height}px`"
     viewBox="0 0 24 24"
-    aria-labelledby="searchIconTitle"
     stroke-width="1.5"
     stroke-linecap="round"
     stroke-linejoin="miter"
     fill="none"
     :class="`icon icon--${color}`"
   >
-    <title id="searchIconTitle">Search</title>
     <path d="M14.4121122,14.4121122 L20,20" />
     <circle cx="10" cy="10" r="6" />
   </svg>

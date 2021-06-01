@@ -6,13 +6,13 @@
     :height="`${height}px`"
     viewBox="0 0 24 24"
     stroke-width="1.5"
-    stroke-linecap="round"
+    stroke-linecap="square"
     stroke-linejoin="miter"
     fill="none"
     :class="`icon icon--${color}`"
   >
-    <path d="M17 12L7 12M12 17L12 7" />
     <circle cx="12" cy="12" r="10" />
+    <polyline points="12 5 12 12 16 16" />
   </svg>
 </template>
 
@@ -20,7 +20,7 @@
 import Icon from "./Icon";
 
 export default {
-  name: "IconAdd",
+  name: "IconTime",
   mixins: [Icon],
 };
 </script>

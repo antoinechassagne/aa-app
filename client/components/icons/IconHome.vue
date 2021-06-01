@@ -6,13 +6,13 @@
     :height="`${height}px`"
     viewBox="0 0 24 24"
     stroke-width="1.5"
-    stroke-linecap="round"
+    stroke-linecap="square"
     stroke-linejoin="miter"
     fill="none"
     :class="`icon icon--${color}`"
   >
-    <path d="M17 12L7 12M12 17L12 7" />
-    <circle cx="12" cy="12" r="10" />
+    <path d="M3 10.182V22h18V10.182L12 2z" />
+    <rect width="6" height="8" x="9" y="14" />
   </svg>
 </template>
 
@@ -20,7 +20,7 @@
 import Icon from "./Icon";
 
 export default {
-  name: "IconAdd",
+  name: "IconHome",
   mixins: [Icon],
 };
 </script>

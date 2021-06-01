@@ -5,7 +5,6 @@
     :width="`${width}px`"
     :height="`${height}px`"
     viewBox="0 0 24 24"
-    aria-labelledby="mapIconTitle"
     stroke-width="1.5"
     stroke-linecap="round"
     stroke-linejoin="miter"
