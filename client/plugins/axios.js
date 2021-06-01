@@ -4,7 +4,6 @@ const statusCodes = {
 
 export default function ({ $axios, redirect }) {
   $axios.onError((error) => {
-    console.log(error);
     const defaultErrorMessage = "Une erreur s'est produite";
     const { response } = error;
     if (!response) {

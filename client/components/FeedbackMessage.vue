@@ -14,7 +14,7 @@ export default {
       validator(value) {
         const types = ["info", "success", "warning", "error"];
         if (!types.includes(value)) {
-          console.log(`Props validation]: Type must be ${types.join(" or ")}`);
+          console.info(`Props validation]: Type must be ${types.join(" or ")}`);
           return false;
         }
         return true;
