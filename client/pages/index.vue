@@ -72,7 +72,6 @@ dayjs.extend(isToday);
 
 export default {
   name: "PageHome",
-  middleware: ["authenticatedOnly"],
   components: {
     Heading,
     GamesMap,
