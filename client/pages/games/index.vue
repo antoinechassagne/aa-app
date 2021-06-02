@@ -191,7 +191,7 @@ export default {
         @include on-tablet {
           display: flex;
           position: absolute;
-          bottom: 3rem;
+          bottom: 5rem;
           right: 50%;
           transform: translateX(50%);
         }
@@ -204,7 +204,7 @@ export default {
       color: $color-white;
       width: 36px;
       height: 36px;
-      border-radius: 1rem;
+      border-radius: 2rem;
       justify-content: center;
       align-items: center;
 
@@ -212,13 +212,13 @@ export default {
         @include on-tablet {
           display: flex;
           position: absolute;
-          top: 12rem;
+          top: 10vh;
           left: 3rem;
           z-index: 3;
         }
 
         @include on-mobile {
-          top: 6rem;
+          top: 10vh;
           left: 2rem;
         }
       }

@@ -10,10 +10,6 @@ export default {
 
 <style lang="scss" scoped>
 .footer {
-  position: sticky;
-  top: 0;
   width: 100%;
-  background-color: $color-white;
-  z-index: 10;
 }
 </style>
