@@ -84,11 +84,6 @@ export default {
       start: dayjs().subtract(12, "hours").toISOString(),
     });
   },
-  data() {
-    return {
-      currentPollingId: null,
-    };
-  },
   computed: {
     ...mapGetters({
       user: "authentication/user",
