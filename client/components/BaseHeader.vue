@@ -1,46 +1,66 @@
 <template>
   <header class="header">
     <nav>
-      <RouteLink to="/" class="header__logo">Ludis</RouteLink>
-      <RouteLink to="/games"><IconSearch width="30" height="30" color="black" /> Rechercher une partie </RouteLink>
+      <RouteLink to="/" class="header__logo">
+        <IconHome width="30" height="30" color="black" class="mobile-only" />
+        <span class="desktop-only">Ludis</span>
+      </RouteLink>
+      <RouteLink to="/games">
+        <IconSearch width="30" height="30" color="black" />
+        <span class="desktop-only">Rechercher</span>
+      </RouteLink>
       <template v-if="user">
         <RouteLink to="/games/add">
-          <IconAdd width="30" height="30" color="black" hoverColor="primary" /> Créer une partie
+          <IconAdd width="30" height="30" color="black" />
+          <span class="desktop-only">Créer</span>
         </RouteLink>
+        <RouteLink to="/notifications" class="mobile-only">
+          <IconNotification width="30" height="30" color="black" />
+        </RouteLink>
+        <div class="header__profil">
+          <RouteLink to="/notifications" class="desktop-only">
+            <div class="header__notification">
+              <IconNotification width="30" height="30" color="white" />
+            </div>
+            <template v-if="unreadNotificationsCount">
+              <div class="header__notification__pastille">{{ unreadNotificationsCountLabel }}</div>
+            </template>
+            <IconNotification width="30" height="30" color="black" class="mobile-only" />
+          </RouteLink>
+          <div v-click-outside="closeProfilMenu" class="header__profil__container">
+            <span class="header__profil__pseudo" @click="toggleProfilMenu">
+              <IconUser width="30" height="30" color="black" />
+              <span class="desktop-only">{{ this.user.pseudo }}</span>
+            </span>
+            <ul class="header__profil__menu" :class="profilMenuClass">
+              <li><RouteLink to="/profil">Profil</RouteLink></li>
+              <li><RouteLink to="/profil/games">Mes parties</RouteLink></li>
+              <li><RouteLink to="/logout">Se déconnecter</RouteLink></li>
+            </ul>
+          </div>
+        </div>
       </template>
       <template v-else>
-        <RouteLink to="/login">Se connecter</RouteLink>
-      </template>
-      <div v-if="user" class="header__profil">
-        <RouteLink to="/notifications">
-          <div class="header__notification">
-            <IconNotification width="30" height="30" color="white" />
-          </div>
-          <template v-if="unreadNotificationsCount">
-            <div class="header__notification__pastille">{{ unreadNotificationsCountLabel }}</div>
-          </template>
+        <RouteLink to="/login">
+          <IconUser width="30" height="30" color="black" class="mobile-only" />
+          <span class="desktop-only">Se connecter</span>
         </RouteLink>
-        <div v-click-outside="closeProfilMenu" class="header__profil__container">
-          <span class="header__profil__pseudo" @click="toggleProfilMenu">{{ this.user.pseudo }}</span>
-          <ul class="header__profil__menu" :class="profilMenuClass">
-            <li><RouteLink to="/profil">Profil</RouteLink></li>
-            <li><RouteLink to="/profil/games">Mes parties</RouteLink></li>
-            <li><RouteLink to="/logout">Se déconnecter</RouteLink></li>
-          </ul>
-        </div>
-      </div>
+      </template>
     </nav>
   </header>
 </template>
 
 <script>
+import IconHome from "@/components/icons/IconHome";
 import IconNotification from "@/components/icons/IconNotification";
 import IconSearch from "@/components/icons/IconSearch";
 import IconAdd from "@/components/icons/IconAdd";
+import IconUser from "@/components/icons/IconUser";
 
 export default {
   name: "BaseHeader",
   components: {
+    IconHome,
     IconNotification,
     IconSearch,
     IconAdd,
@@ -88,16 +108,20 @@ export default {
   border-bottom: 1px solid $color-grey;
   padding: 0 2rem;
 
+  @include on-mobile {
+    position: fixed;
+    bottom: 0%;
+    top: initial;
+    height: 60px;
+    padding: 0 1rem;
+  }
+
   nav {
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 100%;
     height: 100%;
-
-    @include on-mobile {
-      flex-direction: column;
-    }
 
     & > a {
       display: flex;
@@ -111,6 +135,10 @@ export default {
 
       svg {
         margin-right: 0.5rem;
+
+        @include on-mobile {
+          margin-right: 0;
+        }
       }
 
       &:hover {
@@ -143,11 +171,25 @@ export default {
     }
 
     &__pseudo {
+      display: flex;
+      align-items: center;
       font-weight: 600;
+
+      svg {
+        margin-right: 0.5rem;
+
+        @include on-mobile {
+          margin-right: 0;
+        }
+      }
 
       &:hover {
         cursor: pointer;
         color: $color-primary;
+
+        svg {
+          stroke: $color-primary;
+        }
       }
     }
 
@@ -158,11 +200,16 @@ export default {
       justify-content: center;
       top: 0;
       right: 0;
-      transform: translate(1rem, 50%);
-      background-color: $color-white;
-      border: solid 2px $color-primary;
+      transform: translate(1rem, 2rem);
+      background-color: white;
+      border: solid 1px $color-primary;
       border-radius: 5px;
       width: 200px;
+      padding: 0.5rem;
+
+      @include on-mobile {
+        transform: translate(0, calc(-100% - 0.5rem));
+      }
 
       li a {
         display: block;
@@ -207,6 +254,20 @@ export default {
       color: $color-white;
       background-color: $color-danger;
       border-radius: 10px;
+    }
+  }
+
+  .mobile-only {
+    display: none;
+
+    @include on-mobile {
+      display: inline;
+    }
+  }
+
+  .desktop-only {
+    @include on-mobile {
+      display: none;
     }
   }
 }
