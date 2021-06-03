@@ -9,10 +9,10 @@
             class="card-game__image"
           />
           <div class="text-content">
-            <Heading level="3" class="color-grey capitalize"> {{ game.creator.pseudo }} Propose</Heading>
+            <p class="tertiary">{{ game.category.label }}</p>
+            <p>{{ game.creator.pseudo }} propose :</p>
             <Heading level="2">{{ game.boardGameName }}</Heading>
             <p class="color-primary">{{ gamePlannedDate }}</p>
-            <p class="tertiary">{{ game.category.label }}</p>
           </div>
         </div>
         <span class="subheading">Description</span>
@@ -325,7 +325,7 @@ export default {
 .game-hero img {
   width: 200px;
   height: auto;
-  border-radius: 100%;
+  border-radius: 20px;
 
   @include on-mobile {
     width: 150px;
@@ -344,9 +344,11 @@ export default {
     margin-left: 0;
   }
 }
+
 .text-content > * {
   margin: 0.5rem 0 0.5rem 0;
 }
+
 .description {
   margin: 2rem 0 1rem 0;
 }
@@ -358,7 +360,7 @@ export default {
 }
 .right-side {
   width: 50%;
-  padding: 1rem 0 1rem 1rem;
+  padding: 1rem 0 2rem 1rem;
 
   @include on-mobile {
     width: 100%;
@@ -486,7 +488,7 @@ export default {
   display: flex;
   padding: 0 1rem 0 1rem;
   align-items: center;
-  margin-top: 1rem;
+  margin-top: 2rem;
 }
 .time-to-game p {
   margin-right: 1rem;
