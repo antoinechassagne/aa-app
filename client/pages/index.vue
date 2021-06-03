@@ -3,7 +3,7 @@
     <div class="hero">
       <div class="hero__content">
         <Heading level="1">Trouvez les parties <br />autour de vous</Heading>
-        <p class="subheading">Ludis vous aide à trouver des parties</p>
+        <p>Ludis vous aide à trouver des parties</p>
         <div>
           <RouteLink to="/games" class="button button--primary">Commencer</RouteLink>
         </div>
@@ -37,7 +37,7 @@
     <div class="hero hero--colored">
       <div class="hero__content">
         <Heading level="2">Besoin de joueurs ?</Heading>
-        <p class="subheading">Créer votre propre partie afin de trouver de nouvelles personnes pour jouer avec vous.</p>
+        <p>Créer votre propre partie afin de trouver de nouvelles personnes pour jouer avec vous.</p>
         <div>
           <RouteLink to="/games/add" class="button button--primary button--primary--empty"
             >Créer votre partie</RouteLink
@@ -144,7 +144,7 @@ export default {
     justify-content: space-around;
 
     .hero__content {
-      width: 30%;
+      width: 40%;
 
       @include on-tablet {
         width: 50%;
@@ -184,7 +184,7 @@ export default {
     }
 
     p {
-      margin-bottom: 3rem;
+      margin-bottom: 1.5rem;
       width: 75%;
     }
   }
@@ -212,11 +212,11 @@ export default {
     flex-wrap: wrap;
 
     a {
-      width: calc(33% - 2rem);
+      width: calc(25% - 2rem);
       margin: 1rem;
 
       @include on-tablet {
-        width: calc(50% - 2rem);
+        width: calc(33% - 2rem);
       }
 
       @include on-mobile {

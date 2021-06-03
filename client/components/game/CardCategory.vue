@@ -47,7 +47,6 @@ export default {
   text-decoration: none;
   border-radius: 5px;
   padding: 1rem;
-  background-color: white;
 
   &:hover {
     background-color: rgba($color-primary, 0.25);
