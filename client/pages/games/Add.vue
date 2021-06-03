@@ -220,7 +220,6 @@ form {
 
     @include on-mobile {
       width: 100%;
-      margin-top: 2rem;
     }
   }
 
