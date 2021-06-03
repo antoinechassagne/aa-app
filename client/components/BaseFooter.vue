@@ -13,22 +13,22 @@
       <RouteLink to="/games">
         <span>Rechercher </span>
       </RouteLink>
-      <RouteLink to="/games">
+      <RouteLink to="/games/add">
         <span>Créer </span>
       </RouteLink>
-      <RouteLink to="/games">
+      <RouteLink to="/profil/games">
         <span>Mes parties </span>
       </RouteLink>
     </div>
     <div>
       <span class="subheading color-white">Informations</span>
-      <RouteLink to="/games">
+      <RouteLink to="/notifications">
         <span>Notifications </span>
       </RouteLink>
-      <RouteLink to="/games">
+      <RouteLink to="/profil">
         <span> Profile </span>
       </RouteLink>
-      <RouteLink to="/games">
+      <RouteLink to="/logout">
         <span> Se déconnecter </span>
       </RouteLink>
     </div>

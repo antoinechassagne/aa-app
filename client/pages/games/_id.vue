@@ -27,6 +27,7 @@
               <p v-if="willParticipate" class="color-green">Vous êtes inscris à cette partie</p>
               <p v-if="canCreateParticipation">Demandez pour participer</p>
               <p v-if="canCancelParticipation">Annuler la demande</p>
+              <p v-if="gameIsPast">La partie est déja passée</p>
               <ButtonPrimary
                 v-if="canCreateParticipation"
                 :loading="loading.createParticipation"
@@ -120,7 +121,8 @@
         <div class="time-to-game">
           <div class="info-heading">
             <img src="~/assets/images/icons/time.svg" alt="" />
-            <p>La partie commence dans :</p>
+            <p v-if="gameIsPast">La partie s'est déroulé il y a :</p>
+            <p v-else>La partie commence dans :</p>
           </div>
           <Heading class="color-primary" level="3">{{ timeToGame }}</Heading>
         </div>
@@ -484,6 +486,7 @@ export default {
   display: flex;
   padding: 0 1rem 0 1rem;
   align-items: center;
+  margin-top: 1rem;
 }
 .time-to-game p {
   margin-right: 1rem;
