@@ -36,7 +36,7 @@ export const actions = {
         .$get("/logged-user")
         .then((user) => {
           context.commit("SET_USER", user || null);
-          return resolve();
+          return resolve(user);
         })
         .catch((error) => reject(error));
     });

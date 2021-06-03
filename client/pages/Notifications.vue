@@ -37,6 +37,11 @@ export default {
   async fetch({ store }) {
     await store.dispatch("notifications/fetchNotifications");
   },
+  data() {
+    return {
+      error: null,
+    };
+  },
   computed: {
     ...mapGetters({
       notifications: "notifications/notifications",
@@ -46,18 +51,17 @@ export default {
   },
   methods: {
     ...mapActions({
-      cleanError: "notifications/cleanError",
       readNotification: "notifications/readNotification",
       fetchNotifications: "notifications/fetchNotifications",
     }),
-    markAsRead(notificationId) {
-      return this.readNotification(notificationId).then(() => {
-        this.fetchNotifications();
-      });
+    async markAsRead(notificationId) {
+      try {
+        await this.readNotification(notificationId);
+        await this.fetchNotifications();
+      } catch (err) {
+        this.error = err;
+      }
     },
-  },
-  destroyed() {
-    this.cleanError();
   },
 };
 </script>
