@@ -13,10 +13,6 @@
       <span class="subheading">Email</span>
       <p>{{ user.email }}</p>
     </div>
-    <div>
-      <span class="subheading">Password</span>
-      <p>******</p>
-    </div>
   </div>
 </template>
 
@@ -40,11 +36,11 @@ export default {
 
 <style lang="scss" scoped>
 .container {
-  height: 70vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin: 4rem 0;
 }
 .container > div {
   width: 50%;

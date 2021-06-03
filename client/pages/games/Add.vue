@@ -158,8 +158,7 @@ export default {
   width: 50%;
   display: flex;
   flex-direction: column;
-  margin-top: 2rem;
-  margin-bottom: 4rem;
+  margin: 4rem 0;
 
   @include on-mobile {
     width: 100%;

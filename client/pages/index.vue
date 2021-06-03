@@ -123,7 +123,7 @@ export default {
 .hero {
   width: 80%;
   margin: 0 auto;
-  padding: 2rem 0;
+  padding: 4rem 0;
   display: flex;
 
   &--colored {
