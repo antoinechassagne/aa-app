@@ -136,6 +136,7 @@ import dayjs from "dayjs";
 import "dayjs/locale/fr";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { mapGetters, mapActions } from "vuex";
+import { poll, stopPolling } from "@/services/Polling";
 import Loader from "@/components/Loader";
 import Heading from "@/components/texts/Heading";
 import ButtonPrimary from "@/components/buttons/ButtonPrimary";
@@ -174,6 +175,7 @@ export default {
         deleteParticipation: false,
         updateParticipation: false,
       },
+      currentPollingId: null,
     };
   },
   computed: {
@@ -293,6 +295,21 @@ export default {
       this.game = game;
       this.participations = participations;
     },
+    startPolling() {
+      if (this.currentPollingId) {
+        stopPolling(this.currentPollingId);
+      }
+      const currentPollingId = poll(() => {
+        this.fetchParticipations({ gameId: this.$route.params.id });
+      }, 10);
+      this.currentPollingId = currentPollingId;
+    },
+  },
+  mounted() {
+    this.startPolling();
+  },
+  destroyed() {
+    stopPolling(this.currentPollingId);
   },
 };
 </script>
