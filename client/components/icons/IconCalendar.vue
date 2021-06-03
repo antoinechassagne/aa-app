@@ -4,7 +4,7 @@
     :height="`${height}px`"
     viewBox="0 0 24 24"
     xmlns="http://www.w3.org/2000/svg"
-    stroke-width="1.5"
+    stroke-width="2"
     stroke-linecap="square"
     stroke-linejoin="miter"
     fill="none"

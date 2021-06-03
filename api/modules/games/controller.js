@@ -20,7 +20,7 @@ exports.getGames = async function (req, res) {
   try {
     const games = await GamesRepository.getGames(req.query);
     if (!games.length) {
-      return res.sendStatus(204);
+      return res.status(200).send([]);
     }
     for (game of games) {
       game.creator = await UsersRepository.getUser({ id: game.creatorId });

@@ -86,6 +86,10 @@ export default {
   },
   data() {
     return {
+      loading: {
+        create: false,
+      },
+      error: null,
       boardGameName: null,
       categoryId: null,
       description: null,
@@ -97,8 +101,6 @@ export default {
   },
   computed: {
     ...mapGetters({
-      loading: "games/loading",
-      error: "games/error",
       taxonomies: "taxonomies/taxonomies",
     }),
     plannedDate() {
@@ -117,28 +119,31 @@ export default {
   methods: {
     ...mapActions({
       createGame: "games/createGame",
-      cleanError: "games/cleanError",
     }),
     updateLocation(location) {
       this.location = location;
     },
-    submit() {
-      this.createGame({
-        plannedDate: this.plannedDate,
-        latitude: this.location.latitude,
-        longitude: this.location.longitude,
-        location: this.location.label,
-        boardGameName: this.boardGameName,
-        categoryId: this.categoryId,
-        description: this.description,
-        missingPlayers: this.missingPlayers,
-      }).then((gameId) => {
+    async submit() {
+      this.error = null;
+      this.loading.create = true;
+      try {
+        const gameId = await this.createGame({
+          plannedDate: this.plannedDate,
+          latitude: this.location.latitude,
+          longitude: this.location.longitude,
+          location: this.location.label,
+          boardGameName: this.boardGameName,
+          categoryId: this.categoryId,
+          description: this.description,
+          missingPlayers: this.missingPlayers,
+        });
         this.$router.push(`/games/${gameId}`);
-      });
+      } catch (err) {
+        this.error = err;
+      } finally {
+        this.loading.create = false;
+      }
     },
-  },
-  destroyed() {
-    this.cleanError();
   },
 };
 </script>
@@ -154,6 +159,7 @@ export default {
   display: flex;
   flex-direction: column;
   margin-top: 2rem;
+  margin-bottom: 4rem;
 
   @include on-mobile {
     width: 100%;

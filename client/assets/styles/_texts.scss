@@ -36,6 +36,7 @@ h3 {
 p {
   font-size: 1rem;
   font-weight: 400;
+  line-height: 20px;
   font-family: $font-text;
   color: $color-black;
 }
@@ -52,13 +53,24 @@ p {
   font-family: $font-text;
   font-weight: 700;
   text-transform: uppercase;
-  color: $color-grey;
+  color: $color-black;
+  position: relative;
+
+  &:after {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 1.5rem;
+    height: 3px;
+    background-color: $color-primary;
+    bottom: -10px;
+  }
 }
 
 .subheading {
   font-size: 1.125rem;
   font-family: $font-text;
-  font-weight: 500;
+  font-weight: 700;
   color: $color-black;
 
   &--grey {
@@ -97,4 +109,8 @@ p {
 
 .capitalize {
   text-transform: capitalize;
+}
+
+.semi-bold {
+  font-weight: 500;
 }

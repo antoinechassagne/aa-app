@@ -5,7 +5,7 @@
     :width="`${width}px`"
     :height="`${height}px`"
     viewBox="0 0 24 24"
-    stroke-width="1.5"
+    stroke-width="2"
     stroke-linecap="square"
     stroke-linejoin="miter"
     fill="none"

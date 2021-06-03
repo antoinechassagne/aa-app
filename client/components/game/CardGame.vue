@@ -13,19 +13,24 @@
     </div>
     <div class="card-game__right">
       <p class="card-game__category tertiary">{{ game.category.label }}</p>
-      <p class="card-game__creator secondary">{{ game.creator.pseudo }} propose</p>
+      <p class="card-game__creator secondary">{{ game.creator.pseudo }} propose :</p>
       <p class="card-game__title subheading">{{ game.boardGameName }}</p>
-      <p class="card-game__date color-primary">Le {{ dateFormat }}</p>
       <p class="card-game__description">{{ game.description }}</p>
+      <p class="card-game__date semi-bold"><IconCalendar width="25" height="25" color="primary" /> {{ dateFormat }}</p>
     </div>
   </RouteLink>
 </template>
 
 <script>
 import dayjs from "dayjs";
+import "dayjs/locale/fr";
+import IconCalendar from "@/components/icons/IconCalendar";
 
 export default {
   name: "CardGame",
+  components: {
+    IconCalendar,
+  },
   props: {
     game: {
       type: Object,
@@ -34,9 +39,10 @@ export default {
   },
   computed: {
     dateFormat() {
-      const date = dayjs(this.game.plannedDate).format("DD/MM/YYYY");
-      const hour = dayjs(this.game.plannedDate).format("HH:mm");
-      return `${date} à ${hour}`;
+      const date = dayjs(this.game.plannedDate).locale("fr").format("ddd DD MMMM YYYY");
+      const hour = dayjs(this.game.plannedDate).locale("fr").format("HH:mm");
+      const formattedDate = `${date} à ${hour}`;
+      return formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
     },
   },
 };
@@ -47,7 +53,7 @@ export default {
   display: flex;
   text-decoration: none;
   border-radius: 5px;
-  padding: 1rem;
+  padding: 1.25rem;
   background-color: white;
 
   &:hover {
@@ -58,6 +64,7 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: space-between;
   }
 
   &__right {
@@ -94,15 +101,25 @@ export default {
   }
 
   &__creator {
-    margin-bottom: 1rem;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
   }
 
   &__title {
     margin-bottom: 0.5rem;
   }
 
+  &__description {
+    padding-bottom: 2rem;
+  }
+
   &__date {
-    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+
+    svg {
+      margin-right: 10px;
+    }
   }
 }
 </style>

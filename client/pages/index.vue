@@ -3,9 +3,7 @@
     <div class="hero">
       <div class="hero__content">
         <Heading level="1">Trouvez les parties <br />autour de vous</Heading>
-        <p class="subheading">
-          Ludis est une application permetant de trouver facilement des partenaires de jeux de société autour de vous.
-        </p>
+        <p class="subheading">Ludis vous aide à trouver des parties</p>
         <div>
           <RouteLink to="/games" class="button button--primary">Commencer</RouteLink>
         </div>
