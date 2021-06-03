@@ -65,15 +65,23 @@ export default {
     ButtonPrimary,
     IconMap,
   },
-  async fetch({ store, query }) {
+  async asyncData({ store, route, error }) {
     const fetchQuery = { missingPlayers: true, start: dayjs().subtract(12, "hours").toISOString() };
-    if (query.categoryId) {
-      fetchQuery.categoryId = JSON.parse(query.categoryId);
+    if (route.query.categoryId) {
+      fetchQuery.categoryId = JSON.parse(route.query.categoryId);
     }
-    await store.dispatch("games/fetchGames", fetchQuery);
+    try {
+      const games = await store.dispatch("games/fetchGames", fetchQuery);
+      return { games };
+    } catch (err) {
+      error({ error: err });
+    }
   },
   data() {
     return {
+      loading: {
+        games: false,
+      },
       location: null,
       query: {
         missingPlayers: true,
@@ -86,21 +94,20 @@ export default {
   },
   watch: {
     query: {
-      handler() {
+      async handler() {
         const query = this.query;
         if (!query.start) {
           query.start = dayjs().subtract(12, "hours").toISOString();
         }
-        this.fetchGames(query);
+        this.loading.games = true;
+        this.games = await this.fetchGames(query);
+        this.loading.games = false;
       },
       deep: true,
     },
   },
   computed: {
     ...mapGetters({
-      games: "games/games",
-      loading: "games/loading",
-      error: "games/error",
       taxonomies: "taxonomies/taxonomies",
     }),
     mapClass() {
@@ -116,7 +123,6 @@ export default {
   methods: {
     ...mapActions({
       fetchGames: "games/fetchGames",
-      cleanError: "games/cleanError",
     }),
     updateLocation(location) {
       this.location = location;
@@ -129,9 +135,6 @@ export default {
     if (this.$route.query && this.$route.query.categoryId) {
       this.query.categoryId = JSON.parse(this.$route.query.categoryId);
     }
-  },
-  destroyed() {
-    this.cleanError();
   },
 };
 </script>

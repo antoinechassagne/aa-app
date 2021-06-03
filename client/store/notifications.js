@@ -1,26 +1,13 @@
 export const state = () => ({
-  loading: {
-    notifications: false,
-    read: false,
-  },
-  error: null,
   notifications: [],
 });
 
 export const getters = {
-  loading: (state) => state.loading,
-  error: (state) => state.error,
   notifications: (state) => state.notifications,
   unreadCount: (state) => state.notifications.filter((n) => !n.read).length,
 };
 
 export const mutations = {
-  SET_LOADING(state, loading) {
-    state.loading = { ...state.loading, ...loading };
-  },
-  SET_ERROR(state, error) {
-    state.error = error;
-  },
   SET_NOTIFICATIONS(state, notifications) {
     state.notifications = notifications;
   },
@@ -29,8 +16,6 @@ export const mutations = {
 export const actions = {
   fetchNotifications(context, query = {}) {
     return new Promise((resolve, reject) => {
-      context.commit("SET_ERROR", null);
-      context.commit("SET_LOADING", { notifications: true });
       const { user } = context.rootState.authentication;
       if (!user) {
         return resolve();
@@ -41,13 +26,7 @@ export const actions = {
           context.commit("SET_NOTIFICATIONS", notifications || []);
           return resolve(context.state.notifications);
         })
-        .catch((error) => {
-          context.commit("SET_ERROR", error);
-          return reject();
-        })
-        .finally(() => {
-          context.commit("SET_LOADING", { notifications: false });
-        });
+        .catch((error) => reject(error));
     });
   },
   pollNotifications(context) {
@@ -63,28 +42,15 @@ export const actions = {
           context.commit("SET_NOTIFICATIONS", [...unreadNotifications, ...readNotifications] || []);
           return resolve(context.state.notifications);
         })
-        .catch((error) => {
-          return reject();
-        });
+        .catch((error) => reject(error));
     });
   },
   readNotification(context, notificationId) {
     return new Promise((resolve, reject) => {
-      context.commit("SET_ERROR", null);
-      context.commit("SET_LOADING", { read: true });
       this.$axios
         .$put(`/notifications/${notificationId}`, { read: true })
         .then(() => resolve())
-        .catch((error) => {
-          context.commit("SET_ERROR", error);
-          return reject();
-        })
-        .finally(() => {
-          context.commit("SET_LOADING", { read: false });
-        });
+        .catch((error) => reject(error));
     });
-  },
-  cleanError(context) {
-    context.commit("SET_ERROR", null);
   },
 };

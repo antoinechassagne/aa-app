@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapActions } from "vuex";
 import Heading from "@/components/texts/Heading";
 import ButtonPrimary from "@/components/buttons/ButtonPrimary";
 import FeedbackMessage from "@/components/FeedbackMessage";
@@ -48,32 +48,36 @@ export default {
   },
   data() {
     return {
+      loading: {
+        login: false,
+      },
+      error: null,
       email: null,
       password: null,
     };
   },
-  computed: {
-    ...mapGetters({
-      loading: "authentication/loading",
-      error: "authentication/error",
-    }),
-  },
   methods: {
     ...mapActions({
       login: "authentication/login",
-      cleanError: "authentication/cleanError",
+      fetchUser: "authentication/fetchUser",
     }),
-    submit() {
-      this.login({ email: this.email, password: this.password }).then(() => {
+    async submit() {
+      this.error = null;
+      this.loading.login = true;
+      try {
+        await this.login({ email: this.email, password: this.password });
+        await this.fetchUser();
         this.$router.push("/");
-      });
+      } catch (err) {
+        this.error = err;
+      } finally {
+        this.loading.login = false;
+      }
     },
-  },
-  destroyed() {
-    this.cleanError();
   },
 };
 </script>
+
 <style lang="scss" scoped>
 .container {
   margin-top: 2rem !important;

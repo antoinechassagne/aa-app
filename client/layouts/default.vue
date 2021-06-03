@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="page">
     <BaseHeader :user="user" :unreadNotificationsCount="unreadNotificationsCount" />
     <main>
       <Nuxt />
@@ -55,3 +55,12 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+</style>

@@ -28,7 +28,7 @@ export default {
     },
     loading: {
       type: Boolean,
-      required: true,
+      default: false,
     },
     center: {
       type: Object,
