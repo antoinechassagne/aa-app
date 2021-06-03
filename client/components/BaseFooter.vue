@@ -5,7 +5,7 @@
         <Heading level="2" class="color-white capitalize">Ludis</Heading>
       </RouteLink>
       <p>
-        Ludis est une application permetant de trouver facilement des partenaires de jeux de société autour de vous.
+        Ludis est une application permettant de trouver facilement des partenaires de jeux de société autour de vous.
       </p>
     </div>
     <div>
