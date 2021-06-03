@@ -1,10 +1,8 @@
 <template>
-  <div class="page">
-    <div class="container">
-      <h1 v-if="error.statusCode === 404">Cette page n'existe pas</h1>
-      <h1 v-else>Une erreur s'est produite...</h1>
-      <RouteLink to="/" class="button button--primary">Retour à l'accueil</RouteLink>
-    </div>
+  <div class="container">
+    <h1 v-if="error.statusCode === 404">Cette page n'existe pas</h1>
+    <h1 v-else>Une erreur s'est produite...</h1>
+    <RouteLink to="/" class="button button--primary">Retour à l'accueil</RouteLink>
   </div>
 </template>
 
