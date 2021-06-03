@@ -65,16 +65,16 @@ export default {
     ButtonPrimary,
     IconMap,
   },
-  async asyncData({ store, route }) {
+  async asyncData({ store, route, error }) {
     const fetchQuery = { missingPlayers: true, start: dayjs().subtract(12, "hours").toISOString() };
     if (route.query.categoryId) {
       fetchQuery.categoryId = JSON.parse(route.query.categoryId);
     }
     try {
       const games = await store.dispatch("games/fetchGames", fetchQuery);
-      return { games, error: null };
-    } catch (error) {
-      return { games: [], error };
+      return { games };
+    } catch (err) {
+      error({ error: err });
     }
   },
   data() {

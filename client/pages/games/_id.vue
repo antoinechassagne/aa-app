@@ -1,8 +1,5 @@
 <template>
   <div class="container">
-    <FeedbackMessage v-if="error" type="error">
-      {{ error }}
-    </FeedbackMessage>
     <div class="game-content">
       <div class="left-side">
         <div class="game-hero">
@@ -141,7 +138,6 @@ import Loader from "@/components/Loader";
 import Heading from "@/components/texts/Heading";
 import ButtonPrimary from "@/components/buttons/ButtonPrimary";
 import ButtonDanger from "@/components/buttons/ButtonDanger";
-import FeedbackMessage from "@/components/FeedbackMessage";
 import participationStatuses from "@/constants/participationStatuses";
 import GamesMap from "@/components/map/GamesMap";
 
@@ -154,18 +150,17 @@ export default {
     Heading,
     ButtonPrimary,
     ButtonDanger,
-    FeedbackMessage,
     GamesMap,
   },
-  async asyncData({ params, store }) {
+  async asyncData({ params, store, error }) {
     try {
       const [game, participations] = await Promise.all([
         store.dispatch("games/fetchGame", params.id),
         store.dispatch("participations/fetchParticipations", { gameId: params.id }),
       ]);
-      return { game, participations, error: null };
-    } catch (error) {
-      return { game: null, participations: [], error };
+      return { game, participations };
+    } catch (err) {
+      error({ error: err });
     }
   },
   data() {

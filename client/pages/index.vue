@@ -80,15 +80,15 @@ export default {
     CardCategory,
     CardGame,
   },
-  async asyncData({ store }) {
+  async asyncData({ store, error }) {
     try {
       const games = await store.dispatch("games/fetchGames", {
         missingPlayers: true,
         start: dayjs().subtract(12, "hours").toISOString(),
       });
-      return { games, error: null };
-    } catch (error) {
-      return { games: [], error };
+      return { games };
+    } catch (err) {
+      error({ error: err });
     }
   },
   computed: {
