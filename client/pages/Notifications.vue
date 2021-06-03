@@ -45,8 +45,6 @@ export default {
   computed: {
     ...mapGetters({
       notifications: "notifications/notifications",
-      loading: "notifications/loading",
-      error: "notifications/error",
     }),
   },
   methods: {
