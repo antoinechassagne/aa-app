@@ -5,10 +5,10 @@ label {
 }
 
 input {
-  border: solid 2px $color-primary;
+  border: solid 1px $color-primary;
   border-radius: 5px;
   padding: 0.75rem;
-  font-size: 0.875rem;
+  font-size: 1rem;
   color: $color-grey;
   font-family: $font-text;
 
@@ -19,17 +19,17 @@ input {
   }
 
   &::placeholder {
-    font-size: 0.875rem;
+    font-size: 1rem;
     color: $color-grey;
     font-family: $font-text;
   }
 }
 
 select {
-  border: solid 2px $color-primary;
+  border: solid 1px $color-primary;
   border-radius: 5px;
   padding: 0.75rem;
-  font-size: 0.875rem;
+  font-size: 1rem;
   color: $color-grey;
   font-family: $font-text;
 
@@ -40,17 +40,17 @@ select {
   }
 
   &::placeholder {
-    font-size: 0.875rem;
+    font-size: 1rem;
     color: $color-grey;
     font-family: $font-text;
   }
 }
 
 textarea {
-  border: solid 2px $color-primary;
+  border: solid 1px $color-primary;
   border-radius: 5px;
   padding: 0.75rem;
-  font-size: 0.875rem;
+  font-size: 1rem;
   color: $color-grey;
   font-family: $font-text;
 
@@ -61,7 +61,7 @@ textarea {
   }
 
   &::placeholder {
-    font-size: 0.875rem;
+    font-size: 1rem;
     color: $color-grey;
     font-family: $font-text;
   }
