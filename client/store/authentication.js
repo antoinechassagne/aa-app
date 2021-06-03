@@ -1,27 +1,12 @@
 export const state = () => ({
-  loading: {
-    register: false,
-    login: false,
-    logout: false,
-    user: false,
-  },
-  error: null,
   user: null,
 });
 
 export const getters = {
-  loading: (state) => state.loading,
-  error: (state) => state.error,
   user: (state) => state.user,
 };
 
 export const mutations = {
-  SET_LOADING(state, loading) {
-    state.loading = { ...state.loading, ...loading };
-  },
-  SET_ERROR(state, error) {
-    state.error = error;
-  },
   SET_USER(state, user) {
     state.user = user;
   },
@@ -29,69 +14,23 @@ export const mutations = {
 
 export const actions = {
   register(context, form) {
-    return new Promise((resolve, reject) => {
-      context.commit("SET_ERROR", null);
-      context.commit("SET_LOADING", { register: true });
-      this.$axios
-        .$post("/register", form)
-        .then(() => resolve())
-        .catch((error) => {
-          context.commit("SET_ERROR", error);
-          return reject();
-        })
-        .finally(() => {
-          context.commit("SET_LOADING", { register: false });
-        });
-    });
+    return this.$axios.$post("/register", form);
   },
   login(context, credentials) {
-    return new Promise((resolve, reject) => {
-      context.commit("SET_ERROR", null);
-      context.commit("SET_LOADING", { login: true });
-      this.$axios
-        .$post("/login", {
-          email: credentials.email,
-          password: credentials.password,
-        })
-        .then(() => {
-          return context
-            .dispatch("fetchUser")
-            .then(() => resolve())
-            .catch((error) => {
-              context.commit("SET_ERROR", error);
-            });
-        })
-        .catch((error) => {
-          context.commit("SET_ERROR", error);
-          return reject();
-        })
-        .finally(() => {
-          context.commit("SET_LOADING", { login: false });
-        });
+    return this.$axios.$post("/login", {
+      email: credentials.email,
+      password: credentials.password,
     });
   },
   logout(context) {
     return new Promise((resolve, reject) => {
-      context.commit("SET_ERROR", null);
-      context.commit("SET_LOADING", { logout: true });
-      this.$axios
-        .$get("/logout")
-        .then(() => {
-          context.commit("SET_USER", null);
-          return resolve();
-        })
-        .catch((error) => {
-          context.commit("SET_ERROR", error);
-          return reject();
-        })
-        .finally(() => {
-          context.commit("SET_LOADING", { logout: false });
-        });
-    });
+      this.$axios.$get("/logout").then(() => {
+        context.commit("SET_USER", null);
+        return resolve();
+      });
+    }).catch((error) => reject(error));
   },
   fetchUser(context) {
-    context.commit("SET_ERROR", null);
-    context.commit("SET_LOADING", { user: true });
     return new Promise((resolve, reject) => {
       this.$axios
         .$get("/logged-user")
@@ -99,13 +38,7 @@ export const actions = {
           context.commit("SET_USER", user || null);
           return resolve();
         })
-        .catch((error) => reject(error))
-        .finally(() => {
-          context.commit("SET_LOADING", { user: false });
-        });
+        .catch((error) => reject(error));
     });
-  },
-  cleanError(context) {
-    context.commit("SET_ERROR", null);
   },
 };

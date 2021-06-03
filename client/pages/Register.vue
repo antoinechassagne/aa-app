@@ -60,7 +60,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapActions } from "vuex";
 import Heading from "@/components/texts/Heading";
 import ButtonPrimary from "@/components/buttons/ButtonPrimary";
 import FeedbackMessage from "@/components/FeedbackMessage";
@@ -75,6 +75,10 @@ export default {
   },
   data() {
     return {
+      loading: {
+        register: false,
+      },
+      error: null,
       pseudo: null,
       phone: null,
       email: null,
@@ -82,31 +86,30 @@ export default {
       passwordConfirmation: null,
     };
   },
-  computed: {
-    ...mapGetters({
-      loading: "authentication/loading",
-      error: "authentication/error",
-    }),
-  },
   methods: {
     ...mapActions({
       register: "authentication/register",
       login: "authentication/login",
-      cleanError: "authentication/cleanError",
+      fetchUser: "authentication/fetchUser",
     }),
-    submit() {
-      this.register({ pseudo: this.pseudo, phone: this.phone, email: this.email, password: this.password }).then(() => {
-        this.login({ email: this.email, password: this.password }).then(() => {
-          this.$router.push("/");
-        });
-      });
+    async submit() {
+      this.error = null;
+      this.loading.register = true;
+      try {
+        await this.register({ pseudo: this.pseudo, phone: this.phone, email: this.email, password: this.password });
+        await this.login({ email: this.email, password: this.password });
+        await this.fetchUser();
+        this.$router.push("/");
+      } catch (err) {
+        this.error = err;
+      } finally {
+        this.loading.register = false;
+      }
     },
-  },
-  destroyed() {
-    this.cleanError();
   },
 };
 </script>
+
 <style lang="scss" scoped>
 .container {
   margin-top: 2rem !important;
