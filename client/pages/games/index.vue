@@ -146,6 +146,10 @@ export default {
   overflow: hidden;
   max-height: calc(100vh - 92px);
 
+  @include on-mobile {
+    max-height: calc(100vh - 60px);
+  }
+
   h2 {
     margin-bottom: 2rem;
   }
