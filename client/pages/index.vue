@@ -41,7 +41,9 @@
         <Heading level="2">Besoin de joueurs ?</Heading>
         <p class="subheading">Créer votre propre partie afin de trouver de nouvelles personnes pour jouer avec vous.</p>
         <div>
-          <RouteLink to="/games/add" class="button button--secondary">Créer votre partie</RouteLink>
+          <RouteLink to="/games/add" class="button button--primary button--primary--empty"
+            >Créer votre partie</RouteLink
+          >
         </div>
       </div>
       <img src="~/assets/images/illustration_2.png" alt="Illustration" class="hero__image" />
