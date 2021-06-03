@@ -25,7 +25,7 @@
     </div>
     <div class="map">
       <Heading level="2">Explorez les parties aux alentours</Heading>
-      <GamesMap :games="games" :loading="loading.games" :zoom="10" class="map__map" />
+      <GamesMap :games="games" :zoom="10" class="map__map" />
     </div>
     <div class="games">
       <Heading level="2">Aujourd'hui</Heading>
@@ -80,18 +80,20 @@ export default {
     CardCategory,
     CardGame,
   },
-  async fetch({ store }) {
-    await store.dispatch("games/fetchGames", {
-      missingPlayers: true,
-      start: dayjs().subtract(12, "hours").toISOString(),
-    });
+  async asyncData({ store }) {
+    try {
+      const games = await store.dispatch("games/fetchGames", {
+        missingPlayers: true,
+        start: dayjs().subtract(12, "hours").toISOString(),
+      });
+      return { games, error: null };
+    } catch (error) {
+      return { games: [], error };
+    }
   },
   computed: {
     ...mapGetters({
       user: "authentication/user",
-      games: "games/games",
-      loading: "games/loading",
-      error: "games/error",
       taxonomies: "taxonomies/taxonomies",
     }),
     todayGames() {

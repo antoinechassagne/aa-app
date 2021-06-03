@@ -20,7 +20,7 @@
         </div>
         <span class="subheading">Description</span>
         <p class="description">{{ game.description }}</p>
-        <GamesMap :location="location" :games="[game]" :loading="gamesLoading.game" :showPopups="false" class="map" />
+        <GamesMap :location="location" :games="[game]" :showPopups="false" class="map" />
       </div>
       <div class="right-side">
         <div class="status">
@@ -32,14 +32,14 @@
               <p v-if="canCancelParticipation">Annuler la demande</p>
               <ButtonPrimary
                 v-if="canCreateParticipation"
-                :loading="participationsLoading.create"
+                :loading="loading.createParticipation"
                 @click="requestToParticipate"
               >
                 Demander à rejoindre
               </ButtonPrimary>
               <ButtonDanger
                 v-if="canCancelParticipation"
-                :loading="participationsLoading.delete"
+                :loading="loading.deleteParticipation"
                 @click="cancelParticipation"
                 :empty="true"
               >
@@ -68,14 +68,14 @@
                       <template v-if="!gameIsPast">
                         <ButtonPrimary
                           v-if="canAcceptUserParticipation(participation)"
-                          :loading="participationsLoading.update"
+                          :loading="loading.updateParticipation"
                           @click="acceptUserParticipation(participation)"
                         >
                           Accepter
                         </ButtonPrimary>
                         <ButtonPrimary
                           v-if="canRefuseUserParticipation(participation)"
-                          :loading="participationsLoading.update"
+                          :loading="loading.updateParticipation"
                           @click="refuseUserParticipation(participation)"
                           :empty="true"
                         >
@@ -84,7 +84,7 @@
 
                         <ButtonDanger
                           v-if="canCancelUserParticipation(participation)"
-                          :loading="participationsLoading.delete"
+                          :loading="loading.deleteParticipation"
                           @click="cancelUserParticipation(participation)"
                           :empty="true"
                         >
@@ -157,20 +157,29 @@ export default {
     FeedbackMessage,
     GamesMap,
   },
-  async fetch({ params, store }) {
-    await Promise.all([
-      store.dispatch("games/fetchGame", params.id),
-      store.dispatch("participations/fetchParticipations", { gameId: params.id }),
-    ]);
+  async asyncData({ params, store }) {
+    try {
+      const [game, participations] = await Promise.all([
+        store.dispatch("games/fetchGame", params.id),
+        store.dispatch("participations/fetchParticipations", { gameId: params.id }),
+      ]);
+      return { game, participations, error: null };
+    } catch (error) {
+      return { game: null, participations: [], error };
+    }
+  },
+  data() {
+    return {
+      loading: {
+        createParticipation: false,
+        deleteParticipation: false,
+        updateParticipation: false,
+      },
+    };
   },
   computed: {
     ...mapGetters({
       user: "authentication/user",
-      game: "games/game",
-      error: "games/error",
-      gamesLoading: "games/loading",
-      participationsLoading: "participations/loading",
-      participations: "participations/participations",
     }),
     participationsToDisplay() {
       if (!this.participations || !this.participations.length) {
@@ -232,7 +241,6 @@ export default {
   methods: {
     ...mapActions({
       fetchGame: "games/fetchGame",
-      cleanError: "games/cleanError",
       fetchParticipations: "participations/fetchParticipations",
       createParticipation: "participations/createParticipation",
       acceptParticipation: "participations/acceptParticipation",
@@ -258,37 +266,34 @@ export default {
     canCancelUserParticipation(participation) {
       return participation.statusId === participationStatuses.ACCEPTED;
     },
-    requestToParticipate() {
-      this.createParticipation(this.game.id).then(() => {
-        this.refreshData();
-      });
+    async requestToParticipate() {
+      await this.createParticipation(this.game.id);
+      this.refreshData();
     },
-    cancelParticipation() {
-      this.deleteParticipation(this.userParticipation.id).then(() => {
-        this.refreshData();
-      });
+    async cancelParticipation() {
+      await this.deleteParticipation(this.userParticipation.id);
+      this.refreshData();
     },
-    refuseUserParticipation(participation) {
-      this.refuseParticipation(participation.id).then(() => {
-        this.refreshData();
-      });
+    async refuseUserParticipation(participation) {
+      await this.refuseParticipation(participation.id);
+      this.refreshData();
     },
-    acceptUserParticipation(participation) {
-      this.acceptParticipation(participation.id).then(() => {
-        this.refreshData();
-      });
+    async acceptUserParticipation(participation) {
+      await this.acceptParticipation(participation.id);
+      this.refreshData();
     },
-    cancelUserParticipation(participation) {
-      this.deleteParticipation(participation.id).then(() => {
-        this.refreshData();
-      });
+    async cancelUserParticipation(participation) {
+      await this.deleteParticipation(participation.id);
+      this.refreshData();
     },
-    refreshData() {
-      Promise.all([this.fetchGame(this.$route.params.id), this.fetchParticipations({ gameId: this.$route.params.id })]);
+    async refreshData() {
+      const [game, participations] = await Promise.all([
+        this.fetchGame(this.$route.params.id),
+        this.fetchParticipations({ gameId: this.$route.params.id }),
+      ]);
+      this.game = game;
+      this.participations = participations;
     },
-  },
-  destroyed() {
-    this.cleanError();
   },
 };
 </script>
