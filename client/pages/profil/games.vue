@@ -1,14 +1,14 @@
 <template>
   <div class="container">
-    <div>
-      <Heading level="2">Historique des parties créées</Heading>
+    <div class="created-game">
+      <Heading level="2">Mes parties créées</Heading>
       <template v-if="createdGames.length">
         <CardGame v-for="game in createdGames" :key="game.id" :game="game" />
       </template>
       <p v-else>Vous n'avez pas encore créé de partie.</p>
     </div>
-    <div>
-      <Heading level="2">Historique des parties rejointes</Heading>
+    <div class="joined-game">
+      <Heading level="2">Mes parties rejointes</Heading>
       <template v-if="joinedGames.length">
         <CardGame v-for="game in joinedGames" :key="game.id" :game="game" />
       </template>
@@ -39,4 +39,39 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.container {
+  display: flex;
+  justify-content: space-around;
+
+  @include on-mobile {
+    flex-direction: column;
+  }
+}
+.created-game {
+  width: 45%;
+  margin-bottom: 2rem;
+
+  @include on-mobile {
+    width: 100%;
+  }
+}
+.joined-game {
+  width: 45%;
+  margin-bottom: 2rem;
+
+  @include on-mobile {
+    width: 100%;
+  }
+}
+h2 {
+  margin: 2rem 0 2rem 0;
+
+  @include on-mobile {
+    margin: 0 0 2rem 0;
+  }
+}
+a {
+  margin: 1rem 0 1rem 0;
+}
+</style>

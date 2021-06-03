@@ -23,16 +23,13 @@
         <GamesMap :location="location" :games="[game]" :loading="gamesLoading.game" :showPopups="false" class="map" />
       </div>
       <div class="right-side">
-        <div class="missing-players">
-          <Heading class="color-primary" level="2">{{ game.missingPlayers }}</Heading>
-          <p>Joueurs manquants</p>
-        </div>
         <div class="status">
           <section v-if="!userIsCreator">
             <div v-if="user" class="status-not-creator">
               <p v-if="hasParticipate" class="color-green">Vous avez participé à cette partie</p>
               <p v-if="willParticipate" class="color-green">Vous êtes inscris à cette partie</p>
               <p v-if="canCreateParticipation">Demandez pour participer</p>
+              <p v-if="canCancelParticipation">Annuler la demande</p>
               <ButtonPrimary
                 v-if="canCreateParticipation"
                 :loading="participationsLoading.create"
@@ -44,6 +41,7 @@
                 v-if="canCancelParticipation"
                 :loading="participationsLoading.delete"
                 @click="cancelParticipation"
+                :empty="true"
               >
                 Annuler la demande
               </ButtonDanger>
@@ -53,7 +51,7 @@
             </route-link>
           </section>
           <section v-if="userIsCreator">
-            <span class="subheading creator-title">Demande de participations</span>
+            <span class="subheading creator-title">Mes participations</span>
             <div class="user-is-creator">
               <template v-if="participationsToDisplay.length">
                 <ul v-for="participation in participationsToDisplay" :key="participation.id">
@@ -68,13 +66,6 @@
                     </div>
                     <div class="participation-button-container">
                       <template v-if="!gameIsPast">
-                        <ButtonDanger
-                          v-if="canRefuseUserParticipation(participation)"
-                          :loading="participationsLoading.update"
-                          @click="refuseUserParticipation(participation)"
-                        >
-                          Refuser
-                        </ButtonDanger>
                         <ButtonPrimary
                           v-if="canAcceptUserParticipation(participation)"
                           :loading="participationsLoading.update"
@@ -82,10 +73,20 @@
                         >
                           Accepter
                         </ButtonPrimary>
+                        <ButtonPrimary
+                          v-if="canRefuseUserParticipation(participation)"
+                          :loading="participationsLoading.update"
+                          @click="refuseUserParticipation(participation)"
+                          :empty="true"
+                        >
+                          Refuser
+                        </ButtonPrimary>
+
                         <ButtonDanger
                           v-if="canCancelUserParticipation(participation)"
                           :loading="participationsLoading.delete"
                           @click="cancelUserParticipation(participation)"
+                          :empty="true"
                         >
                           Annuler
                         </ButtonDanger>
@@ -98,19 +99,33 @@
             </div>
           </section>
         </div>
-        <div v-if="userIsCreator || (!userIsCreator && willParticipate)" class="status user-info">
+        <div class="missing-players">
+          <Heading class="color-white pastille" level="2">{{ game.missingPlayers }}</Heading>
+          <p>Joueurs manquants</p>
+        </div>
+
+        <div v-if="userIsCreator || willParticipate" class="user-info">
           <div>
-            <span class="subheading">Addresse</span>
+            <div class="info-heading">
+              <img src="~/assets/images/icons/location.svg" alt="" />
+              <span class="subheading">Addresse</span>
+            </div>
             <p class="description">{{ game.location }}</p>
           </div>
           <div>
-            <span class="subheading">Telephone</span>
+            <div class="info-heading">
+              <img src="~/assets/images/icons/phone.svg" alt="" />
+              <span class="subheading">Telephone</span>
+            </div>
             <p class="description">{{ game.creator.phone }}</p>
           </div>
         </div>
-        <div class="status time-to-game">
-          <p>La partie commence dans :</p>
-          <Heading class="color-primary" level="2">{{ timeToGame }}</Heading>
+        <div class="time-to-game">
+          <div class="info-heading">
+            <img src="~/assets/images/icons/time.svg" alt="" />
+            <p>La partie commence dans :</p>
+          </div>
+          <Heading class="color-primary" level="3">{{ timeToGame }}</Heading>
         </div>
       </div>
     </div>
@@ -446,16 +461,47 @@ export default {
 .participation-text p {
   font-size: 0.8rem;
 }
+
+.pastille {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 2rem;
+  background-color: $color-primary;
+}
+
 .user-info {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
+  margin: 2rem 0 2rem 0;
+  padding: 0 1rem 0 1rem;
+
+  @include on-mobile {
+    width: 100%;
+    margin: 1rem 0 1rem 0;
+    flex-direction: column;
+  }
 }
 .user-info > div {
   width: 40%;
+
+  @include on-mobile {
+    width: 100%;
+    margin: 1rem 0 1rem 0;
+  }
+}
+.info-heading {
+  display: flex;
+  align-items: center;
+}
+.info-heading img {
+  margin-right: 1rem;
 }
 .time-to-game {
   display: flex;
-  justify-content: center;
+  padding: 0 1rem 0 1rem;
   align-items: center;
 }
 .time-to-game p {

@@ -1,7 +1,22 @@
 <template>
   <div class="container">
     <Heading level="2">Profil</Heading>
-    <p>{{ user.pseudo }}</p>
+    <div>
+      <span class="subheading">Pseudo</span>
+      <p>{{ user.pseudo }}</p>
+    </div>
+    <div>
+      <span class="subheading">Télephone</span>
+      <p>{{ user.phone }}</p>
+    </div>
+    <div>
+      <span class="subheading">Email</span>
+      <p>{{ user.email }}</p>
+    </div>
+    <div>
+      <span class="subheading">Password</span>
+      <p>******</p>
+    </div>
   </div>
 </template>
 
@@ -23,4 +38,27 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.container {
+  height: 70vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.container > div {
+  width: 50%;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: solid 1px $color-grey;
+  margin-bottom: 2rem;
+  padding: 1rem 0 2rem 0;
+
+  @include on-mobile {
+    width: 100%;
+  }
+}
+h2 {
+  margin: 2rem 0 2rem 0;
+}
+</style>
