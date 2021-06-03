@@ -21,7 +21,7 @@ exports.getParticipations = async function (req, res) {
   try {
     const participations = await ParticipationsRepository.getParticipations(req.query);
     if (!participations.length) {
-      return res.status(204).send();
+      return res.status(200).send([]);
     }
     for (participation of participations) {
       participation.game = await GamesRepository.getGame({ id: participation.gameId });
