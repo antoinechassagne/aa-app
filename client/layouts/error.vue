@@ -1,8 +1,8 @@
 <template>
-  <div>
-    <h1 v-if="error.statusCode === 404">Page not found</h1>
-    <h1 v-else>An error occurred - {{ error.statusCode }}</h1>
-    <NuxtLink to="/">Home page</NuxtLink>
+  <div class="container">
+    <h1 v-if="error.statusCode === 404">Cette page n'existe pas</h1>
+    <h1 v-else>Une erreur s'est produite</h1>
+    <RouteLink to="/">Retour à l'accueil</RouteLink>
   </div>
 </template>
 
