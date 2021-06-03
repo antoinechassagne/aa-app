@@ -26,7 +26,7 @@
         <span>Notifications </span>
       </RouteLink>
       <RouteLink to="/profil">
-        <span> Profile </span>
+        <span> Profil </span>
       </RouteLink>
       <RouteLink to="/logout">
         <span> Se déconnecter </span>

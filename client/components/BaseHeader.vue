@@ -6,13 +6,13 @@
         <span class="desktop-only">Ludis</span>
       </RouteLink>
       <RouteLink to="/games">
-        <IconSearch width="30" height="30" color="black" />
-        <span class="desktop-only">Rechercher</span>
+        <IconSearch width="30" height="30" color="black" class="mobile-only" />
+        <span class="desktop-only">Rechercher une partie</span>
       </RouteLink>
       <template v-if="user">
         <RouteLink to="/games/add">
-          <IconAdd width="30" height="30" color="black" />
-          <span class="desktop-only">Créer</span>
+          <IconAdd width="30" height="30" color="black" class="mobile-only" />
+          <span class="desktop-only">Créer une partie</span>
         </RouteLink>
         <RouteLink to="/notifications" class="mobile-only">
           <IconNotification width="30" height="30" color="black" />
@@ -64,6 +64,7 @@ export default {
     IconNotification,
     IconSearch,
     IconAdd,
+    IconUser,
   },
   props: {
     user: {
@@ -100,6 +101,7 @@ export default {
   },
 };
 </script>
+
 <style lang="scss" scoped>
 .header {
   position: sticky;
@@ -157,9 +159,10 @@ export default {
       font-weight: 700;
       text-decoration: none;
       color: $color-black;
-      font-size: 1.25rem;
+      font-size: 2.5rem;
       font-family: $font-heading;
-      letter-spacing: 2px;
+      text-transform: capitalize;
+      margin-bottom: 9px;
     }
   }
 
