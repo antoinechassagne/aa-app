@@ -12,7 +12,7 @@
             <p class="tertiary">{{ game.category.label }}</p>
             <p>{{ game.creator.pseudo }} propose :</p>
             <Heading level="2">{{ game.boardGameName }}</Heading>
-            <p class="color-primary">{{ gamePlannedDate }}</p>
+            <p class="date"><IconCalendar width="25" height="25" color="primary" />{{ gamePlannedDate }}</p>
           </div>
         </div>
         <span class="subheading">Description</span>
@@ -142,6 +142,7 @@ import ButtonPrimary from "@/components/buttons/ButtonPrimary";
 import ButtonDanger from "@/components/buttons/ButtonDanger";
 import participationStatuses from "@/constants/participationStatuses";
 import GamesMap from "@/components/map/GamesMap";
+import IconCalendar from "@/components/icons/IconCalendar";
 
 dayjs.extend(relativeTime);
 
@@ -153,6 +154,7 @@ export default {
     ButtonPrimary,
     ButtonDanger,
     GamesMap,
+    IconCalendar,
   },
   async asyncData({ params, store, error }) {
     try {
@@ -347,6 +349,15 @@ export default {
 
 .text-content > * {
   margin: 0.5rem 0 0.5rem 0;
+}
+
+.date {
+  display: flex;
+  align-items: center;
+
+  svg {
+    margin-right: 10px;
+  }
 }
 
 .description {

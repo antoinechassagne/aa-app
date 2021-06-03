@@ -65,12 +65,16 @@ export default {
 <style lang="scss" scoped>
 .notification-page {
   width: 80%;
-  margin: 4rem auto;
+  margin: 2rem auto;
+
+  @include on-mobile {
+    width: 100%;
+  }
 }
 
 .notification-container {
   display: flex;
   flex-direction: column;
-  margin-top: 5%;
+  margin-top: 2rem;
 }
 </style>
