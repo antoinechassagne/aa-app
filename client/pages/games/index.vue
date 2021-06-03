@@ -66,7 +66,7 @@ export default {
     IconMap,
   },
   async asyncData({ store, route, error }) {
-    const fetchQuery = { missingPlayers: true, start: dayjs().subtract(12, "hours").toISOString() };
+    const fetchQuery = { missingPlayers: true, start: dayjs().subtract(1, "hours").toISOString() };
     if (route.query.categoryId) {
       fetchQuery.categoryId = JSON.parse(route.query.categoryId);
     }
@@ -85,7 +85,7 @@ export default {
       location: null,
       query: {
         missingPlayers: true,
-        start: dayjs().subtract(12, "hours").toISOString(),
+        start: dayjs().subtract(1, "hours").toISOString(),
         end: null,
         categoryId: null,
       },
@@ -97,7 +97,7 @@ export default {
       async handler() {
         const query = this.query;
         if (!query.start) {
-          query.start = dayjs().subtract(12, "hours").toISOString();
+          query.start = dayjs().subtract(1, "hours").toISOString();
         }
         this.loading.games = true;
         this.games = await this.fetchGames(query);

@@ -84,7 +84,7 @@ export default {
     try {
       const games = await store.dispatch("games/fetchGames", {
         missingPlayers: true,
-        start: dayjs().subtract(12, "hours").toISOString(),
+        start: dayjs().subtract(1, "hours").toISOString(),
       });
       return { games };
     } catch (err) {

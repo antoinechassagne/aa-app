@@ -120,7 +120,8 @@
         <div class="time-to-game">
           <div class="info-heading">
             <img src="~/assets/images/icons/time.svg" alt="" />
-            <p>La partie commence dans :</p>
+            <p v-if="gameIsPast">La partie s'est déroulé il y a:</p>
+            <p v-else>La partie commence dans :</p>
           </div>
           <Heading class="color-primary" level="3">{{ timeToGame }}</Heading>
         </div>
