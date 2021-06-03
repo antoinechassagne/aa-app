@@ -8,7 +8,7 @@
           <RouteLink to="/games" class="button button--primary">Commencer</RouteLink>
         </div>
       </div>
-      <img src="~/assets/images/illustration_1.png" alt="Illustration" class="hero__image" />
+      <img src="~/assets/images/main-illustration.png" alt="Illustration" class="hero__image" />
     </div>
     <div class="categories">
       <Heading level="2">Explorez nos catégories</Heading>
@@ -44,7 +44,7 @@
           >
         </div>
       </div>
-      <img src="~/assets/images/illustration_2.png" alt="Illustration" class="hero__image" />
+      <img src="~/assets/images/add-illustration.png" alt="Illustration" class="hero__image" />
     </div>
     <div class="games">
       <Heading level="2">Cette semaine</Heading>
@@ -121,17 +121,47 @@ export default {
 
 <style lang="scss" scoped>
 .hero {
-  width: 80%;
+  width: 100%;
   margin: 0 auto;
   padding: 4rem 0;
   display: flex;
+  justify-content: flex-end;
+
+  @include on-tablet {
+    padding-left: 0;
+  }
+
+  @include on-mobile {
+    flex-direction: column-reverse;
+    padding: 2rem 0;
+  }
 
   &--colored {
     background-color: $color-primary;
-    width: 100%;
-    padding: 3rem;
+    padding: 2rem;
     border-radius: 10px;
-    max-height: 33vh;
+    max-height: 40vh;
+    justify-content: space-around;
+
+    .hero__content {
+      width: 30%;
+
+      @include on-tablet {
+        width: 50%;
+      }
+
+      @include on-mobile {
+        width: 100%;
+      }
+    }
+
+    .hero__image {
+      width: 50%;
+
+      @include on-mobile {
+        width: 100%;
+      }
+    }
 
     @include on-mobile {
       max-height: none;
@@ -139,7 +169,7 @@ export default {
   }
 
   &__content {
-    width: 50%;
+    width: 40%;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -164,7 +194,8 @@ export default {
     object-fit: contain;
 
     @include on-mobile {
-      display: none;
+      width: 100%;
+      margin-bottom: 1rem;
     }
   }
 }

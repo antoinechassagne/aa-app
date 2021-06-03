@@ -66,7 +66,7 @@
       </form>
     </div>
     <div class="right-side">
-      <img src="../../assets/images/illustration_1.png" alt="Illustration" class="right-side__image" />
+      <img src="../../assets/images/add-illustration.png" alt="Illustration" class="right-side__image" />
     </div>
   </div>
 </template>
@@ -156,6 +156,10 @@ export default {
 .flex {
   display: flex;
   justify-content: space-between;
+
+  @include on-tablet {
+    flex-direction: column-reverse;
+  }
 }
 
 .form-container {
@@ -164,7 +168,7 @@ export default {
   flex-direction: column;
   margin: 4rem 0;
 
-  @include on-mobile {
+  @include on-tablet {
     width: 100%;
   }
 }
@@ -201,9 +205,23 @@ form {
   flex-direction: column;
   width: 50%;
 
+  @include on-tablet {
+    width: 100%;
+  }
+
   &__image {
     width: 75%;
     object-fit: contain;
+
+    @include on-tablet {
+      width: 50%;
+      margin-top: 2rem;
+    }
+
+    @include on-mobile {
+      width: 100%;
+      margin-top: 2rem;
+    }
   }
 
   &__text {
@@ -214,7 +232,8 @@ form {
   }
 
   @include on-mobile {
-    display: none;
+    width: 100%;
+    margin-top: 2rem;
   }
 }
 </style>

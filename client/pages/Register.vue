@@ -48,13 +48,8 @@
         <RouteLink to="/login">Vous êtes déjà inscrit ? Connectez-vous dès maintenant</RouteLink>
       </div>
     </div>
-
     <div class="right-side">
-      <img src="~/assets/images/illustration_1.png" alt="Illustration" class="right-side__image" />
-      <p class="right-side__text">
-        Utilisez ce module afin de créer des nouvelles parties. les informations comme votre adresse ne seront
-        divulguées aux autres jouers que lorsque vous aurez validé leur participation
-      </p>
+      <img src="~/assets/images/main-illustration-2.png" alt="Illustration" class="right-side__image" />
     </div>
   </div>
 </template>
@@ -112,17 +107,29 @@ export default {
 
 <style lang="scss" scoped>
 .container {
-  margin-top: 2rem !important;
   display: flex;
   justify-content: center;
 }
 .flex {
   display: flex;
+
+  @include on-tablet {
+    flex-direction: column-reverse;
+  }
 }
 .form-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  margin: 4rem 0;
+
+  @include on-tablet {
+    margin: 2rem 0 4rem 0;
+  }
+
+  @include on-mobile {
+    margin: 2rem 0;
+  }
 }
 form {
   margin: 2rem 0 2rem 0 !important;
@@ -152,8 +159,9 @@ form > div {
     margin-top: 2rem;
   }
 
-  @include on-mobile {
-    display: none;
+  @include on-tablet {
+    width: 100%;
+    margin: 2rem 0;
   }
 }
 a {

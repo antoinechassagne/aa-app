@@ -153,6 +153,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.mapboxgl-ctrl-bottom-left,
+.mapboxgl-ctrl-bottom-right,
+.mapboxgl-ctrl-top-left,
+.mapboxgl-ctrl-top-right {
+  z-index: 1;
+}
 .game-map {
   position: relative;
   height: calc(100vh - 50px);
