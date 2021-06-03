@@ -116,7 +116,7 @@ export default {
 
   &__input {
     width: 100%;
-    border: solid 2px $color-primary;
+    border: solid 1px $color-primary;
     border-radius: 5px;
     padding: 0.75rem;
 
@@ -134,9 +134,10 @@ export default {
     justify-content: center;
     width: 100%;
     min-width: 100%;
-    top: 33px;
-    border: solid 2px $color-primary;
+    top: 44px;
+    border: solid 1px $color-primary;
     border-radius: 5px;
+    z-index: 2;
   }
 
   &__list {
@@ -147,8 +148,9 @@ export default {
     }
 
     &__row {
-      border-bottom: solid 2px $color-primary;
-      padding: 0.5rem;
+      border-bottom: solid 1px $color-primary;
+      padding: 0.75rem;
+
       &:hover {
         background-color: rgba($color-primary, 0.25);
       }

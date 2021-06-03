@@ -95,6 +95,9 @@ export default {
       this.showProfilMenu = false;
     },
   },
+  destroyed() {
+    this.showProfilMenu = false;
+  },
 };
 </script>
 <style lang="scss" scoped>

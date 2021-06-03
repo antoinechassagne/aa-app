@@ -34,7 +34,7 @@ export default {
   },
   plugins: ["~/plugins/axios.js", "~/plugins/route-link.js", "~/plugins/directives.client.js"],
   components: true,
-  buildModules: ["@nuxtjs/dotenv"],
+  buildModules: ["@nuxtjs/dotenv", "@nuxtjs/pwa"],
   modules: ["@nuxtjs/axios", "@nuxtjs/pwa", "@nuxtjs/style-resources"],
   env: {
     mapboxAccessToken: process.env.MAPBOX_ACCESS_TOKEN,
