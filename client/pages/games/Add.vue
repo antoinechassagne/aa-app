@@ -23,14 +23,16 @@
             rows="6"
           />
         </div>
-        <div class="input-container">
-          <label for="email"> Catégorie </label>
-          <select v-model="categoryId" id="categoryId" required>
-            <option :value="null">Sélectionnez une catégorie</option>
-            <template v-for="gameCategory in taxonomies.gameCategories">
-              <option :value="gameCategory.id" :key="gameCategory.id">{{ gameCategory.label }}</option>
-            </template>
-          </select>
+        <div class="input-group">
+          <div class="input-container">
+            <label for="email"> Catégorie </label>
+            <select v-model="categoryId" id="categoryId" required>
+              <option :value="null">Sélectionnez une catégorie</option>
+              <template v-for="gameCategory in taxonomies.gameCategories">
+                <option :value="gameCategory.id" :key="gameCategory.id">{{ gameCategory.label }}</option>
+              </template>
+            </select>
+          </div>
           <div class="input-container">
             <label for="missingPlayers">Nombre de places</label>
             <input
@@ -43,13 +45,15 @@
             />
           </div>
         </div>
-        <div class="input-container">
-          <label for="date">Date </label>
-          <input v-model="date" id="date" type="date" required />
-        </div>
-        <div class="input-container">
-          <label for="time">Heure </label>
-          <input v-model="time" id="time" type="time" required />
+        <div class="input-group">
+          <div class="input-container">
+            <label for="date">Date </label>
+            <input v-model="date" id="date" type="date" required />
+          </div>
+          <div class="input-container">
+            <label for="time">Heure </label>
+            <input v-model="time" id="time" type="time" required />
+          </div>
         </div>
         <div class="input-container">
           <label for="location">Localisation </label>
@@ -158,8 +162,7 @@ export default {
   width: 50%;
   display: flex;
   flex-direction: column;
-  margin-top: 2rem;
-  margin-bottom: 4rem;
+  margin: 4rem 0;
 
   @include on-mobile {
     width: 100%;
@@ -170,20 +173,20 @@ form {
   margin-top: 2rem;
 }
 
-form > div {
+.input-group {
   display: flex;
-  flex-direction: column;
-  margin-bottom: 2rem;
-}
-
-.double-input > div {
-  display: flex;
-  flex-direction: column;
-  width: 45%;
+  justify-content: space-between;
 
   @include on-mobile {
-    width: 100%;
-    margin-top: 1rem;
+    flex-direction: column;
+  }
+
+  .input-container {
+    width: calc(50% - 1rem);
+
+    @include on-mobile {
+      width: 100%;
+    }
   }
 }
 

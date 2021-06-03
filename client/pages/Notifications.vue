@@ -1,7 +1,6 @@
 <template>
-  <div class="notification-page">
+  <div class="container notification-page">
     <Heading level="2">Notifications</Heading>
-    <hr />
     <FeedbackMessage v-if="error" type="error">
       {{ error }}
     </FeedbackMessage>
@@ -66,11 +65,9 @@ export default {
 <style lang="scss" scoped>
 .notification-page {
   width: 80%;
-  margin: 5% 10% 5% 10%;
+  margin: 4rem auto;
 }
-hr {
-  border: 1px solid $color-white;
-}
+
 .notification-container {
   display: flex;
   flex-direction: column;
