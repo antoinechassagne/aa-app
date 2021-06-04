@@ -66,12 +66,12 @@
         </div>
         <FeedbackMessage v-if="error" type="error"> {{ error }} </FeedbackMessage>
         <div class="buttons-group">
-          <ButtonPrimary type="submit" @click="submit" :loading="loading.edit" :disabled="!canSubmitForm">
-            Valider
-          </ButtonPrimary>
           <ButtonDanger type="submit" @click="remove" :loading="loading.delete" :disabled="!canSubmitForm">
             Supprimer
           </ButtonDanger>
+          <ButtonPrimary type="submit" @click="submit" :loading="loading.edit" :disabled="!canSubmitForm">
+            Valider
+          </ButtonPrimary>
         </div>
       </form>
     </div>
