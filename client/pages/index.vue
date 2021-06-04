@@ -234,7 +234,7 @@ export default {
   }
 
   &__map {
-    height: 50vh;
+    height: 50vh !important;
     width: 100%;
   }
 }
