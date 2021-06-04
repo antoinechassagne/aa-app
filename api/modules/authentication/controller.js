@@ -10,7 +10,6 @@ exports.register = async function (req, res) {
     if (!userId) {
       return res.status(400).send({ error: "Une erreur s'est produite lors de la création du compte." });
     }
-    await Mails.sendConfirmationMail(userId);
     res.status(201).send({ id: userId });
   } catch (err) {
     res.status(500).send({ error: "Une erreur s'est produite." });
