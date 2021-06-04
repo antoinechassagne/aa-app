@@ -1,7 +1,7 @@
 <template>
   <div class="container flex">
     <div class="form-container">
-      <Heading level="2">Créer une partie</Heading>
+      <Heading level="2">Modifier {{ game.boardGameName }}</Heading>
       <form>
         <div class="input-container">
           <label for="boardGameName">Nom du jeu </label>
@@ -57,16 +57,21 @@
         </div>
         <div class="input-container">
           <label for="location">Localisation </label>
-          <InputSearchLocation id="location" @select-location="updateLocation" required />
+          <InputSearchLocation
+            id="location"
+            :predefinedLocation="{ latitude: game.latitude, longitude: game.longitude }"
+            required
+            @select-location="updateLocation"
+          />
         </div>
         <FeedbackMessage v-if="error" type="error"> {{ error }} </FeedbackMessage>
-        <ButtonPrimary type="submit" @click="submit" :loading="loading.create" :disabled="!canSubmitForm">
-          Créer
+        <ButtonPrimary type="submit" @click="submit" :loading="loading.edit" :disabled="!canSubmitForm">
+          Valider
         </ButtonPrimary>
       </form>
     </div>
     <div class="right-side">
-      <img src="../../assets/images/add-illustration.png" alt="Illustration" class="right-side__image" />
+      <img src="~/assets/images/add-illustration.png" alt="Illustration" class="right-side__image" />
     </div>
   </div>
 </template>
@@ -80,7 +85,7 @@ import FeedbackMessage from "@/components/FeedbackMessage";
 import InputSearchLocation from "@/components/InputSearchLocation";
 
 export default {
-  name: "PageGamesAdd",
+  name: "PageGamesEdit",
   middleware: ["authenticatedOnly"],
   components: {
     Heading,
@@ -88,10 +93,18 @@ export default {
     FeedbackMessage,
     InputSearchLocation,
   },
+  async asyncData({ params, store, error }) {
+    try {
+      const game = await store.dispatch("games/fetchGame", params.id);
+      return { game };
+    } catch (err) {
+      error({ error: err });
+    }
+  },
   data() {
     return {
       loading: {
-        create: false,
+        edit: false,
       },
       error: null,
       boardGameName: null,
@@ -117,37 +130,50 @@ export default {
       return date.toISOString();
     },
     canSubmitForm() {
-      return !this.loading.create;
+      return !this.loading.edit;
     },
   },
   methods: {
     ...mapActions({
-      createGame: "games/createGame",
+      updateGame: "games/updateGame",
     }),
     updateLocation(location) {
       this.location = location;
     },
     async submit() {
       this.error = null;
-      this.loading.create = true;
+      this.loading.edit = true;
       try {
-        const gameId = await this.createGame({
-          plannedDate: this.plannedDate,
-          latitude: this.location.latitude,
-          longitude: this.location.longitude,
-          location: this.location.label,
-          boardGameName: this.boardGameName,
-          categoryId: this.categoryId,
-          description: this.description,
-          missingPlayers: this.missingPlayers,
+        const gameId = await this.updateGame({
+          gameId: this.game.id,
+          form: {
+            creatorId: this.game.creatorId,
+            plannedDate: this.plannedDate,
+            latitude: this.location.latitude,
+            longitude: this.location.longitude,
+            location: this.location.label,
+            boardGameName: this.boardGameName,
+            categoryId: this.categoryId,
+            description: this.description,
+            missingPlayers: this.missingPlayers,
+          },
         });
-        this.$router.push(`/games/${gameId}`);
+        this.$router.push(`/games/${this.game.id}`);
       } catch (err) {
         this.error = err;
       } finally {
-        this.loading.create = false;
+        this.loading.edit = false;
       }
     },
+  },
+  created() {
+    this.boardGameName = this.game.boardGameName;
+    this.categoryId = this.game.categoryId;
+    this.description = this.game.description;
+    this.date = dayjs(this.game.plannedDate).format("YYYY-MM-DD");
+    this.time = dayjs(this.game.plannedDate).format("HH:mm");
+    this.location = this.game.location;
+    this.missingPlayers = this.game.missingPlayers;
   },
 };
 </script>

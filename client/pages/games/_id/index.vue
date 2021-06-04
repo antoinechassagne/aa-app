@@ -18,6 +18,13 @@
         <span class="subheading">Description</span>
         <p class="description">{{ game.description }}</p>
         <GamesMap :location="location" :games="[game]" :showPopups="false" class="map" />
+        <RouteLink
+          v-if="userIsCreator && !gameIsPast"
+          :to="`${params.id}/edit`"
+          class="button button--primary button--primary--empty"
+        >
+          Modifier
+        </RouteLink>
       </div>
       <div class="right-side">
         <div class="status">
@@ -177,7 +184,7 @@ export default {
         store.dispatch("games/fetchGame", params.id),
         store.dispatch("participations/fetchParticipations", { gameId: params.id }),
       ]);
-      return { game, participations };
+      return { game, participations, params };
     } catch (err) {
       error({ error: err });
     }

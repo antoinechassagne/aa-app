@@ -49,6 +49,9 @@ export default {
       type: Boolean,
       default: false,
     },
+    predefinedLocation: {
+      type: Object,
+    },
   },
   data() {
     return {
@@ -77,23 +80,30 @@ export default {
       this.showResults = true;
       this.loadingSearch = false;
     },
-    async onUseCurrentLocation() {
-      this.search = null;
-      this.loadingGetCurrentLocation = true;
-      const { location, error, enabled, supported } = await Geolocation();
-      if (error || !enabled || !supported) {
-        this.isThereGeoLocationError = true;
-        return;
-      }
-      const response = await this.$axios.get(
-        `https://api-adresse.data.gouv.fr/reverse/?lon=${location.longitude}&lat=${location.latitude}`
-      );
-      if (!response || !response.data || !response.data.features || !response.data.features.length) {
-        this.isThereGeoLocationError = true;
-      } else {
+    async onUseCurrentLocation(predefinedLocation = null) {
+      if (predefinedLocation) {
+        const response = await this.$axios.get(
+          `https://api-adresse.data.gouv.fr/reverse/?lon=${predefinedLocation.longitude}&lat=${predefinedLocation.latitude}`
+        );
         this.onSelectLocation(response.data.features[0]);
+      } else {
+        this.search = null;
+        this.loadingGetCurrentLocation = true;
+        const { location, error, enabled, supported } = await Geolocation();
+        if (error || !enabled || !supported) {
+          this.isThereGeoLocationError = true;
+          return;
+        }
+        const response = await this.$axios.get(
+          `https://api-adresse.data.gouv.fr/reverse/?lon=${location.longitude}&lat=${location.latitude}`
+        );
+        if (!response || !response.data || !response.data.features || !response.data.features.length) {
+          this.isThereGeoLocationError = true;
+        } else {
+          this.onSelectLocation(response.data.features[0]);
+        }
+        this.loadingGetCurrentLocation = false;
       }
-      this.loadingGetCurrentLocation = false;
     },
     onSelectLocation(location) {
       this.results = [];
@@ -105,6 +115,12 @@ export default {
     closeResults() {
       this.showResults = false;
     },
+  },
+  created() {
+    if (this.predefinedLocation) {
+      this.location = this.predefinedLocation;
+      this.onUseCurrentLocation(this.location);
+    }
   },
 };
 </script>
