@@ -82,7 +82,6 @@ export default {
     },
     async onUseCurrentLocation(predefinedLocation = null) {
       if (predefinedLocation) {
-        console.log("here");
         const response = await this.$axios.get(
           `https://api-adresse.data.gouv.fr/reverse/?lon=${predefinedLocation.longitude}&lat=${predefinedLocation.latitude}`
         );
