@@ -163,6 +163,7 @@ export default {
     display: flex;
     flex-direction: column;
     padding: 4rem 2rem 0 2rem;
+    margin-bottom: 3rem;
     overflow: scroll;
 
     @include on-tablet {

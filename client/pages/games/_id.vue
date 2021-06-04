@@ -23,11 +23,9 @@
         <div class="status">
           <section v-if="!userIsCreator">
             <div v-if="user" class="status-not-creator">
-              <p v-if="hasParticipate" class="color-green">Vous avez participé à cette partie</p>
-              <p v-if="willParticipate" class="color-green">Vous êtes inscris à cette partie</p>
-              <p v-if="canCreateParticipation">Demandez pour participer</p>
-              <p v-if="canCancelParticipation">Annuler la demande</p>
-              <p v-if="gameIsPast">La partie est déja passée</p>
+              <p v-if="hasParticipate" class="mt-1">Vous avez participé à cette partie.</p>
+              <p v-if="willParticipate" class="mt-1">Vous êtes inscris à cette partie.</p>
+              <p v-if="gameIsPast" class="mt-1">La partie est déjà passée.</p>
               <ButtonPrimary
                 v-if="canCreateParticipation"
                 :loading="loading.createParticipation"
@@ -49,21 +47,18 @@
             </route-link>
           </section>
           <section v-if="userIsCreator">
-            <span class="subheading creator-title">Mes participations</span>
-            <div class="user-is-creator">
-              <template v-if="participationsToDisplay.length">
-                <ul v-for="participation in participationsToDisplay" :key="participation.id">
-                  <li class="list-participation">
-                    <div class="participation-text">
-                      <span>
-                        {{ participation.user.pseudo }}
-                      </span>
-                      <p>
-                        {{ getParticipationStatusLabel(participation.statusId) }}
-                      </p>
-                    </div>
-                    <div class="participation-button-container">
-                      <template v-if="!gameIsPast">
+            <div>
+              <span class="subheading creator-title">Demandes en attente</span>
+              <div class="user-is-creator">
+                <template v-if="pendingParticipations.length && !gameIsPast">
+                  <ul v-for="participation in pendingParticipations" :key="participation.id">
+                    <li class="list-participation">
+                      <div class="participation-text">
+                        <span>
+                          {{ participation.user.pseudo }}
+                        </span>
+                      </div>
+                      <div class="participation-button-container">
                         <ButtonPrimary
                           v-if="canAcceptUserParticipation(participation)"
                           :loading="loading.updateParticipation"
@@ -79,21 +74,41 @@
                         >
                           Refuser
                         </ButtonPrimary>
-
-                        <ButtonDanger
-                          v-if="canCancelUserParticipation(participation)"
-                          :loading="loading.deleteParticipation"
-                          @click="cancelUserParticipation(participation)"
-                          :empty="true"
-                        >
-                          Annuler
-                        </ButtonDanger>
-                      </template>
-                    </div>
-                  </li>
-                </ul>
-              </template>
-              <span v-else class="color-grey">Aucune demande participation pour le moment</span>
+                      </div>
+                    </li>
+                  </ul>
+                </template>
+                <span v-else class="color-grey mt-1">Aucune demande en attente.</span>
+              </div>
+            </div>
+            <div class="mt-1">
+              <span class="subheading creator-title">Participants</span>
+              <div class="user-is-creator">
+                <template v-if="acceptedParticipations.length">
+                  <ul v-for="participation in acceptedParticipations" :key="participation.id">
+                    <li class="list-participation">
+                      <div class="participation-text">
+                        <span>
+                          {{ participation.user.pseudo }}
+                        </span>
+                      </div>
+                      <div v-if="!gameIsPast" class="participation-button-container">
+                        <template>
+                          <ButtonDanger
+                            v-if="canCancelUserParticipation(participation)"
+                            :loading="loading.deleteParticipation"
+                            @click="cancelUserParticipation(participation)"
+                            :empty="true"
+                          >
+                            Annuler
+                          </ButtonDanger>
+                        </template>
+                      </div>
+                    </li>
+                  </ul>
+                </template>
+                <span v-else class="color-grey mt-1">Aucun participant.</span>
+              </div>
             </div>
           </section>
         </div>
@@ -101,7 +116,6 @@
           <Heading class="color-white pastille" level="2">{{ game.missingPlayers }}</Heading>
           <p>Joueurs manquants</p>
         </div>
-
         <div v-if="userIsCreator || willParticipate" class="user-info">
           <div>
             <div class="info-heading">
@@ -182,16 +196,17 @@ export default {
     ...mapGetters({
       user: "authentication/user",
     }),
-    participationsToDisplay() {
+    pendingParticipations() {
+      if (!this.participations || !this.participations.length || this.gameIsPast) {
+        return [];
+      }
+      return this.participations.filter((participation) => participation.statusId === participationStatuses.PENDING);
+    },
+    acceptedParticipations() {
       if (!this.participations || !this.participations.length) {
         return [];
       }
-      if (this.gameIsPast) {
-        return this.participations.filter((participation) => participation.statusId === participationStatuses.ACCEPTED);
-      }
-      return this.participations.filter((participation) =>
-        [participationStatuses.PENDING, participationStatuses.ACCEPTED].includes(participation.statusId)
-      );
+      return this.participations.filter((participation) => participation.statusId === participationStatuses.ACCEPTED);
     },
     gamePlannedDate() {
       const date = dayjs(this.game.plannedDate).locale("fr").format("ddd DD MMM YYYY");
@@ -248,16 +263,6 @@ export default {
       refuseParticipation: "participations/refuseParticipation",
       deleteParticipation: "participations/deleteParticipation",
     }),
-    getParticipationStatusLabel(statusId) {
-      switch (statusId) {
-        case 1:
-          return "En attente de confirmation";
-        case 2:
-          return "Accepté";
-        default:
-          break;
-      }
-    },
     canRefuseUserParticipation(participation) {
       return participation.statusId === participationStatuses.PENDING;
     },
@@ -299,8 +304,8 @@ export default {
       if (this.currentPollingId) {
         stopPolling(this.currentPollingId);
       }
-      const currentPollingId = poll(() => {
-        this.fetchParticipations({ gameId: this.$route.params.id });
+      const currentPollingId = poll(async () => {
+        this.participations = await this.fetchParticipations({ gameId: this.$route.params.id });
       }, 10);
       this.currentPollingId = currentPollingId;
     },
@@ -317,10 +322,12 @@ export default {
 <style scoped lang="scss">
 .game-content {
   display: flex;
+  margin: 4rem 0 3rem;
 
   @include on-mobile {
     display: flex;
     flex-direction: column;
+    margin: 2rem 0;
   }
 }
 .left-side {
@@ -378,7 +385,7 @@ export default {
 }
 
 .description {
-  margin: 2rem 0 1rem 0;
+  margin: 1rem 0;
 }
 .map {
   width: 100%;
@@ -388,10 +395,11 @@ export default {
 }
 .right-side {
   width: 50%;
-  padding: 1rem 0 2rem 1rem;
+  padding: 1rem 0 0 1rem;
 
   @include on-mobile {
     width: 100%;
+    padding: 0;
   }
 }
 .missing-players {
@@ -402,16 +410,19 @@ export default {
   align-items: center;
   border: 1px solid $color-grey;
   border-radius: 5px;
+  margin-bottom: 2rem;
 }
 .missing-players p {
   margin-left: 2rem;
+  text-transform: uppercase;
+  font-weight: 500;
 }
 .status {
   width: 100%;
-  padding: 2rem;
+  padding: 1rem 2rem 2rem;
   border: 1px solid $color-grey;
   border-radius: 5px;
-  margin: 2rem 0 2rem 0;
+  margin-bottom: 2rem;
 }
 .status-not-creator {
   display: flex;
@@ -421,17 +432,23 @@ export default {
 .user-is-creator {
   display: flex;
   flex-direction: column;
-  margin-top: 2rem;
 }
 .creator-title {
-  margin-bottom: 2rem;
+  display: inline-block;
+  width: 100%;
+  border-bottom: 1px solid $color-grey;
+  padding-bottom: 0.75rem;
+  margin-top: 1rem;
 }
 .list-participation {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 0 1rem 0;
-  border-bottom: 1px solid $color-grey;
+  padding: 1rem 0 0;
+
+  & + .list-participation {
+    padding: 1rem 0 1rem 0;
+  }
 
   @include on-mobile {
     flex-direction: column;
@@ -465,15 +482,6 @@ export default {
     margin-bottom: 1rem;
   }
 }
-.participation-text span {
-  font-size: 1rem;
-  color: $color-primary;
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-}
-.participation-text p {
-  font-size: 0.8rem;
-}
 
 .pastille {
   display: flex;
@@ -483,12 +491,14 @@ export default {
   height: 50px;
   border-radius: 2rem;
   background-color: $color-primary;
+  font-family: $font-text;
+  font-size: 1.75rem;
 }
 
 .user-info {
   display: flex;
   justify-content: space-between;
-  margin: 2rem 0 2rem 0;
+  margin: 2rem 0 1rem 0;
   padding: 0 1rem 0 1rem;
 
   @include on-mobile {
@@ -516,10 +526,22 @@ export default {
   display: flex;
   padding: 0 1rem 0 1rem;
   align-items: center;
-  margin-top: 2rem;
+
+  @include on-mobile {
+    flex-direction: column;
+  }
+
+  h3 {
+    font-family: $font-text;
+    font-size: 1rem;
+  }
 }
 .time-to-game p {
-  margin-right: 1rem;
+  margin-right: 0.5rem;
   line-height: 1;
+}
+
+.mt-1 {
+  margin-top: 1rem;
 }
 </style>
