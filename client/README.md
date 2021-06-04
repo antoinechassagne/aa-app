@@ -1,6 +1,6 @@
-# Ludis - API
+# Ludis - Client
 
-Ludis API is built using [Express](https://expressjs.com/) and is hosted on [Heroku](https://heroku.com/). It talks to a Postgres database hosted on [Clever Cloud](https://www.clever-cloud.com/).
+Ludis client is built using [NuxtJS](https://fr.nuxtjs.org/) (SSR mode) and is hosted on [Vercel](https://vercel.com).
 
 ## Installation
 
@@ -15,8 +15,5 @@ Ludis API is built using [Express](https://expressjs.com/) and is hosted on [Her
 
 ### Production
 
-1. Run `npm run start`
-
-## Database
-
-To init the database, run `npm run db-update`.
+1. Run `npm run build`
+2. Run `npm run start`
