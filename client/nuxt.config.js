@@ -43,4 +43,15 @@ export default {
     baseURL: process.env.API_URL,
     credentials: true,
   },
+  pwa: {
+    meta: {
+      name: "Ludis",
+      lang: "fr",
+    },
+    manifest: {
+      name: "Ludis",
+      shortName: "Ludis",
+      lang: "fr",
+    },
+  },
 };
