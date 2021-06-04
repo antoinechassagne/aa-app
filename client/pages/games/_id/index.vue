@@ -32,11 +32,14 @@
             <div v-if="user" class="status-not-creator">
               <p v-if="hasParticipate" class="mt-1">Vous avez participé à cette partie.</p>
               <p v-if="willParticipate" class="mt-1">Vous êtes inscris à cette partie.</p>
+              <p v-if="canCreateParticipation" class="mt-1">Vous pouvez rejoindre cette partie.</p>
+              <p v-if="canCancelParticipation" class="mt-1">Vous pouvez annuler votre participation.</p>
               <p v-if="gameIsPast" class="mt-1">La partie est déjà passée.</p>
               <ButtonPrimary
                 v-if="canCreateParticipation"
                 :loading="loading.createParticipation"
                 @click="requestToParticipate"
+                class="mt-1"
               >
                 Demander à rejoindre
               </ButtonPrimary>
@@ -44,7 +47,8 @@
                 v-if="canCancelParticipation"
                 :loading="loading.deleteParticipation"
                 @click="cancelParticipation"
-                :empty="true"
+                empty
+                class="mt-1"
               >
                 Annuler la demande
               </ButtonDanger>
@@ -433,8 +437,8 @@ export default {
 }
 .status-not-creator {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
-  align-items: center;
 }
 .user-is-creator {
   display: flex;
