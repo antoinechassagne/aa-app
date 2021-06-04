@@ -24,3 +24,7 @@ exports.updateParticipation = function (id, update) {
 exports.deleteParticipation = function (id) {
   return database("participations").where({ id }).del();
 };
+
+exports.deleteParticipations = function (query) {
+  return database("participations").where(query).del();
+};

@@ -65,9 +65,14 @@
           />
         </div>
         <FeedbackMessage v-if="error" type="error"> {{ error }} </FeedbackMessage>
-        <ButtonPrimary type="submit" @click="submit" :loading="loading.edit" :disabled="!canSubmitForm">
-          Valider
-        </ButtonPrimary>
+        <div class="buttons-group">
+          <ButtonPrimary type="submit" @click="submit" :loading="loading.edit" :disabled="!canSubmitForm">
+            Valider
+          </ButtonPrimary>
+          <ButtonDanger type="submit" @click="remove" :loading="loading.delete" :disabled="!canSubmitForm">
+            Supprimer
+          </ButtonDanger>
+        </div>
       </form>
     </div>
     <div class="right-side">
@@ -81,6 +86,7 @@ import dayjs from "dayjs";
 import { mapGetters, mapActions } from "vuex";
 import Heading from "@/components/texts/Heading";
 import ButtonPrimary from "@/components/buttons/ButtonPrimary";
+import ButtonDanger from "@/components/buttons/ButtonDanger";
 import FeedbackMessage from "@/components/FeedbackMessage";
 import InputSearchLocation from "@/components/InputSearchLocation";
 
@@ -90,6 +96,7 @@ export default {
   components: {
     Heading,
     ButtonPrimary,
+    ButtonDanger,
     FeedbackMessage,
     InputSearchLocation,
   },
@@ -105,6 +112,7 @@ export default {
     return {
       loading: {
         edit: false,
+        delete: false,
       },
       error: null,
       boardGameName: null,
@@ -136,6 +144,7 @@ export default {
   methods: {
     ...mapActions({
       updateGame: "games/updateGame",
+      deleteGame: "games/deleteGame",
     }),
     updateLocation(location) {
       this.location = location;
@@ -144,7 +153,7 @@ export default {
       this.error = null;
       this.loading.edit = true;
       try {
-        const gameId = await this.updateGame({
+        await this.updateGame({
           gameId: this.game.id,
           form: {
             creatorId: this.game.creatorId,
@@ -159,6 +168,18 @@ export default {
           },
         });
         this.$router.push(`/games/${this.game.id}`);
+      } catch (err) {
+        this.error = err;
+      } finally {
+        this.loading.edit = false;
+      }
+    },
+    async remove() {
+      this.error = null;
+      this.loading.delete = true;
+      try {
+        await this.deleteGame(this.game.id);
+        this.$router.push(`/games`);
       } catch (err) {
         this.error = err;
       } finally {
@@ -260,5 +281,10 @@ form {
     width: 100%;
     margin-top: 2rem;
   }
+}
+
+.buttons-group {
+  display: flex;
+  justify-content: space-between;
 }
 </style>

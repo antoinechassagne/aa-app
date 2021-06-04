@@ -1,4 +1,5 @@
 const GamesRepository = require("./repository");
+const ParticipationsRepository = require("../participations/repository");
 const UsersRepository = require("../users/repository");
 const GameCategoriesRepository = require("../gameCategories/repository");
 
@@ -52,6 +53,7 @@ exports.updateGame = async function (req, res) {
 
 exports.deleteGame = async function (req, res) {
   try {
+    await ParticipationsRepository.deleteParticipations({ gameId: req.params.id });
     await GamesRepository.deleteGame(req.params.id);
     res.sendStatus(204);
   } catch (err) {
