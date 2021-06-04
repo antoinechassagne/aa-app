@@ -18,7 +18,7 @@
     <div v-if="showResults" v-click-outside="closeResults" class="input-search-location__results">
       <Loader v-if="loadingSearch" color="primary" />
       <ul v-else class="input-search-location__list">
-        <li @click="onUseCurrentLocation" class="input-search-location__list__row">
+        <li @click="onUseCurrentLocation()" class="input-search-location__list__row">
           Utiliser ma position actuelle <Loader v-if="loadingGetCurrentLocation" width="16" height="16" />
         </li>
         <li
@@ -82,6 +82,7 @@ export default {
     },
     async onUseCurrentLocation(predefinedLocation = null) {
       if (predefinedLocation) {
+        console.log("here");
         const response = await this.$axios.get(
           `https://api-adresse.data.gouv.fr/reverse/?lon=${predefinedLocation.longitude}&lat=${predefinedLocation.latitude}`
         );
