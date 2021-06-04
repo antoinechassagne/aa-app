@@ -21,7 +21,7 @@
         <RouteLink
           v-if="userIsCreator && !gameIsPast"
           :to="`${params.id}/edit`"
-          class="button button--primary button--primary--empty"
+          class="button button--primary button--primary--empty edit-button"
         >
           Modifier
         </RouteLink>
@@ -546,6 +546,12 @@ export default {
 .time-to-game p {
   margin-right: 0.5rem;
   line-height: 1;
+}
+
+.edit-button {
+  @include on-mobile {
+    margin: 1rem auto 2rem;
+  }
 }
 
 .mt-1 {
